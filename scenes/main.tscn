@@ -1,11 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=5 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
+[ext_resource type="PackedScene" uid="uid://dn44acsf6eh46" path="res://doublejump_orb.tscn" id="3_lo1jy"]
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ty7id")
+
+[node name="DoublejumpOrb" parent="." instance=ExtResource("3_lo1jy")]
+position = Vector2(554, 490)
+scale = Vector2(0.285, 0.285)
 
 [node name="Player" parent="." instance=ExtResource("1_8yc61")]
 position = Vector2(557, 315)
@@ -13,5 +18,5 @@ SPEED = 201.515
 JUMP_VELOCITY = 338.125
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(561, 316)
-inner_radius = 250.0
+position = Vector2(556, 300)
+inner_radius = 500.0
