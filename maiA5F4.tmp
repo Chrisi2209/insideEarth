@@ -8,8 +8,8 @@
 script = ExtResource("1_ty7id")
 
 [node name="Player" parent="." instance=ExtResource("1_8yc61")]
-position = Vector2(557, 315)
+position = Vector2(716, 322)
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(561, 316)
-inner_radius = 250.0
+inner_radius = 180.0
