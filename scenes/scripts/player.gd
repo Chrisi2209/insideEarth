@@ -1,20 +1,27 @@
 extends CharacterBody2D
 
+class_name Player
 
+# physics
 @export var SPEED = 400.0
 @export var JUMP_VELOCITY = 400.0
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
 var gravity_dir = Vector2(0, 1)
-var gravity: Vector2
 var down_force: float
 var side_force: float
 @export var gravity_center: Vector2
+
+# nodes
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var point_light_2d = $PointLight2D
 
+# double jump orb
+var inside_doublejump_orb_list: Array = []
+
+# health
 signal health_changed
+const max_health: int = 3
 var health: int: set = set_health
 
 func set_health(value: int):
@@ -26,11 +33,10 @@ func set_health(value: int):
 		change_state(state.INVULNERABLE)
 		
 	health_changed.emit(health)
-	
-const max_health: int = 3
-var current_state: state = state.INIT
 
+# states
 enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT}
+var current_state: state = state.INIT
 
 func change_state(new_state: state):
 	if current_state == new_state:
@@ -81,14 +87,19 @@ func reset():
 func update_gravity():
 	gravity_dir = (position - gravity_center).normalized()
 	up_direction = -gravity_dir
-	gravity = gravity_dir * gravity_scalar
+
+func is_on_usable_doublejump_orb():
+	for orb in inside_doublejump_orb_list:
+		if orb.use():
+			return true
+	return false
 
 func handle_inputs():
 	if current_state == state.DEAD || current_state == state.INIT || current_state == state.INVULNERABLE:
 		return
 		
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed("jump") && (is_on_floor() || is_on_usable_doublejump_orb()):
 		change_state(state.JUMP)
 		down_force = -JUMP_VELOCITY
 
@@ -105,8 +116,6 @@ func handle_inputs():
 func _physics_process(delta):
 	update_gravity()
 	
-
-		
 	handle_inputs()
 		# Add the gravity.
 	if not is_on_floor():
