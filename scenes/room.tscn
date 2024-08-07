@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://brunvbvb7clk3"]
 
-[ext_resource type="Script" path="res://room.gd" id="1_ddiun"]
+[ext_resource type="Script" path="res://scenes/scripts/room.gd" id="1_ddiun"]
 
 [node name="Room" type="StaticBody2D"]
 collision_layer = 4

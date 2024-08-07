@@ -9,6 +9,8 @@ var gravity_scalar = 2000# ProjectSettings.get_setting("physics/2d/default_gravi
 var gravity_dir = Vector2(0, 1)
 var gravity: Vector2
 @export var gravity_center: Vector2
+@onready var animated_sprite_2d = $AnimatedSprite2D
+@onready var point_light_2d = $PointLight2D
 
 func update_gravity():
 	gravity_dir = (position - gravity_center).normalized()
@@ -22,7 +24,6 @@ func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += gravity * delta
-
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity += -gravity_dir * 500
@@ -33,10 +34,15 @@ func _physics_process(delta):
 	if direction:
 		velocity.x = move_toward(velocity.x, gravity_dir.orthogonal().x * direction * SPEED, SPEED * delta) 
 		velocity.y = move_toward(velocity.y, gravity_dir.orthogonal().y * direction * SPEED, SPEED * delta) 
+		
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
 
 	move_and_slide()
+	if Input.is_action_pressed("right"):
+		animated_sprite_2d.flip_h = false
+	if Input.is_action_pressed("left"):
+		animated_sprite_2d.flip_h = true
 
 func _process(delta):
 	rotation = gravity_dir.angle() - PI/2
