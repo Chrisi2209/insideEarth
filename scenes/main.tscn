@@ -9,6 +9,8 @@ script = ExtResource("1_ty7id")
 
 [node name="Player" parent="." instance=ExtResource("1_8yc61")]
 position = Vector2(557, 315)
+SPEED = 201.515
+JUMP_VELOCITY = 338.125
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(561, 316)
