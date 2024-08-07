@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://uuh2drdh17jp"]
+
+[ext_resource type="PackedScene" uid="uid://dj80shgpheo00" path="res://player.tscn" id="1_8yc61"]
+[ext_resource type="Script" path="res://main.gd" id="1_ty7id"]
+[ext_resource type="PackedScene" path="res://room.tscn" id="3_o21o8"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ty7id")
+
+[node name="Player" parent="." instance=ExtResource("1_8yc61")]
+position = Vector2(557, 315)
+
+[node name="Room" parent="." instance=ExtResource("3_o21o8")]
+position = Vector2(561, 316)
+inner_radius = 250.0

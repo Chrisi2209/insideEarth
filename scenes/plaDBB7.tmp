@@ -62,7 +62,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_775n6")
 }],
-"loop": true,
+"loop": false,
 "name": &"Walking",
 "speed": 10.0
 }]
@@ -73,6 +73,7 @@ size = Vector2(128, 120)
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 14
 script = ExtResource("1_ngxdc")
+gravity_center = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(8, 8)
