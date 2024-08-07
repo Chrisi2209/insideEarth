@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 
-const SPEED = 400.0
-const JUMP_VELOCITY = 400.0
+@export var SPEED = 400.0
+@export var JUMP_VELOCITY = 400.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -39,18 +39,22 @@ func change_state(new_state: state):
 	match new_state:
 		state.IDLE:
 			$AnimatedSprite2D.visible = true
+			$AnimatedSprite2D.modulate.a = 1
 			$CollisionShape2D.set_deferred("disabled", false)
 			animated_sprite_2d.play("Idle")
 		state.WALK:
 			$AnimatedSprite2D.visible = true
+			$AnimatedSprite2D.modulate.a = 1
 			$CollisionShape2D.set_deferred("disabled", false)
 			animated_sprite_2d.play("Walking")
 		state.JUMP:
 			$AnimatedSprite2D.visible = true
+			$AnimatedSprite2D.modulate.a = 1
 			$CollisionShape2D.set_deferred("disabled", false)
 			animated_sprite_2d.play("Walking")
 		state.DEAD:
 			$AnimatedSprite2D.visible = false
+			$AnimatedSprite2D.modulate.a = 1
 			$CollisionShape2D.set_deferred("disabled", true)
 		state.INVULNERABLE:
 			$AnimatedSprite2D.visible = true
@@ -59,6 +63,7 @@ func change_state(new_state: state):
 			$InvulnerabilityTimer.start()
 		state.INIT:
 			$CollisionShape2D.set_deferred("disabled", true)
+			$AnimatedSprite2D.modulate.a = 1
 			$AnimatedSprite2D.visible = false
 			
 	current_state = new_state
@@ -85,7 +90,7 @@ func handle_inputs():
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		change_state(state.JUMP)
-		down_force = -500
+		down_force = -JUMP_VELOCITY
 
 	var direction = Input.get_axis("left", "right")
 	if direction:
@@ -100,11 +105,15 @@ func handle_inputs():
 func _physics_process(delta):
 	update_gravity()
 	
+
+		
 	handle_inputs()
-	
-	# Add the gravity.
+		# Add the gravity.
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
+	elif current_state == state.JUMP:
+		change_state(state.IDLE)
+
 	
 	velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
 	move_and_slide()
