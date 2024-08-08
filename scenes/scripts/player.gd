@@ -19,6 +19,9 @@ var side_force: float
 # double jump orb
 var inside_doublejump_orb_list: Array = []
 
+# items
+var items = []
+
 # health
 signal health_changed
 const max_health: int = 3
@@ -37,6 +40,7 @@ func set_health(value: int):
 # states
 enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT}
 var current_state: state = state.INIT
+var last_state: state = state.INIT
 
 func change_state(new_state: state):
 	if current_state == new_state:
@@ -78,34 +82,66 @@ func hurt(amount: int = 1):
 	health -= amount
 
 func _ready():
+	#var item = DoublejumpItem.new()
+	#item.player = self
+	
+	#add_child(item)
 	change_state(state.INIT)
 
 func reset():
 	health = max_health
+	items = ["doubleJump"]
 	change_state(state.IDLE)
 
 func update_gravity():
 	gravity_dir = (position - gravity_center).normalized()
 	up_direction = -gravity_dir
 
-func is_on_usable_doublejump_orb():
+func jump_if_on_usable_doublejump_orb():
 	for orb in inside_doublejump_orb_list:
-		if orb.use():
-			return true
-	return false
+		if orb.usable:
+			# high priority
+			jump(orb, 10)
+
+var jumper = []
+
+func jump(source: Object, priority: int = 0):
+	# depending on the source what triggers the jump, the priority is used to determine who should perform the jump
+	# source has to implement function triggered_jump()
+	# also returns if the player is already jumping this frame
+	if jumper.is_empty():
+		jumper = [source, priority]
+		call_deferred("execute_jump")
+	else:
+		if jumper[1] < priority:
+			jumper = [source, priority]
+
+func execute_jump():
+	change_state(state.JUMP)
+	down_force = -JUMP_VELOCITY
+	jumper[0].triggered_jump()
+	jumper = []
+
+func triggered_jump():
+	# jumping has no effect if triggered by the player
+	pass
 
 func handle_inputs():
 	if current_state == state.DEAD || current_state == state.INIT || current_state == state.INVULNERABLE:
 		return
 		
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") && (is_on_floor() || is_on_usable_doublejump_orb()):
-		change_state(state.JUMP)
-		down_force = -JUMP_VELOCITY
+	if Input.is_action_just_pressed("jump"):
+		if is_on_floor():
+			# highest priority (cheapest)
+			jump(self, 100000)
+		else:
+			jump_if_on_usable_doublejump_orb()
 
 	var direction = Input.get_axis("left", "right")
 	if direction:
-		change_state(state.WALK)
+		if current_state != state.JUMP:
+			change_state(state.WALK)
 		animated_sprite_2d.flip_h = direction == -1
 		side_force = direction * SPEED
 	else:
@@ -115,20 +151,21 @@ func handle_inputs():
 
 func _physics_process(delta):
 	update_gravity()
+	# this has to be before handle_inputs
 	
 	handle_inputs()
-		# Add the gravity.
+	# this has to be after handle_inputs
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
-	elif current_state == state.JUMP:
-		change_state(state.IDLE)
 
-	
 	velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
 	move_and_slide()
 
 func _process(delta):
+	if is_on_floor() && last_state == state.JUMP:
+		change_state(state.IDLE)
 	rotation = gravity_dir.angle() - PI/2
+	last_state = current_state
 
 func _on_invulnerability_timer_timeout():
 	change_state(state.IDLE)
