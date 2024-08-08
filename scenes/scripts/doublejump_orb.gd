@@ -4,19 +4,17 @@ class_name DoublejumpOrb
 var usable = true: set = set_usable
 
 func set_usable(usable_: bool):
+	if usable_ == false:
+		$Cooldown.start()
+		
 	usable = usable_
 	if usable:
 		$Sprite2D.modulate.a = 1
 	else:
 		$Sprite2D.modulate.a = 0.2
-		
-func use() -> bool:
-	# Returns true when usable, false when not
-	if usable:
-		usable = false
-		$Cooldown.start()
-		return true
-	return false
+
+func triggered_jump():
+	usable = false
 	
 func _on_cooldown_timeout():
 	usable = true
