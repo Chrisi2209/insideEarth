@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://b36r3qkl2p3fe"]
+[gd_scene load_steps=15 format=3 uid="uid://b36r3qkl2p3fe"]
 
 [ext_resource type="Script" path="res://scenes/scripts/player.gd" id="1_ngxdc"]
 [ext_resource type="Texture2D" uid="uid://bo5oruealidv6" path="res://assets/Player_walking.png" id="2_38t8y"]
 [ext_resource type="Texture2D" uid="uid://muwiwlyn4y2c" path="res://assets/Player_Idle.png" id="2_l3m3t"]
 [ext_resource type="Texture2D" uid="uid://ddnks00vtivcd" path="res://assets/Light.png" id="3_6usjc"]
 [ext_resource type="Script" path="res://scenes/scripts/items/doublejump_item.gd" id="5_8nqel"]
-[ext_resource type="Script" path="res://scenes/scripts/items/dash_item.gd" id="5_sl4e0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0kkha"]
 atlas = ExtResource("2_l3m3t")
@@ -103,10 +102,6 @@ ignore_rotation = false
 zoom = Vector2(1.94, 1.94)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
-
-[node name="DashItem" type="Node" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("5_sl4e0")
-player = NodePath("..")
 
 [node name="DoublejumpItem" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("5_8nqel")

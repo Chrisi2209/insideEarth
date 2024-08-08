@@ -20,7 +20,9 @@ var side_force: float
 var inside_doublejump_orb_list: Array = []
 
 # items
-var items = []
+@onready var doublejump_item: DoublejumpItem = $DoublejumpItem
+@onready var dash_item: DashItem = $DashItem
+var dash_velocity: Vector2 = Vector2.ZERO
 
 # health
 signal health_changed
@@ -38,7 +40,7 @@ func set_health(value: int):
 	health_changed.emit(health)
 
 # states
-enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT}
+enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT, DASH}
 var current_state: state = state.INIT
 var last_state: state = state.INIT
 
@@ -90,7 +92,6 @@ func _ready():
 
 func reset():
 	health = max_health
-	items = ["doubleJump"]
 	change_state(state.IDLE)
 
 func update_gravity():
@@ -105,10 +106,25 @@ func jump_if_on_usable_doublejump_orb():
 
 var jumper = []
 
+func state_guard(forbidden_states: Array[state]):
+	for forbidden in forbidden_states:
+		if current_state == forbidden:
+			return true
+	return false
+
+func end_dash():
+	print("ending_dash")
+	if is_on_floor():
+		change_state(state.IDLE)
+	else:
+		change_state(state.JUMP)
+
 func jump(source: Object, priority: int = 0):
 	# depending on the source what triggers the jump, the priority is used to determine who should perform the jump
 	# source has to implement function triggered_jump()
 	# also returns if the player is already jumping this frame
+	if state_guard([state.DEAD, state.INIT, state.DASH]):
+		return
 	if jumper.is_empty():
 		jumper = [source, priority]
 		call_deferred("execute_jump")
@@ -127,7 +143,7 @@ func triggered_jump():
 	pass
 
 func handle_inputs():
-	if current_state == state.DEAD || current_state == state.INIT || current_state == state.INVULNERABLE:
+	if state_guard([state.DEAD, state.INIT, state.INVULNERABLE, state.DASH]):
 		return
 		
 	# Handle jump.
@@ -149,6 +165,11 @@ func handle_inputs():
 			change_state(state.IDLE)
 		side_force = 0
 
+func update_directional_velocities():
+	var alpha = gravity_dir.angle_to(velocity)
+	down_force = velocity.length() * cos(alpha)
+	side_force = velocity.length() * sin(alpha)
+
 func _physics_process(delta):
 	update_gravity()
 	# this has to be before handle_inputs
@@ -158,7 +179,11 @@ func _physics_process(delta):
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
 
-	velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
+	if current_state == state.DASH:
+		velocity = dash_velocity
+		update_directional_velocities()
+	else:
+		velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
 	move_and_slide()
 
 func _process(delta):
