@@ -182,7 +182,7 @@ func handle_inputs(delta: float):
 		
 		if sign(side_force) != sign(direction):
 			side_force += direction * slow_down
-		side_force = clamp(side_force + (direction * speed_up), -SPEED, SPEED) if side_force <= SPEED else side_force - slow_down
+		side_force = clamp(side_force + (direction * speed_up), -SPEED, SPEED) if abs(side_force) <= SPEED else side_force - (slow_down * sign(side_force))
 		
 		
 	else:
