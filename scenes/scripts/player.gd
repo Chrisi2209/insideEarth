@@ -67,7 +67,7 @@ func change_state(new_state: state):
 			$AnimatedSprite2D.visible = true
 			$AnimatedSprite2D.modulate.a = 1
 			$CollisionShape2D.set_deferred("disabled", false)
-			animated_sprite_2d.play("Walking")
+			animated_sprite_2d.play("Jumping")
 		state.DEAD:
 			$AnimatedSprite2D.visible = false
 			$AnimatedSprite2D.modulate.a = 1
