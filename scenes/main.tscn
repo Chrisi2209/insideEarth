@@ -15,6 +15,7 @@ scale = Vector2(0.285, 0.285)
 [node name="Player" parent="." instance=ExtResource("1_8yc61")]
 position = Vector2(557, 315)
 JUMP_VELOCITY = 400.0
+gravity_center = Vector2(0, 0)
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(556, 300)

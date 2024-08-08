@@ -5,6 +5,10 @@ class_name Player
 # physics
 @export var SPEED = 400.0
 @export var JUMP_VELOCITY = 400.0
+var accel: float = 1500
+var midair_accel: float = 500
+var friction: float = 1000
+var midair_friction: float = 50
 
 var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
 var gravity_dir = Vector2(0, 1)
@@ -20,7 +24,9 @@ var side_force: float
 var inside_doublejump_orb_list: Array = []
 
 # items
-var items = []
+@onready var doublejump_item: DoublejumpItem = $DoublejumpItem
+@onready var dash_item: DashItem = $DashItem
+var dash_velocity: Vector2 = Vector2.ZERO
 
 # health
 signal health_changed
@@ -38,7 +44,7 @@ func set_health(value: int):
 	health_changed.emit(health)
 
 # states
-enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT}
+enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT, DASH}
 var current_state: state = state.INIT
 var last_state: state = state.INIT
 
@@ -90,7 +96,6 @@ func _ready():
 
 func reset():
 	health = max_health
-	items = ["doubleJump"]
 	change_state(state.IDLE)
 
 func update_gravity():
@@ -105,10 +110,24 @@ func jump_if_on_usable_doublejump_orb():
 
 var jumper = []
 
+func state_guard(forbidden_states: Array[state]):
+	for forbidden in forbidden_states:
+		if current_state == forbidden:
+			return true
+	return false
+
+func end_dash():
+	if is_on_floor():
+		change_state(state.IDLE)
+	else:
+		change_state(state.JUMP)
+
 func jump(source: Object, priority: int = 0):
 	# depending on the source what triggers the jump, the priority is used to determine who should perform the jump
 	# source has to implement function triggered_jump()
 	# also returns if the player is already jumping this frame
+	if state_guard([state.DEAD, state.INIT, state.DASH]):
+		return
 	if jumper.is_empty():
 		jumper = [source, priority]
 		call_deferred("execute_jump")
@@ -126,8 +145,20 @@ func triggered_jump():
 	# jumping has no effect if triggered by the player
 	pass
 
-func handle_inputs():
-	if current_state == state.DEAD || current_state == state.INIT || current_state == state.INVULNERABLE:
+func get_current_friction():
+	if is_on_floor():
+		return friction
+	else:
+		return midair_friction
+		
+func get_current_accel():
+	if is_on_floor():
+		return accel
+	else:
+		return midair_accel
+
+func handle_inputs(delta: float):
+	if state_guard([state.DEAD, state.INIT, state.INVULNERABLE, state.DASH]):
 		return
 		
 	# Handle jump.
@@ -139,26 +170,50 @@ func handle_inputs():
 			jump_if_on_usable_doublejump_orb()
 
 	var direction = Input.get_axis("left", "right")
+	var speed_up = get_current_accel() * delta
+	var slow_down = get_current_friction() * delta
+	
 	if direction:
+		# pressing in a direction
+		animated_sprite_2d.flip_h = direction == -1
+		
 		if current_state != state.JUMP:
 			change_state(state.WALK)
-		animated_sprite_2d.flip_h = direction == -1
-		side_force = direction * SPEED
+		
+		if sign(side_force) != sign(direction):
+			side_force += direction * slow_down
+		side_force = clamp(side_force + (direction * speed_up), -SPEED, SPEED) if side_force <= SPEED else side_force - slow_down
+		
+		
 	else:
+		# not pressing in a direction
 		if current_state != state.JUMP:
 			change_state(state.IDLE)
-		side_force = 0
+		
+		# go towards 0
+		side_force -= slow_down * sign(side_force)
+		if abs(side_force) < slow_down:
+			side_force = 0
+
+func update_directional_velocities():
+	var alpha = gravity_dir.angle_to(velocity)
+	down_force = velocity.length() * cos(alpha)
+	side_force = -velocity.length() * sin(alpha)
 
 func _physics_process(delta):
 	update_gravity()
 	# this has to be before handle_inputs
 	
-	handle_inputs()
+	handle_inputs(delta)
 	# this has to be after handle_inputs
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
 
-	velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
+	if current_state == state.DASH:
+		velocity = dash_velocity
+		update_directional_velocities()
+	else:
+		velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
 	move_and_slide()
 
 func _process(delta):
