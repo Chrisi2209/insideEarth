@@ -2,7 +2,7 @@ extends StaticBody2D
 
 # Parameters for the ring shape
 @export var inner_radius: float = 50
-var sides: int = round(inner_radius)
+var sides: int = round(inner_radius) * 3
 
 # Initialize the ring shape
 func _ready():

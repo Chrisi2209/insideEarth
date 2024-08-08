@@ -97,7 +97,9 @@ texture = ExtResource("3_6usjc")
 one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+ignore_rotation = false
 zoom = Vector2(1.94, 1.94)
 position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]
