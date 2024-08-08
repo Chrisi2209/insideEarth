@@ -1,7 +1,7 @@
 extends Item
 class_name DashItem
 
-@export var cooldown = 1
+@export var cooldown = 1.2
 @export var duration = 0.3
 @export var dash_speed = 400
 
@@ -32,21 +32,31 @@ func _ready():
 	setup()
 
 var usable = true
+var touched_ground = false
+var cooldown_timeout = false
 	
 func _physics_process(delta):
 	if usable && Input.is_action_just_pressed("dash"):
 		usable = false
+		touched_ground = false
+		cooldown_timeout = false
 		duration_timer.start()
 		
 		var dash_dir = -(int(player.animated_sprite_2d.flip_h) * 2 - 1) * player.gravity_dir.orthogonal()
 		
 		player.dash_velocity = dash_dir * dash_speed
 		player.change_state(Player.state.DASH)
+
+func _process(delta):
+	if player.is_on_floor():
+		touched_ground = true
+	
+	if touched_ground && cooldown_timeout:
+		usable = true
 	
 func _duration_timer_timeout():
-	print("timeout")
 	player.end_dash()
 	cooldown_timer.start()
 
 func _cooldown_timer_timeout():
-	usable = true
+	cooldown_timeout = true

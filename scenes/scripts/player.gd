@@ -5,6 +5,10 @@ class_name Player
 # physics
 @export var SPEED = 400.0
 @export var JUMP_VELOCITY = 400.0
+var accel: float = 1500
+var midair_accel: float = 500
+var friction: float = 1000
+var midair_friction: float = 50
 
 var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
 var gravity_dir = Vector2(0, 1)
@@ -113,7 +117,6 @@ func state_guard(forbidden_states: Array[state]):
 	return false
 
 func end_dash():
-	print("ending_dash")
 	if is_on_floor():
 		change_state(state.IDLE)
 	else:
@@ -142,7 +145,19 @@ func triggered_jump():
 	# jumping has no effect if triggered by the player
 	pass
 
-func handle_inputs():
+func get_current_friction():
+	if is_on_floor():
+		return friction
+	else:
+		return midair_friction
+		
+func get_current_accel():
+	if is_on_floor():
+		return accel
+	else:
+		return midair_accel
+
+func handle_inputs(delta: float):
 	if state_guard([state.DEAD, state.INIT, state.INVULNERABLE, state.DASH]):
 		return
 		
@@ -155,26 +170,41 @@ func handle_inputs():
 			jump_if_on_usable_doublejump_orb()
 
 	var direction = Input.get_axis("left", "right")
+	var speed_up = get_current_accel() * delta
+	var slow_down = get_current_friction() * delta
+	
 	if direction:
+		# pressing in a direction
+		animated_sprite_2d.flip_h = direction == -1
+		
 		if current_state != state.JUMP:
 			change_state(state.WALK)
-		animated_sprite_2d.flip_h = direction == -1
-		side_force = direction * SPEED
+		
+		if sign(side_force) != sign(direction):
+			side_force += direction * slow_down
+		side_force = clamp(side_force + (direction * speed_up), -SPEED, SPEED) if side_force <= SPEED else side_force - slow_down
+		
+		
 	else:
+		# not pressing in a direction
 		if current_state != state.JUMP:
 			change_state(state.IDLE)
-		side_force = 0
+		
+		# go towards 0
+		side_force -= slow_down * sign(side_force)
+		if abs(side_force) < slow_down:
+			side_force = 0
 
 func update_directional_velocities():
 	var alpha = gravity_dir.angle_to(velocity)
 	down_force = velocity.length() * cos(alpha)
-	side_force = velocity.length() * sin(alpha)
+	side_force = -velocity.length() * sin(alpha)
 
 func _physics_process(delta):
 	update_gravity()
 	# this has to be before handle_inputs
 	
-	handle_inputs()
+	handle_inputs(delta)
 	# this has to be after handle_inputs
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
