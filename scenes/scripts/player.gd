@@ -213,14 +213,11 @@ func _physics_process(delta):
 
 	if current_state == state.DASH:
 		velocity = dash_velocity
-		update_directional_velocities()
 	else:
 		velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
 		
 	move_and_slide()
-	
-	if current_state != state.JUMP && down_force > 0:
-		update_directional_velocities()
+	update_directional_velocities()
 
 func _process(delta):
 	if is_on_floor() && last_state == state.JUMP:
