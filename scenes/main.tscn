@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=7 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
-[ext_resource type="Texture2D" uid="uid://1ie5yohxywus" path="res://assets/Background.png" id="2_rkyyl"]
+[ext_resource type="Texture2D" path="res://assets/Background.png" id="2_rkyyl"]
 [ext_resource type="PackedScene" uid="uid://dn44acsf6eh46" path="res://scenes/doublejump_orb.tscn" id="3_lo1jy"]
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
+[ext_resource type="PackedScene" uid="uid://5v1pqnnjbufg" path="res://scenes/platform.tscn" id="5_3mohp"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ty7id")
@@ -20,7 +21,18 @@ JUMP_VELOCITY = 400.0
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(556, 300)
-inner_radius = 507.0
+inner_radius = 500.0
+
+[node name="Platform" parent="." instance=ExtResource("5_3mohp")]
+position = Vector2(564, 600)
+
+[node name="Platform2" parent="." instance=ExtResource("5_3mohp")]
+position = Vector2(259, 502)
+rotation = 0.644027
+
+[node name="Platform3" parent="." instance=ExtResource("5_3mohp")]
+position = Vector2(851, 540)
+rotation = 0.804597
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1

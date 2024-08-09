@@ -104,6 +104,7 @@ func reset():
 func update_gravity():
 	gravity_dir = (position - gravity_center).normalized()
 	up_direction = -gravity_dir
+		
 
 func jump_if_on_usable_doublejump_orb():
 	for orb in inside_doublejump_orb_list:
@@ -166,11 +167,12 @@ func handle_inputs(delta: float):
 		
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
-		if is_on_floor():
+		if current_state != state.JUMP:
 			# highest priority (cheapest)
 			jump(self, 100000)
 		else:
 			jump_if_on_usable_doublejump_orb()
+			
 
 	var direction = Input.get_axis("left", "right")
 	var speed_up = get_current_accel() * delta
@@ -209,17 +211,18 @@ func _physics_process(delta):
 	update_gravity()
 	# this has to be before handle_inputs
 	
-	handle_inputs(delta)
 	# this has to be after handle_inputs
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
+	handle_inputs(delta)
 
 	if current_state == state.DASH:
 		velocity = dash_velocity
-		update_directional_velocities()
 	else:
 		velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
+		
 	move_and_slide()
+	update_directional_velocities()
 
 func _process(delta):
 	if is_on_floor() && last_state == state.JUMP:
