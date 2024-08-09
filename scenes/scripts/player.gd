@@ -19,9 +19,16 @@ var side_force: float
 # nodes
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var point_light_2d = $PointLight2D
+@onready var camera = $Camera2D
+@onready var fade_rect = $Camera2D/FadeRect
+@onready var pickaxe = $Pickaxe
 
 # double jump orb
 var inside_doublejump_orb_list: Array = []
+
+# door
+var inside_door: Door = null
+var pickaxe_inside_door: Door = null
 
 # items
 @onready var doublejump_item: DoublejumpItem = $DoublejumpItem
@@ -87,6 +94,7 @@ func change_state(new_state: state):
 			else:
 				animated_sprite_2d.position.x += 25
 			animated_sprite_2d.play("Attacking")
+			animated_sprite_2d.animation_finished.connect(_on_attack_finished)
 			
 	current_state = new_state
 
@@ -94,10 +102,7 @@ func hurt(amount: int = 1):
 	health -= amount
 
 func _ready():
-	#var item = DoublejumpItem.new()
-	#item.player = self
-	
-	#add_child(item)
+	$Pickaxe.player = self
 	change_state(state.INIT)
 
 func reset():
@@ -184,8 +189,9 @@ func handle_inputs(delta: float):
 	if direction:
 		# pressing in a direction
 		animated_sprite_2d.flip_h = direction == -1
+		pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
 		
-		if current_state != state.JUMP:
+		if current_state != state.JUMP && current_state != state.ATTACK:
 			change_state(state.WALK)
 		
 		if sign(side_force) != sign(direction):
@@ -202,8 +208,13 @@ func handle_inputs(delta: float):
 		side_force -= slow_down * sign(side_force)
 		if abs(side_force) < slow_down:
 			side_force = 0
+			
 	if Input.is_action_just_pressed("attack"):
 		change_state(state.ATTACK)
+	
+	if Input.is_action_just_pressed("interact"):
+		if inside_door != null:
+			inside_door.go_through(self)
 
 func update_directional_velocities():
 	var alpha = gravity_dir.angle_to(velocity)
@@ -235,3 +246,8 @@ func _process(delta):
 
 func _on_invulnerability_timer_timeout():
 	change_state(state.IDLE)
+
+func _on_attack_finished():
+	change_state(state.IDLE)
+	if pickaxe_inside_door != null:
+		pickaxe_inside_door.break_stone()
