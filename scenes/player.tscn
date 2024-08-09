@@ -96,7 +96,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yy3q5"]
-size = Vector2(70.1754, 127.298)
+size = Vector2(56.1404, 112.281)
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.285, 0.285)
@@ -113,7 +113,7 @@ animation = &"Walking"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+position = Vector2(0, 7.01754)
 shape = SubResource("RectangleShape2D_yy3q5")
 
 [node name="InvulnerabilityTimer" type="Timer" parent="."]
@@ -121,7 +121,6 @@ one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 ignore_rotation = false
-zoom = Vector2(3.775, 3.775)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
