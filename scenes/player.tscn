@@ -1,11 +1,28 @@
-[gd_scene load_steps=19 format=3 uid="uid://b36r3qkl2p3fe"]
+[gd_scene load_steps=24 format=3 uid="uid://b36r3qkl2p3fe"]
 
 [ext_resource type="Script" path="res://scenes/scripts/player.gd" id="1_ngxdc"]
 [ext_resource type="Texture2D" uid="uid://bo5oruealidv6" path="res://assets/Player_walking.png" id="2_38t8y"]
 [ext_resource type="Texture2D" uid="uid://muwiwlyn4y2c" path="res://assets/Player_Idle.png" id="2_l3m3t"]
+[ext_resource type="Texture2D" uid="uid://lqb3d82rny3l" path="res://assets/Player_attacking.png" id="2_omi8j"]
 [ext_resource type="Texture2D" uid="uid://dxmjjvwonq2lm" path="res://assets/Player_Jumping.png" id="3_whboj"]
 [ext_resource type="Script" path="res://scenes/scripts/items/doublejump_item.gd" id="5_8nqel"]
 [ext_resource type="Script" path="res://scenes/scripts/items/dash_item.gd" id="5_sl4e0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmmte"]
+atlas = ExtResource("2_omi8j")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4pvp"]
+atlas = ExtResource("2_omi8j")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqf2f"]
+atlas = ExtResource("2_omi8j")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4wjp"]
+atlas = ExtResource("2_omi8j")
+region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tc4ts"]
 atlas = ExtResource("2_l3m3t")
@@ -49,6 +66,23 @@ region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_n4dkh"]
 animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_qmmte")
+}, {
+"duration": 4.0,
+"texture": SubResource("AtlasTexture_q4pvp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqf2f")
+}, {
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_u4wjp")
+}],
+"loop": true,
+"name": &"Attacking",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tc4ts")
@@ -109,11 +143,10 @@ JUMP_VELOCITY = 60.715
 position = Vector2(-1.90735e-06, 0)
 scale = Vector2(4.02851, 4.02851)
 sprite_frames = SubResource("SpriteFrames_n4dkh")
-animation = &"Walking"
+animation = &"Idle"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_yy3q5")
 
 [node name="InvulnerabilityTimer" type="Timer" parent="."]
@@ -121,7 +154,6 @@ one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 ignore_rotation = false
-zoom = Vector2(3.775, 3.775)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
