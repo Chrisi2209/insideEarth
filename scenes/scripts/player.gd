@@ -44,14 +44,14 @@ func set_health(value: int):
 	health_changed.emit(health)
 
 # states
-enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT, DASH}
+enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT, DASH, ATTACK}
 var current_state: state = state.INIT
 var last_state: state = state.INIT
 
 func change_state(new_state: state):
 	if current_state == new_state:
 		return
-		
+	animated_sprite_2d.position.x = 0
 	match new_state:
 		state.IDLE:
 			$AnimatedSprite2D.visible = true
@@ -81,6 +81,9 @@ func change_state(new_state: state):
 			$CollisionShape2D.set_deferred("disabled", true)
 			$AnimatedSprite2D.modulate.a = 1
 			$AnimatedSprite2D.visible = false
+		state.ATTACK:
+			animated_sprite_2d.position.x += 25
+			animated_sprite_2d.play("Attacking")
 			
 	current_state = new_state
 
@@ -127,7 +130,7 @@ func jump(source: Object, priority: int = 0):
 	# depending on the source what triggers the jump, the priority is used to determine who should perform the jump
 	# source has to implement function triggered_jump()
 	# also returns if the player is already jumping this frame
-	if state_guard([state.DEAD, state.INIT, state.DASH]):
+	if state_guard([state.DEAD, state.INIT, state.DASH, state.ATTACK]):
 		return
 	if jumper.is_empty():
 		jumper = [source, priority]
@@ -189,13 +192,15 @@ func handle_inputs(delta: float):
 		
 	else:
 		# not pressing in a direction
-		if current_state != state.JUMP:
+		if current_state != state.JUMP && current_state != state.ATTACK:
 			change_state(state.IDLE)
 		
 		# go towards 0
 		side_force -= slow_down * sign(side_force)
 		if abs(side_force) < slow_down:
 			side_force = 0
+	if Input.is_action_just_pressed("attack"):
+		change_state(state.ATTACK)
 
 func update_directional_velocities():
 	var alpha = gravity_dir.angle_to(velocity)
