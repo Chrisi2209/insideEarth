@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://b36r3qkl2p3fe"]
+[gd_scene load_steps=26 format=3 uid="uid://b36r3qkl2p3fe"]
 
 [ext_resource type="Script" path="res://scenes/scripts/player.gd" id="1_ngxdc"]
 [ext_resource type="Texture2D" uid="uid://bo5oruealidv6" path="res://assets/Player_walking.png" id="2_38t8y"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://dxmjjvwonq2lm" path="res://assets/Player_Jumping.png" id="3_whboj"]
 [ext_resource type="Script" path="res://scenes/scripts/items/doublejump_item.gd" id="5_8nqel"]
 [ext_resource type="Script" path="res://scenes/scripts/items/dash_item.gd" id="5_sl4e0"]
-[ext_resource type="Script" path="res://scenes/player_camera.gd" id="6_5rk6n"]
 [ext_resource type="Script" path="res://scenes/Pickaxe.gd" id="8_7wxgb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qmmte"]
@@ -162,7 +161,6 @@ one_shot = true
 ignore_rotation = false
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
-script = ExtResource("6_5rk6n")
 
 [node name="FadeRect" type="ColorRect" parent="Camera2D"]
 offset_left = -8958.0
