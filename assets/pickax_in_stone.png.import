@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rr302t0f3a5l"
-path="res://.godot/imported/Pickaxe_Map.png-4fd71e90f4bc5d8c5bf5ea296b2f1554.ctex"
+uid="uid://dvvq7lvmbbtg2"
+path="res://.godot/imported/pickax_in_stone.png-d453d55b3cbba6ffc5ea1f525ad345f4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Pickaxe_Map.png"
-dest_files=["res://.godot/imported/Pickaxe_Map.png-4fd71e90f4bc5d8c5bf5ea296b2f1554.ctex"]
+source_file="res://assets/pickax_in_stone.png"
+dest_files=["res://.godot/imported/pickax_in_stone.png-d453d55b3cbba6ffc5ea1f525ad345f4.ctex"]
 
 [params]
 

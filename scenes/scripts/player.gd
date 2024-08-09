@@ -82,7 +82,10 @@ func change_state(new_state: state):
 			$AnimatedSprite2D.modulate.a = 1
 			$AnimatedSprite2D.visible = false
 		state.ATTACK:
-			animated_sprite_2d.position.x += 25
+			if animated_sprite_2d.flip_h:
+				animated_sprite_2d.position.x -= 25
+			else:
+				animated_sprite_2d.position.x += 25
 			animated_sprite_2d.play("Attacking")
 			
 	current_state = new_state

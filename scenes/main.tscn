@@ -1,14 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=9 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
-[ext_resource type="Texture2D" path="res://assets/Background.png" id="2_rkyyl"]
+[ext_resource type="Texture2D" uid="uid://cl3cyrdx8mur3" path="res://assets/Door_blocked.png" id="2_1rnk1"]
+[ext_resource type="Texture2D" uid="uid://1ie5yohxywus" path="res://assets/Background.png" id="2_rkyyl"]
 [ext_resource type="PackedScene" uid="uid://dn44acsf6eh46" path="res://scenes/doublejump_orb.tscn" id="3_lo1jy"]
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
-[ext_resource type="PackedScene" uid="uid://5v1pqnnjbufg" path="res://scenes/platform.tscn" id="5_3mohp"]
+[ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
+[ext_resource type="Texture2D" uid="uid://db88y66rgxc6o" path="res://assets/Door.png" id="8_txfy3"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ty7id")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(572, 765)
+scale = Vector2(1.9375, 1.9375)
+texture = ExtResource("2_1rnk1")
 
 [node name="DoublejumpOrb" parent="." instance=ExtResource("3_lo1jy")]
 position = Vector2(565, 743)
@@ -21,7 +28,7 @@ JUMP_VELOCITY = 400.0
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(556, 300)
-inner_radius = 500.0
+inner_radius = 497.0
 
 [node name="Platform" parent="." instance=ExtResource("5_3mohp")]
 position = Vector2(564, 600)
@@ -36,9 +43,15 @@ rotation = 0.804597
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1
-offset_left = -892.0
-offset_top = -820.0
-offset_right = 2025.0
-offset_bottom = 2111.0
+offset_left = -884.0
+offset_top = -673.0
+offset_right = 2033.0
+offset_bottom = 2258.0
 texture = ExtResource("2_rkyyl")
 stretch_mode = 1
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(677.728, 747.287)
+rotation = -0.248718
+scale = Vector2(2.0137, 2.0137)
+texture = ExtResource("8_txfy3")

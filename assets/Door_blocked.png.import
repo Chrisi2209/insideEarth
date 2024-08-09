@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c362715xe7jmc"
-path="res://.godot/imported/Map.png-0823e9f6d345efe07b57eedf27d429f0.ctex"
+uid="uid://cl3cyrdx8mur3"
+path="res://.godot/imported/Door_blocked.png-700c826748e090deb600432469e73e08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Map.png"
-dest_files=["res://.godot/imported/Map.png-0823e9f6d345efe07b57eedf27d429f0.ctex"]
+source_file="res://assets/Door_blocked.png"
+dest_files=["res://.godot/imported/Door_blocked.png-700c826748e090deb600432469e73e08.ctex"]
 
 [params]
 
