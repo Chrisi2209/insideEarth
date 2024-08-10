@@ -7,8 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://dxmjjvwonq2lm" path="res://assets/Player_Jumping.png" id="3_whboj"]
 [ext_resource type="Script" path="res://scenes/scripts/items/doublejump_item.gd" id="5_8nqel"]
 [ext_resource type="Script" path="res://scenes/scripts/items/dash_item.gd" id="5_sl4e0"]
-[ext_resource type="Script" path="res://scenes/scripts/player_camera.gd" id="6_vadgb"]
-[ext_resource type="PackedScene" uid="uid://dp4rs5od3hlx0" path="res://scenes/pickaxe.tscn" id="8_h4bxx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q4pvp"]
 atlas = ExtResource("2_omi8j")
@@ -71,12 +69,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cqf2f")
 }, {
-"duration": 1.0,
+"duration": 3.0,
 "texture": SubResource("AtlasTexture_u4wjp")
 }],
-"loop": false,
+"loop": true,
 "name": &"Attacking",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -127,6 +125,25 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yy3q5"]
 size = Vector2(56.1404, 112.281)
 
+[sub_resource type="GDScript" id="GDScript_6wytk"]
+script/source = "extends Area2D
+
+var player: Player
+@onready var start_hitbox_x_position = $CollisionShape2D.position.x
+
+func on_door(door: Door):
+	player.on_door(door)
+
+func left_door():
+	player.left_door()
+	
+func set_hitbox_side(side: bool):
+	$CollisionShape2D.position.x = start_hitbox_x_position * (int(not side) * 2 - 1)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vfon8"]
+size = Vector2(42.1053, 98.2456)
+
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.285, 0.285)
 collision_mask = 14
@@ -138,7 +155,7 @@ JUMP_VELOCITY = 60.715
 position = Vector2(-1.90735e-06, 0)
 scale = Vector2(4.02851, 4.02851)
 sprite_frames = SubResource("SpriteFrames_n4dkh")
-animation = &"Attacking"
+animation = &"Idle"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -153,14 +170,6 @@ ignore_rotation = false
 zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
-script = ExtResource("6_vadgb")
-
-[node name="FadeRect" type="ColorRect" parent="Camera2D"]
-offset_left = -2093.0
-offset_top = -1008.0
-offset_right = 2134.0
-offset_bottom = 1049.0
-color = Color(0, 0, 0, 0)
 
 [node name="DashItem" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("5_sl4e0")
@@ -170,7 +179,11 @@ player = NodePath("..")
 script = ExtResource("5_8nqel")
 player = NodePath("..")
 
-[node name="Pickaxe" parent="." instance=ExtResource("8_h4bxx")]
-position = Vector2(56.1404, 14.0351)
+[node name="Pickaxe" type="Area2D" parent="."]
+script = SubResource("GDScript_6wytk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickaxe"]
+position = Vector2(49.1228, 14.0351)
+shape = SubResource("RectangleShape2D_vfon8")
 
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]

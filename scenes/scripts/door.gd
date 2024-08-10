@@ -29,15 +29,17 @@ func _process(delta):
 	
 func break_stone():
 	if state == states.STONE:
+		print("changing to open")
 		change_state(states.OPEN)
 
 func go_through(player: Player):
 	if state != states.OPEN:
 		return
-	
+	print("twqenning")
 	var tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(player.fade_rect, "color:a", 1, 0.5)
 	await tween.finished
+	print("tween finished")
 	player.camera.turn_off_position_smoothing_for_frames(2)
 	player.position = linked_door.dropoff
 	linked_door.change_state(states.OPEN)
@@ -57,9 +59,11 @@ func _on_body_exited(body):
 
 func _on_area_entered(area):
 	if area is Pickaxe:
+		print("pick entered")
 		area.player.pickaxe_inside_door = self
 
 func _on_area_exited(area):
 	if area is Pickaxe:
+		print("pick left")
 		if area.player.inside_door == self:
 			area.player.pickaxe_inside_door = null

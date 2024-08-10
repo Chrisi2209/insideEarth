@@ -9,6 +9,7 @@ var accel: float = 1500
 var midair_accel: float = 500
 var friction: float = 1000
 var midair_friction: float = 50
+var counter_created_friction: float = 300
 
 var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
 var gravity_dir = Vector2(0, 1)
@@ -89,10 +90,6 @@ func change_state(new_state: state):
 			$AnimatedSprite2D.modulate.a = 1
 			$AnimatedSprite2D.visible = false
 		state.ATTACK:
-			if animated_sprite_2d.flip_h:
-				animated_sprite_2d.position.x -= 25
-			else:
-				animated_sprite_2d.position.x += 25
 			animated_sprite_2d.play("Attacking")
 			animated_sprite_2d.animation_finished.connect(_on_attack_finished)
 			
@@ -102,7 +99,7 @@ func hurt(amount: int = 1):
 	health -= amount
 
 func _ready():
-	#$Pickaxe.player = self
+	$Pickaxe.player = self
 	change_state(state.INIT)
 
 func reset():
@@ -138,7 +135,7 @@ func jump(source: Object, priority: int = 0):
 	# depending on the source what triggers the jump, the priority is used to determine who should perform the jump
 	# source has to implement function triggered_jump()
 	# also returns if the player is already jumping this frame
-	if state_guard([state.DEAD, state.INIT, state.DASH, state.ATTACK]):
+	if state_guard([state.DEAD, state.INIT, state.ATTACK]):
 		return
 	if jumper.is_empty():
 		jumper = [source, priority]
@@ -170,9 +167,10 @@ func get_current_accel():
 		return midair_accel
 
 func handle_inputs(delta: float):
-	if state_guard([state.DEAD, state.INIT, state.INVULNERABLE, state.DASH]):
+	if state_guard([state.DEAD, state.INIT, state.INVULNERABLE]):
 		return
-		
+	
+	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
 		if current_state != state.JUMP:
@@ -180,7 +178,9 @@ func handle_inputs(delta: float):
 			jump(self, 100000)
 		else:
 			jump_if_on_usable_doublejump_orb()
-			
+	
+	if current_state == state.DASH:
+		return
 
 	var direction = Input.get_axis("left", "right")
 	var speed_up = get_current_accel() * delta
@@ -189,13 +189,15 @@ func handle_inputs(delta: float):
 	if direction:
 		# pressing in a direction
 		animated_sprite_2d.flip_h = direction == -1
-		#pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
+		pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
 		
 		if current_state != state.JUMP && current_state != state.ATTACK:
 			change_state(state.WALK)
 		
 		if sign(side_force) != sign(direction):
 			side_force += direction * slow_down
+			if abs(side_force) > SPEED:
+				side_force += direction * counter_created_friction * delta
 		side_force = clamp(side_force + (direction * speed_up), -SPEED, SPEED) if abs(side_force) <= SPEED else side_force - (slow_down * sign(side_force))
 		
 		
@@ -229,6 +231,15 @@ func _physics_process(delta):
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
 	handle_inputs(delta)
+	
+	
+	if current_state == state.ATTACK:
+		if animated_sprite_2d.flip_h:
+			animated_sprite_2d.position.x = -25
+		else:
+			animated_sprite_2d.position.x = 25
+	else:
+		animated_sprite_2d.position.x = 0
 
 	if current_state == state.DASH:
 		velocity = dash_velocity
