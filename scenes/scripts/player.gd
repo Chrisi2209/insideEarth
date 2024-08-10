@@ -22,6 +22,10 @@ var side_force: float
 @onready var camera = $Camera2D
 @onready var fade_rect = $Camera2D/FadeRect
 @onready var pickaxe = $Pickaxe
+@onready var jump_particle = $Jump_Particle
+@onready var attack_particle = $Pickaxe/Attack_Particle
+@onready var double_jump_particle = $Double_Jump_Particle
+
 
 # double jump orb
 var inside_doublejump_orb_list: Array = []
@@ -75,6 +79,8 @@ func change_state(new_state: state):
 			$AnimatedSprite2D.modulate.a = 1
 			$CollisionShape2D.set_deferred("disabled", false)
 			animated_sprite_2d.play("Jumping")
+			jump_particle.emitting = true
+			jump_particle.one_shot = true
 		state.DEAD:
 			$AnimatedSprite2D.visible = false
 			$AnimatedSprite2D.modulate.a = 1
@@ -95,6 +101,8 @@ func change_state(new_state: state):
 				animated_sprite_2d.position.x += 25
 			animated_sprite_2d.play("Attacking")
 			animated_sprite_2d.animation_finished.connect(_on_attack_finished)
+			attack_particle.emitting = true
+			attack_particle.one_shot = true
 			
 	current_state = new_state
 
@@ -146,6 +154,9 @@ func jump(source: Object, priority: int = 0):
 	else:
 		if jumper[1] < priority:
 			jumper = [source, priority]
+	if state.JUMP:
+		jump_particle.emitting = true
+		jump_particle.one_shot = true
 
 func execute_jump():
 	change_state(state.JUMP)

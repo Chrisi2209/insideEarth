@@ -1,5 +1,8 @@
 extends Area2D
 class_name DoublejumpOrb
+@onready var cpu_particles_2d = $CPUParticles2D
+
+@onready var animated_sprite_2d = $AnimatedSprite2D
 
 var usable = true: set = set_usable
 
@@ -9,11 +12,13 @@ func set_usable(usable_: bool):
 		
 	usable = usable_
 	if usable:
-		$Sprite2D.modulate.a = 1
+		animated_sprite_2d.play("ready")
 	else:
-		$Sprite2D.modulate.a = 0.2
+		animated_sprite_2d.play("used")
 
 func triggered_jump():
+	cpu_particles_2d.emitting = true
+	cpu_particles_2d.one_shot = true
 	usable = false
 	
 func _on_cooldown_timeout():

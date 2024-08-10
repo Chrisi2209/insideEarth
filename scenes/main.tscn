@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=18 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
@@ -7,6 +7,71 @@
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
 [ext_resource type="PackedScene" uid="uid://xcgiep448sa5" path="res://scenes/door.tscn" id="7_w4ntd"]
+[ext_resource type="Texture2D" uid="uid://b5md44rnavyer" path="res://assets/Enemy1_Walking.png" id="8_x4he2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffubs"]
+atlas = ExtResource("8_x4he2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex2cg"]
+atlas = ExtResource("8_x4he2")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gx0ak"]
+atlas = ExtResource("8_x4he2")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uuvfe"]
+atlas = ExtResource("8_x4he2")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wugnl"]
+atlas = ExtResource("8_x4he2")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46ngv"]
+atlas = ExtResource("8_x4he2")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ipff"]
+atlas = ExtResource("8_x4he2")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ugwpv"]
+atlas = ExtResource("8_x4he2")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y3252"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffubs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex2cg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gx0ak")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uuvfe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wugnl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46ngv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ipff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ugwpv")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 7.0
+}]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ty7id")
@@ -17,7 +82,7 @@ scale = Vector2(0.285, 0.285)
 
 [node name="Player" parent="." instance=ExtResource("1_8yc61")]
 z_index = 5
-position = Vector2(499, 308)
+position = Vector2(490, 752)
 JUMP_VELOCITY = 400.0
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
@@ -37,10 +102,10 @@ rotation = 0.804597
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1
-offset_left = -884.0
-offset_top = -673.0
-offset_right = 2233.0
-offset_bottom = 1309.0
+offset_left = -882.0
+offset_top = -651.0
+offset_right = 2235.0
+offset_bottom = 1331.0
 texture = ExtResource("2_rkyyl")
 stretch_mode = 1
 
@@ -52,3 +117,11 @@ linked_door = NodePath("../Door2")
 position = Vector2(253, 652)
 rotation = 0.698132
 linked_door = NodePath("../Door")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(447.47, 762.834)
+rotation = 0.3303
+scale = Vector2(1.31835, 1.31835)
+sprite_frames = SubResource("SpriteFrames_y3252")
+animation = &"Walking"
+autoplay = "Walking"
