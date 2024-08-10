@@ -1,7 +1,10 @@
 @tool
 extends StaticBody2D
+class_name Room
+
 @export var inner_radius: float = 50
 var sides: int = round(inner_radius) * 3
+var center = global_position
 
 func _ready():
 	# Create the collision polygon for the ring
@@ -22,6 +25,9 @@ func _ready():
 	# Position the sprite relative to the ring
 	sprite.position = Vector2(0, 0)
 	add_child(sprite)
+
+func _process(delta):
+	center = global_position
 
 # Function to generate points for the ring
 func generate_ring_points(radius, sides, reverse=false):

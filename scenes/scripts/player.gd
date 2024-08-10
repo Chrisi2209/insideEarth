@@ -7,7 +7,7 @@ class_name Player
 @export var JUMP_VELOCITY = 400.0
 var accel: float = 1500
 var midair_accel: float = 500
-var friction: float = 1000
+var friction: float = 1800
 var midair_friction: float = 50
 var counter_created_friction: float = 300
 
@@ -15,7 +15,8 @@ var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
 var gravity_dir = Vector2(0, 1)
 var down_force: float
 var side_force: float
-@export var gravity_center: Vector2
+var gravity_center: Vector2
+@export var current_room: Room
 
 # nodes
 @onready var animated_sprite_2d = $AnimatedSprite2D
@@ -29,7 +30,6 @@ var inside_doublejump_orb_list: Array = []
 
 # door
 var inside_door: Door = null
-var pickaxe_inside_door: Door = null
 
 # items
 @onready var doublejump_item: DoublejumpItem = $DoublejumpItem
@@ -47,12 +47,11 @@ func set_health(value: int):
 		change_state(state.DEAD)
 	else:
 		health = value
-		change_state(state.INVULNERABLE)
 		
 	health_changed.emit(health)
 
 # states
-enum state {IDLE, WALK, JUMP, DEAD, INVULNERABLE, INIT, DASH, ATTACK}
+enum state {IDLE, WALK, JUMP, DEAD, INIT, DASH, ATTACK}
 var current_state: state = state.INIT
 var last_state: state = state.INIT
 
@@ -63,31 +62,17 @@ func change_state(new_state: state):
 	match new_state:
 		state.IDLE:
 			$AnimatedSprite2D.visible = true
-			$AnimatedSprite2D.modulate.a = 1
-			$CollisionShape2D.set_deferred("disabled", false)
 			animated_sprite_2d.play("Idle")
 		state.WALK:
 			$AnimatedSprite2D.visible = true
-			$AnimatedSprite2D.modulate.a = 1
-			$CollisionShape2D.set_deferred("disabled", false)
 			animated_sprite_2d.play("Walking")
 		state.JUMP:
 			$AnimatedSprite2D.visible = true
-			$AnimatedSprite2D.modulate.a = 1
-			$CollisionShape2D.set_deferred("disabled", false)
 			animated_sprite_2d.play("Jumping")
 		state.DEAD:
 			$AnimatedSprite2D.visible = false
-			$AnimatedSprite2D.modulate.a = 1
-			$CollisionShape2D.set_deferred("disabled", true)
-		state.INVULNERABLE:
-			$AnimatedSprite2D.visible = true
-			$AnimatedSprite2D.modulate.a = 0.5
-			$CollisionShape2D.set_deferred("disabled", true)
-			$InvulnerabilityTimer.start()
+			animated_sprite_2d.play("Dead")
 		state.INIT:
-			$CollisionShape2D.set_deferred("disabled", true)
-			$AnimatedSprite2D.modulate.a = 1
 			$AnimatedSprite2D.visible = false
 		state.ATTACK:
 			animated_sprite_2d.play("Attacking")
@@ -95,8 +80,22 @@ func change_state(new_state: state):
 			
 	current_state = new_state
 
+var invulnerable = false: set = set_invulnerable
+
+func set_invulnerable(value: bool):
+	invulnerable = value
+	if value:
+		$InvulnerabilityTimer.start()
+
 func hurt(amount: int = 1):
+	if invulnerable:
+		return
 	health -= amount
+	invulnerable = true
+	
+	$AnimatedSprite2D.visible = true
+	$AnimatedSprite2D.modulate.a = 0.5
+	$InvulnerabilityTimer.start()
 
 func _ready():
 	$Pickaxe.player = self
@@ -167,7 +166,7 @@ func get_current_accel():
 		return midair_accel
 
 func handle_inputs(delta: float):
-	if state_guard([state.DEAD, state.INIT, state.INVULNERABLE]):
+	if state_guard([state.DEAD, state.INIT]):
 		return
 	
 	
@@ -223,16 +222,7 @@ func update_directional_velocities():
 	down_force = velocity.length() * cos(alpha)
 	side_force = -velocity.length() * sin(alpha)
 
-func _physics_process(delta):
-	update_gravity()
-	# this has to be before handle_inputs
-	
-	# this has to be after handle_inputs
-	if not is_on_floor():
-		down_force += gravity_scalar * delta
-	handle_inputs(delta)
-	
-	
+func adjust_position_for_attacking_sprite():
 	if current_state == state.ATTACK:
 		if animated_sprite_2d.flip_h:
 			animated_sprite_2d.position.x = -25
@@ -241,24 +231,51 @@ func _physics_process(delta):
 	else:
 		animated_sprite_2d.position.x = 0
 
+func reset_velocity():
+	velocity = Vector2.ZERO
+	side_force = 0
+	down_force = 0
+
+func _physics_process(delta):
+	update_gravity()
+	
+	if current_state == state.DEAD:
+		if not is_on_floor():
+			down_force += gravity_scalar * delta
+		else:
+			reset_velocity()
+		
+		velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
+		move_and_slide()
+		return
+	
+	handle_inputs(delta)
+	
+	if not is_on_floor():
+		down_force += gravity_scalar * delta
+	
+	adjust_position_for_attacking_sprite()
+
 	if current_state == state.DASH:
 		velocity = dash_velocity
 	else:
 		velocity = gravity_dir * down_force + gravity_dir.orthogonal() * side_force
-		
+	
 	move_and_slide()
 	update_directional_velocities()
 
 func _process(delta):
 	if is_on_floor() && last_state == state.JUMP:
 		change_state(state.IDLE)
+		
+	gravity_center = current_room.center
 	rotation = gravity_dir.angle() - PI/2
 	last_state = current_state
 
 func _on_invulnerability_timer_timeout():
-	change_state(state.IDLE)
+	animated_sprite_2d.modulate.a = 1
+	invulnerable = false
 
 func _on_attack_finished():
 	change_state(state.IDLE)
-	if pickaxe_inside_door != null:
-		pickaxe_inside_door.break_stone()
+	pickaxe.attack()

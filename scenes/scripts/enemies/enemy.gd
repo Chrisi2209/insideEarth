@@ -43,3 +43,7 @@ func _physics_process(delta):
 	
 	for player in players_inside:
 		player.hurt()
+
+	
+func _process(delta):
+	pass

@@ -16,7 +16,6 @@ func set_hitbox_side(side: bool):
 
 func attack():
 	for body in get_overlapping_bodies():
-		print("body=", body)
 		if body is BaseEnemy:
 			body.hurt(damage)
 	

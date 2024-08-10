@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=9 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
@@ -6,49 +6,59 @@
 [ext_resource type="PackedScene" uid="uid://dn44acsf6eh46" path="res://scenes/doublejump_orb.tscn" id="3_lo1jy"]
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
+[ext_resource type="PackedScene" uid="uid://y8rwlt5hdsfr" path="res://scenes/room_enemy.tscn" id="5_fi2fv"]
 [ext_resource type="PackedScene" uid="uid://xcgiep448sa5" path="res://scenes/door.tscn" id="7_w4ntd"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ty7id")
 
+[node name="RoomEnemy" parent="." node_paths=PackedStringArray("room") instance=ExtResource("5_fi2fv")]
+position = Vector2(700, 735)
+room = NodePath("../Room")
+speed = 30.0
+
 [node name="DoublejumpOrb" parent="." instance=ExtResource("3_lo1jy")]
 position = Vector2(565, 743)
 scale = Vector2(0.285, 0.285)
 
-[node name="Player" parent="." instance=ExtResource("1_8yc61")]
+[node name="Player" parent="." node_paths=PackedStringArray("current_room") instance=ExtResource("1_8yc61")]
 z_index = 5
 position = Vector2(499, 308)
 JUMP_VELOCITY = 400.0
+current_room = NodePath("../Room")
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(556, 300)
 inner_radius = 497.0
 
 [node name="Platform" parent="." instance=ExtResource("5_3mohp")]
-position = Vector2(564, 600)
+position = Vector2(456, 740)
+rotation = 1.77151
 
 [node name="Platform2" parent="." instance=ExtResource("5_3mohp")]
 position = Vector2(259, 502)
 rotation = 0.644027
 
 [node name="Platform3" parent="." instance=ExtResource("5_3mohp")]
-position = Vector2(851, 540)
+position = Vector2(823, 679)
 rotation = 0.804597
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1
-offset_left = -884.0
-offset_top = -673.0
-offset_right = 2233.0
-offset_bottom = 1309.0
+offset_left = -878.0
+offset_top = 2112.0
+offset_right = 2239.0
+offset_bottom = 4094.0
 texture = ExtResource("2_rkyyl")
 stretch_mode = 1
 
 [node name="Door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(558, 763)
 linked_door = NodePath("../Door2")
+state = null
 
 [node name="Door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(253, 652)
 rotation = 0.698132
 linked_door = NodePath("../Door")
+state = null
