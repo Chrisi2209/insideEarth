@@ -1,12 +1,19 @@
 [gd_scene load_steps=3 format=3 uid="uid://dp4rs5od3hlx0"]
 
-[ext_resource type="Script" path="res://pickaxe.gd" id="1_p81ee"]
+[ext_resource type="Script" path="res://scenes/scripts/pickaxe.gd" id="1_8drss"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ld767"]
-size = Vector2(58, 96)
+size = Vector2(78, 96)
 
 [node name="Pickaxe" type="Area2D"]
-script = ExtResource("1_p81ee")
+collision_layer = 16
+collision_mask = 6
+script = ExtResource("1_8drss")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ld767")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
