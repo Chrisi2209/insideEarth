@@ -127,6 +127,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yy3q5"]
 size = Vector2(56.1404, 112.281)
 
+[sub_resource type="Curve" id="Curve_luolf"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.422642, 0.772362), 0.0, 0.0, 0, 0, Vector2(0.615094, 0.532418), 0.0, 0.0, 0, 0, Vector2(0.822641, 0.224799), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="Curve" id="Curve_62ny4"]
+_data = [Vector2(0.0150943, 1), 0.0, 0.0, 0, 0, Vector2(0.456604, 0.778514), 0.0, 0.0, 0, 0, Vector2(0.675472, 0.495504), 0.0, 0.0, 0, 0, Vector2(0.973585, 0.107903), 0.0, 0.0, 0, 0]
+point_count = 4
+
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.285, 0.285)
 collision_mask = 12
@@ -140,6 +148,8 @@ scale = Vector2(4.02851, 4.02851)
 sprite_frames = SubResource("SpriteFrames_n4dkh")
 animation = &"Attacking"
 autoplay = "Idle"
+frame = 2
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 7.01754)
@@ -173,5 +183,35 @@ player = NodePath("..")
 
 [node name="Pickaxe" parent="." instance=ExtResource("8_h4bxx")]
 position = Vector2(56.1404, 14.0351)
+
+[node name="Pickaxe" parent="." instance=ExtResource("8_h4bxx")]
+position = Vector2(56.1404, 14.0351)
+
+[node name="Attack_Particle" type="CPUParticles2D" parent="Pickaxe"]
+position = Vector2(-10.5264, 21.0526)
+emitting = false
+amount = 32
+lifetime = 0.3
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+scale_amount_curve = SubResource("Curve_luolf")
+color = Color(0.811765, 0.341176, 0.235294, 1)
+
+[node name="Jump_Particle" type="CPUParticles2D" parent="."]
+position = Vector2(-3.50877, 49.1228)
+emitting = false
+amount = 30
+lifetime = 0.5
+explosiveness = 1.0
+direction = Vector2(0, 5)
+spread = 93.65
+gravity = Vector2(0, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 200.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_62ny4")
 
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]

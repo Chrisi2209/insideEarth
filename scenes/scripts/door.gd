@@ -1,9 +1,12 @@
+@tool
 extends Area2D
 class_name Door
 
 @export var linked_door: Door
 @export var state: states
 @onready var dropoff = $DropoffMarker.global_position
+@onready var cpu_particles_2d = $CPUParticles2D
+@onready var timer = $CPUParticles2D/Timer
 
 @onready var stone_door_texture = preload("res://assets/Door_blocked.png")
 @onready var open_door_texture = preload("res://assets/Door.png")  
@@ -32,6 +35,8 @@ func _process(delta):
 func break_stone():
 	if state == states.STONE:
 		change_state(states.OPEN)
+		cpu_particles_2d.emitting = true
+		cpu_particles_2d.one_shot = true
 
 func go_through(player: Player):
 	if state != states.OPEN:
@@ -65,3 +70,4 @@ func _on_area_exited(area):
 	if area is Pickaxe:
 		if area.player.inside_door == self:
 			area.player.pickaxe_inside_door = null
+

@@ -1,25 +1,76 @@
-[gd_scene load_steps=4 format=3 uid="uid://dn44acsf6eh46"]
+[gd_scene load_steps=9 format=3 uid="uid://dn44acsf6eh46"]
 
-[ext_resource type="Texture2D" uid="uid://ddml3gnes65gc" path="res://icon.svg" id="1_4l8qa"]
 [ext_resource type="Script" path="res://scenes/scripts/doublejump_orb.gd" id="1_sfhbm"]
+[ext_resource type="Texture2D" uid="uid://cxexkrnvlqo0" path="res://assets/double_jump_orb.png" id="2_qkiv3"]
+[ext_resource type="Texture2D" uid="uid://cdl6sqtqrd1p0" path="res://assets/double_jump_orb_used2.png" id="3_rqyoj"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gectr"]
-radius = 31.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0b3g"]
+atlas = ExtResource("2_qkiv3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw72j"]
+atlas = ExtResource("3_rqyoj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xrsle"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0b3g")
+}],
+"loop": true,
+"name": &"ready",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mw72j")
+}],
+"loop": true,
+"name": &"used",
+"speed": 1.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t6dwe"]
+radius = 59.1354
+
+[sub_resource type="Curve" id="Curve_wrr6h"]
+_data = [Vector2(0.00377358, 1), 0.0, 0.0, 0, 0, Vector2(0.222642, 0.7416), 0.0, 0.0, 0, 0, Vector2(0.464151, 0.495504), 0.0, 0.0, 0, 0, Vector2(0.645283, 0.249408), 0.0, 0.0, 0, 0, Vector2(0.803774, 0.0648366), 0.0, 0.0, 0, 0]
+point_count = 5
 
 [node name="DoublejumpOrb" type="Area2D"]
+position = Vector2(-31, 31)
 script = ExtResource("1_sfhbm")
 metadata/_edit_group_ = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_gectr")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.265625, 0.265625)
-texture = ExtResource("1_4l8qa")
 
 [node name="Cooldown" type="Timer" parent="."]
 wait_time = 4.0
 one_shot = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(31, -31)
+scale = Vector2(2.9375, 2.9375)
+sprite_frames = SubResource("SpriteFrames_xrsle")
+animation = &"ready"
+autoplay = "ready"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(31, -31)
+shape = SubResource("CircleShape2D_t6dwe")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(31, -31)
+emitting = false
+amount = 40
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 40.54
+initial_velocity_max = 87.84
+scale_amount_min = 4.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_wrr6h")
+color = Color(0.262745, 0.682353, 0.772549, 1)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
