@@ -5,8 +5,8 @@ class_name Door
 @export var state: states
 @onready var dropoff = $DropoffMarker.global_position
 
-@onready var stone_door_texture = preload("res://assets/Pickaxe_Map.png")
-@onready var open_door_texture = preload("res://assets/Background.png")  
+@onready var stone_door_texture = preload("res://assets/Door_blocked.png")
+@onready var open_door_texture = preload("res://assets/Door.png")  
 
 enum states {STONE, OPEN}
 

@@ -22,7 +22,7 @@ JUMP_VELOCITY = 400.0
 
 [node name="Room" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(556, 300)
-inner_radius = 500.0
+inner_radius = 497.0
 
 [node name="Platform" parent="." instance=ExtResource("5_3mohp")]
 position = Vector2(564, 600)
@@ -37,10 +37,10 @@ rotation = 0.804597
 
 [node name="TextureRect" type="TextureRect" parent="."]
 z_index = -1
-offset_left = -892.0
-offset_top = -820.0
-offset_right = 2025.0
-offset_bottom = 2111.0
+offset_left = -884.0
+offset_top = -673.0
+offset_right = 2233.0
+offset_bottom = 1309.0
 texture = ExtResource("2_rkyyl")
 stretch_mode = 1
 

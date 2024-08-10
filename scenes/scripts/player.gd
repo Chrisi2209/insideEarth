@@ -89,7 +89,10 @@ func change_state(new_state: state):
 			$AnimatedSprite2D.modulate.a = 1
 			$AnimatedSprite2D.visible = false
 		state.ATTACK:
-			animated_sprite_2d.position.x += 25
+			if animated_sprite_2d.flip_h:
+				animated_sprite_2d.position.x -= 25
+			else:
+				animated_sprite_2d.position.x += 25
 			animated_sprite_2d.play("Attacking")
 			animated_sprite_2d.animation_finished.connect(_on_attack_finished)
 			
@@ -99,7 +102,7 @@ func hurt(amount: int = 1):
 	health -= amount
 
 func _ready():
-	$Pickaxe.player = self
+	#$Pickaxe.player = self
 	change_state(state.INIT)
 
 func reset():
@@ -186,7 +189,7 @@ func handle_inputs(delta: float):
 	if direction:
 		# pressing in a direction
 		animated_sprite_2d.flip_h = direction == -1
-		pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
+		#pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
 		
 		if current_state != state.JUMP && current_state != state.ATTACK:
 			change_state(state.WALK)
