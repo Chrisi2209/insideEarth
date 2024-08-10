@@ -8,6 +8,8 @@ class_name Door
 @onready var stone_door_texture = preload("res://assets/Door_blocked.png")
 @onready var open_door_texture = preload("res://assets/Door.png")  
 
+signal go_through_finished
+
 enum states {STONE, OPEN}
 
 func change_state(new_state):
@@ -41,6 +43,7 @@ func go_through(player: Player):
 	player.position = linked_door.dropoff
 	linked_door.change_state(states.OPEN)
 	await get_tree().create_timer(0.1).timeout
+	go_through_finished.emit()
 	tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(player.fade_rect, "color:a", 0, 0.5)
 	await tween.finished

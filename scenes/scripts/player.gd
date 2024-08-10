@@ -51,7 +51,7 @@ func set_health(value: int):
 	health_changed.emit(health)
 
 # states
-enum state {IDLE, WALK, JUMP, DEAD, INIT, DASH, ATTACK}
+enum state {IDLE, WALK, JUMP, DEAD, INIT, DASH, ATTACK, CUT_SCENE}
 var current_state: state = state.INIT
 var last_state: state = state.INIT
 
@@ -74,6 +74,9 @@ func change_state(new_state: state):
 			animated_sprite_2d.play("Dead")
 		state.INIT:
 			$AnimatedSprite2D.visible = false
+		state.CUT_SCENE:
+			$AnimatedSprite2D.visible = true
+			animated_sprite_2d.play("Idle")
 		state.ATTACK:
 			animated_sprite_2d.play("Attacking")
 			animated_sprite_2d.animation_finished.connect(_on_attack_finished)
@@ -166,7 +169,7 @@ func get_current_accel():
 		return midair_accel
 
 func handle_inputs(delta: float):
-	if state_guard([state.DEAD, state.INIT]):
+	if state_guard([state.DEAD, state.INIT, state.CUT_SCENE]):
 		return
 	
 	
@@ -216,6 +219,9 @@ func handle_inputs(delta: float):
 	if Input.is_action_just_pressed("interact"):
 		if inside_door != null:
 			inside_door.go_through(self)
+			reset_velocity()
+			change_state(state.CUT_SCENE)
+			inside_door.go_through_finished.connect(_on_door_entered)
 
 func update_directional_velocities():
 	var alpha = gravity_dir.angle_to(velocity)
@@ -279,3 +285,6 @@ func _on_invulnerability_timer_timeout():
 func _on_attack_finished():
 	change_state(state.IDLE)
 	pickaxe.attack()
+
+func _on_door_entered():
+	change_state(state.IDLE)

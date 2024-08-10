@@ -17,7 +17,6 @@ func walk(delta):
 	if not is_on_floor():
 		velocity += gravity_scalar * gravity_direction.normalized() * delta
 	
-	print(velocity)
 	move_and_slide()
 	
 	for i in get_slide_collision_count():

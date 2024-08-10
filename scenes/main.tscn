@@ -55,10 +55,8 @@ stretch_mode = 1
 [node name="Door" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(558, 763)
 linked_door = NodePath("../Door2")
-state = null
 
 [node name="Door2" parent="." node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(253, 652)
 rotation = 0.698132
 linked_door = NodePath("../Door")
-state = null
