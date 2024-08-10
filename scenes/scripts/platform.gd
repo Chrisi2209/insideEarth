@@ -1,3 +1,5 @@
+@tool
+
 extends StaticBody2D
 class_name Platform
 
@@ -8,6 +10,7 @@ class_name Platform
 var diameter: float
 
 func _ready():
+	rotation = (room.center - global_position).angle() + PI / 2
 	diameter = sqrt(width*width + height*height)
 
 """

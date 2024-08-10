@@ -4,6 +4,7 @@ extends Node
 func _ready():
 	$Player.gravity_center = $Room.center
 	$Player.reset()
+	$Player.current_room = $Room
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
