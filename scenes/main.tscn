@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=10 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
 [ext_resource type="PackedScene" uid="uid://y8rwlt5hdsfr" path="res://scenes/room_enemy.tscn" id="5_fi2fv"]
 [ext_resource type="PackedScene" uid="uid://xcgiep448sa5" path="res://scenes/door.tscn" id="7_w4ntd"]
+[ext_resource type="PackedScene" uid="uid://cmtwmbe2l4qip" path="res://scenes/platform_enemy.tscn" id="9_4fxx7"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ty7id")
@@ -23,7 +24,7 @@ scale = Vector2(0.285, 0.285)
 
 [node name="Player" parent="." node_paths=PackedStringArray("current_room") instance=ExtResource("1_8yc61")]
 z_index = 5
-position = Vector2(499, 308)
+position = Vector2(335, 450)
 JUMP_VELOCITY = 400.0
 current_room = NodePath("../Room")
 
@@ -36,7 +37,7 @@ position = Vector2(456, 740)
 rotation = 1.77151
 
 [node name="Platform2" parent="." instance=ExtResource("5_3mohp")]
-position = Vector2(259, 502)
+position = Vector2(338, 531)
 rotation = 0.644027
 
 [node name="Platform3" parent="." instance=ExtResource("5_3mohp")]
@@ -60,3 +61,8 @@ linked_door = NodePath("../Door2")
 position = Vector2(253, 652)
 rotation = 0.698132
 linked_door = NodePath("../Door")
+
+[node name="PlatformEnemy" parent="." node_paths=PackedStringArray("platform") instance=ExtResource("9_4fxx7")]
+position = Vector2(355, 507)
+rotation = 0.698132
+platform = NodePath("../Platform2")

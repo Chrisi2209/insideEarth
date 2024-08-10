@@ -1,5 +1,15 @@
 extends StaticBody2D
 class_name Platform
+
+@export var room: Room
+
+@onready var width = $CollisionShape2D.shape.extents.x * 2
+@onready var height = $CollisionShape2D.shape.extents.y * 2
+var diameter: float
+
+func _ready():
+	diameter = sqrt(width*width + height*height)
+
 """
 func get_up_direction(other_position: Vector2):
 	var my_position = global_position

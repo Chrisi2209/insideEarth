@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmtwmbe2l4qip"]
+
+[ext_resource type="PackedScene" uid="uid://cp2yjoatmrqak" path="res://scenes/enemy.tscn" id="1_54trd"]
+[ext_resource type="Script" path="res://scenes/scripts/enemies/platform_enemy.gd" id="2_j5vol"]
+
+[node name="PlatformEnemy" instance=ExtResource("1_54trd")]
+script = ExtResource("2_j5vol")
+going_right = true
+
+[node name="BottomRight" type="Marker2D" parent="." index="3"]
+position = Vector2(9, 16)
+
+[node name="BottomLeft" type="Marker2D" parent="." index="4"]
+position = Vector2(-9, 16)

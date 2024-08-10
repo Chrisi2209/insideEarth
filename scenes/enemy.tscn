@@ -77,6 +77,7 @@ size = Vector2(18, 32)
 collision_layer = 2
 collision_mask = 6
 script = ExtResource("1_fkt3e")
+speed = 20.0
 
 [node name="WorldInteractHitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_d0453")

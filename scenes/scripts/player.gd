@@ -283,7 +283,10 @@ func _on_invulnerability_timer_timeout():
 	invulnerable = false
 
 func _on_attack_finished():
-	change_state(state.IDLE)
+	if is_on_floor():
+		change_state(state.IDLE)
+	else:
+		change_state(state.JUMP)
 	pickaxe.attack()
 
 func _on_door_entered():
