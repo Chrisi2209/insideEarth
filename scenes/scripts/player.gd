@@ -102,7 +102,7 @@ func hurt(amount: int = 1):
 	health -= amount
 
 func _ready():
-	$Pickaxe.player = self
+	#$Pickaxe.player = self
 	change_state(state.INIT)
 
 func reset():
@@ -189,7 +189,7 @@ func handle_inputs(delta: float):
 	if direction:
 		# pressing in a direction
 		animated_sprite_2d.flip_h = direction == -1
-		pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
+		#pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
 		
 		if current_state != state.JUMP && current_state != state.ATTACK:
 			change_state(state.WALK)
