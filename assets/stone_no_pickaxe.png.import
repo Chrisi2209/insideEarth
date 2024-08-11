@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5wkhr6gjo4fb"
-path="res://.godot/imported/Start Map.png-7a202697ac84f64223938b7df0e441b5.ctex"
+uid="uid://ba6ndns5hsvrt"
+path="res://.godot/imported/stone_no_pickaxe.png-cdf6b239a39df1faf90b287c36ecb296.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Start Map.png"
-dest_files=["res://.godot/imported/Start Map.png-7a202697ac84f64223938b7df0e441b5.ctex"]
+source_file="res://assets/stone_no_pickaxe.png"
+dest_files=["res://.godot/imported/stone_no_pickaxe.png-cdf6b239a39df1faf90b287c36ecb296.ctex"]
 
 [params]
 

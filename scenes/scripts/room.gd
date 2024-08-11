@@ -28,14 +28,6 @@ func _ready():
 	collision_polygon.polygon = points
 	add_child(collision_polygon)
 
-	# Create a Sprite node and add it to the StaticBody2D
-	var sprite = Sprite2D.new()
-	sprite.texture = load("res://assets/bigmap.png")
-	sprite.centered = true  # Ensures the sprite is centered
-	
-	# Position the sprite relative to the ring
-	sprite.position = Vector2(0, 0)
-	add_child(sprite)
 
 func _process(delta):
 	center = global_position

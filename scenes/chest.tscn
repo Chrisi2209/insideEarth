@@ -1,17 +1,82 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7xbyb31ll7sy"]
+[gd_scene load_steps=12 format=3 uid="uid://c7xbyb31ll7sy"]
 
-[ext_resource type="Texture2D" uid="uid://dvvq7lvmbbtg2" path="res://assets/pickax_in_stone.png" id="1_beojx"]
-[ext_resource type="Script" path="res://scenes/chest.gd" id="1_r5ku0"]
+[ext_resource type="Script" path="res://scenes/scripts/chest.gd" id="1_0tad7"]
+[ext_resource type="Texture2D" uid="uid://dc28f8fh56eaf" path="res://assets/pickax_in_stone.png" id="1_beojx"]
+[ext_resource type="Texture2D" uid="uid://bq85mv6c8wxlu" path="res://assets/dash_item.png" id="2_60x3r"]
+[ext_resource type="Texture2D" uid="uid://bu04q560ya26r" path="res://assets/double_jump_item.png" id="3_4tovn"]
+[ext_resource type="Texture2D" uid="uid://ba6ndns5hsvrt" path="res://assets/stone_no_pickaxe.png" id="3_avux1"]
+[ext_resource type="Texture2D" uid="uid://bhbhdmrnxmnl" path="res://assets/key .png" id="4_atfxh"]
+[ext_resource type="Texture2D" uid="uid://bpiwc8ey0p2vh" path="res://assets/nothing.png" id="5_2211q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3iokh"]
 size = Vector2(60, 50)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_20ivk"]
+atlas = ExtResource("1_beojx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5t51f"]
+atlas = ExtResource("3_avux1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_87g6c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_60x3r")
+}],
+"loop": true,
+"name": &"dash_item",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_4tovn")
+}],
+"loop": true,
+"name": &"double_jump_item",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_atfxh")
+}],
+"loop": true,
+"name": &"key",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_2211q")
+}],
+"loop": true,
+"name": &"nothing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_20ivk")
+}],
+"loop": true,
+"name": &"pickaxe_in_stone",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5t51f")
+}],
+"loop": true,
+"name": &"stone_no_pickaxe",
+"speed": 5.0
+}]
+
 [node name="Chest" type="Area2D"]
-script = ExtResource("1_r5ku0")
+script = ExtResource("1_0tad7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3iokh")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 1.5708
-texture = ExtResource("1_beojx")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = -0.00999752
+sprite_frames = SubResource("SpriteFrames_87g6c")
+animation = &"key"
