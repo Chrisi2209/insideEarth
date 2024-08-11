@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7xbyb31ll7sy"]
+
+[ext_resource type="Texture2D" uid="uid://dvvq7lvmbbtg2" path="res://assets/pickax_in_stone.png" id="1_beojx"]
+[ext_resource type="Script" path="res://scenes/chest.gd" id="1_r5ku0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3iokh"]
+size = Vector2(60, 50)
+
+[node name="Chest" type="Area2D"]
+script = ExtResource("1_r5ku0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_3iokh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("1_beojx")

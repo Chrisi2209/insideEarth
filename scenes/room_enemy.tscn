@@ -5,3 +5,4 @@
 
 [node name="RoomEnemy" instance=ExtResource("1_n2g4w")]
 script = ExtResource("2_lub33")
+going_right = true

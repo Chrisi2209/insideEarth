@@ -6,7 +6,18 @@ class_name Room
 var sides: int = round(inner_radius) * 3
 var center = global_position
 
+func has_property(obj, property_name: String) -> bool:
+	var property_list = obj.get_property_list()
+	for property in property_list:
+		if property["name"] == property_name:
+			return true
+	return false
+
 func _ready():
+	for child in get_children():
+		if has_property(child, "room"):
+			child.room = self
+	
 	# Create the collision polygon for the ring
 	var collision_polygon = CollisionPolygon2D.new()
 	

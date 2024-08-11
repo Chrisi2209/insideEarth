@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=16 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
@@ -15,24 +15,22 @@
 [ext_resource type="PackedScene" uid="uid://ctpjmd5y38yuv" path="res://scenes/doublejump_item.tscn" id="13_1l7qo"]
 [ext_resource type="PackedScene" uid="uid://cpdwfo5877arn" path="res://scenes/dash_item.tscn" id="14_v4sao"]
 [ext_resource type="PackedScene" uid="uid://d3lqnijvbejpn" path="res://scenes/key.tscn" id="14_wh02d"]
-[ext_resource type="PackedScene" uid="uid://hyxhkjedpfpg" path="res://scenes/hud.tscn" id="16_68ftw"]
-[ext_resource type="PackedScene" uid="uid://dpgtp4tu2mxo" path="res://scenes/pause_logic.tscn" id="17_illaq"]
 
 [node name="Main" type="Node"]
+process_mode = 3
 script = ExtResource("1_ty7id")
 
 [node name="Player" parent="." node_paths=PackedStringArray("room") instance=ExtResource("1_8yc61")]
 z_index = 5
-position = Vector2(526, -27.9999)
+position = Vector2(270, 281.001)
 rotation = -0.0496406
 SPEED = 200.0
 room = NodePath("../StartRoom")
 
 [node name="StartRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(558, -246)
+position = Vector2(288, -64)
 scale = Vector2(0.285, 0.285)
 inner_radius = 1300.0
-metadata/_edit_group_ = true
 
 [node name="DoorStartToPickaxe" parent="StartRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(7.01754, -880.702)
@@ -63,9 +61,8 @@ texture = ExtResource("2_rkyyl")
 stretch_mode = 1
 
 [node name="PickaxeGettingRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(-222, -1198)
+position = Vector2(-1432, -756)
 inner_radius = 280.0
-metadata/_edit_group_ = true
 
 [node name="DoorPickaxeToStart" parent="PickaxeGettingRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(2, 248)
@@ -117,6 +114,7 @@ scale = Vector2(0.55, 0.55)
 room = NodePath("..")
 
 [node name="Platform" parent="PickaxeGettingRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
+position = Vector2(0, -1)
 scale = Vector2(0.55, 0.55)
 room = NodePath("..")
 
@@ -127,9 +125,8 @@ scale = Vector2(0.55, 0.55)
 room = NodePath("..")
 
 [node name="HubRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(1955, -1001)
+position = Vector2(3530, -1318)
 inner_radius = 700.0
-metadata/_edit_group_ = true
 
 [node name="DoorHubToStart" parent="HubRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(0, 669)
@@ -293,9 +290,8 @@ rotation = 3.35775
 linked_door = NodePath("../../SecretRoom/DoorSecretToHub")
 
 [node name="DoubleJumpRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(1068, -2638)
+position = Vector2(1424, -2473)
 inner_radius = 625.0
-metadata/_edit_group_ = true
 
 [node name="DoorDoublejumpToHub" parent="DoubleJumpRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(594, -1)
@@ -409,9 +405,8 @@ rotation = -0.67165
 room = NodePath("..")
 
 [node name="BeforeKeyRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(2175, 691)
+position = Vector2(2746, 551)
 inner_radius = 625.0
-metadata/_edit_group_ = true
 
 [node name="RoomEnemy" parent="BeforeKeyRoom" node_paths=PackedStringArray("room") instance=ExtResource("11_yidcd")]
 position = Vector2(-582, 41)
@@ -506,9 +501,8 @@ rotation = 3.14159
 linked_door = NodePath("../../HubRoom/DoorHubToBeforeKey")
 
 [node name="KeyRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(3578, -274)
+position = Vector2(4823, 539)
 inner_radius = 580.0
-metadata/_edit_group_ = true
 
 [node name="DoublejumpOrb4" parent="KeyRoom" instance=ExtResource("12_hvi2p")]
 position = Vector2(18, 121)
@@ -594,9 +588,8 @@ rotation = 1.3427
 room = NodePath("..")
 
 [node name="SecretRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(332, 1690)
+position = Vector2(3263, -3051)
 inner_radius = 200.0
-metadata/_edit_group_ = true
 
 [node name="DoorSecretToBeforeKey" parent="SecretRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(4, -169)
@@ -608,9 +601,8 @@ position = Vector2(0, 168)
 linked_door = NodePath("../../HubRoom/DoorHubToSecret")
 
 [node name="DashRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(2667, -2475)
+position = Vector2(5619, -875)
 inner_radius = 450.0
-metadata/_edit_group_ = true
 
 [node name="Platform6" parent="DashRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
 position = Vector2(175, -69)
@@ -667,9 +659,8 @@ room = NodePath("..")
 position = Vector2(150, 0)
 
 [node name="BossRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(4353, -1874)
+position = Vector2(5297, -2531)
 inner_radius = 300.0
-metadata/_edit_group_ = true
 
 [node name="DoorBossToEnd" parent="BossRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(222, -152)
@@ -682,24 +673,9 @@ rotation = 0.737575
 linked_door = NodePath("../../HubRoom/DoorHubToBoss")
 
 [node name="EndRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(5358, -2548)
+position = Vector2(6895, -2059)
 inner_radius = 170.0
-metadata/_edit_group_ = true
 
 [node name="DoorEndToBoss" parent="EndRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(0, 140)
 linked_door = NodePath("../../BossRoom/DoorBossToEnd")
-
-[node name="HUD" parent="." instance=ExtResource("16_68ftw")]
-
-[node name="BottomRight" type="Marker2D" parent="."]
-position = Vector2(7975, 3612)
-
-[node name="TopLeft" type="Marker2D" parent="."]
-position = Vector2(-2878, -4521)
-
-[node name="PauseLogic" parent="." node_paths=PackedStringArray("hud", "player") instance=ExtResource("17_illaq")]
-hud = NodePath("../HUD")
-player = NodePath("../Player")
-
-[connection signal="start_game_pressed" from="HUD" to="." method="_on_hud_start_game_pressed"]

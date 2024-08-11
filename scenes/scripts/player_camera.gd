@@ -2,6 +2,8 @@ extends Camera2D
 class_name PlayerCamera
 
 var need_turn_on_position_smoothing_in_frames = -1
+@export var top_left_of_map: Vector2
+@export var bottom_right_of_map: Vector2
 
 func turn_off_position_smoothing_for_frames(frames: int):
 	position_smoothing_enabled = false
@@ -11,6 +13,37 @@ func turn_off_position_smoothing_for_frames(frames: int):
 func _ready():
 	pass # Replace with function body.
 
+var zoomed_out = false
+
+func zoom_out_to_map():
+	var diagonal = top_left_of_map - bottom_right_of_map
+	var middle_point = diagonal / 2 + bottom_right_of_map
+	var length = diagonal.length()
+	var screen_size = get_viewport_rect().size
+	
+	var scale_x = abs(diagonal.x) / screen_size.x
+	var scale_y = abs(diagonal.y) / screen_size.y
+	
+	var scale = max(1 / scale_x, 1 / scale_y)
+	
+	var tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(self, "zoom", Vector2(scale, scale), 0.5)
+	tween.tween_property(self, "global_position", middle_point, 0.5)
+	tween.tween_property(self, "global_rotation", 0, 0.5)
+	zoomed_out = true
+	#await tween.finished
+	
+	#zoom = Vector2(scale, scale)
+	#global_position = middle_point
+	#global_rotation = 0
+	position_smoothing_enabled = false
+
+func zoom_to_player():
+	zoom = Vector2.ONE
+	position = Vector2.ZERO
+	rotation = 0
+	position_smoothing_enabled = true
+	zoomed_out = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

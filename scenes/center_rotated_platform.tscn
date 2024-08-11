@@ -1,5 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://vwm5rc2vgi37"]
+[gd_scene load_steps=3 format=3 uid="uid://vwm5rc2vgi37"]
 
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="1_16mwr"]
+[ext_resource type="Script" path="res://scenes/scripts/center_rotated_platform.gd" id="2_dlqyi"]
 
-[node name="Platform" instance=ExtResource("1_16mwr")]
+[node name="CenterRotatedPlatform" instance=ExtResource("1_16mwr")]
+script = ExtResource("2_dlqyi")

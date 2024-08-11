@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://c5bwpfeirgctc"]
+
+[ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
+[ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
+[ext_resource type="Texture2D" uid="uid://1ie5yohxywus" path="res://assets/Background.png" id="2_rkyyl"]
+[ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
+[ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
+[ext_resource type="PackedScene" uid="uid://xcgiep448sa5" path="res://scenes/door.tscn" id="7_w4ntd"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_ty7id")
+
+[node name="StartRoom" parent="." instance=ExtResource("3_o21o8")]
+scale = Vector2(0.285, 0.285)
+inner_radius = 2000.0
+
+[node name="DoorStartToPickaxe" parent="StartRoom" node_paths=PackedStringArray("room") instance=ExtResource("7_w4ntd")]
+position = Vector2(-2.27374e-13, -1582.46)
+rotation = -3.14159
+scale = Vector2(3.50877, 3.50877)
+state = 1
+room = NodePath("..")
+
+[node name="Door" parent="StartRoom" node_paths=PackedStringArray("room") instance=ExtResource("7_w4ntd")]
+position = Vector2(989.474, -1610.53)
+rotation = -2.60569
+scale = Vector2(3.50877, 3.50877)
+room = NodePath("..")
+
+[node name="Platform" parent="StartRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
+position = Vector2(0, -1712.28)
+rotation = 3.14159
+scale = Vector2(3.50877, 3.50877)
+room = NodePath("..")
+
+[node name="Player" parent="StartRoom" instance=ExtResource("1_8yc61")]
+z_index = 5
+position = Vector2(-3.50963, 1915.79)
+rotation = -0.0496406
+scale = Vector2(1, 1)
+JUMP_VELOCITY = 400.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+offset_left = 594.0
+offset_top = 1951.0
+offset_right = 3711.0
+offset_bottom = 3933.0
+texture = ExtResource("2_rkyyl")
+stretch_mode = 1
+
+[node name="PickaxeGettingRoom" parent="." instance=ExtResource("3_o21o8")]
+position = Vector2(-1432, -756)
+inner_radius = 350.0

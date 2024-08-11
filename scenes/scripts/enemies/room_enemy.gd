@@ -2,7 +2,7 @@ extends BaseEnemy
 class_name RoomEnemy
 
 @export var room: Room
-var going_right = true
+@export var going_right = true
 
 var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
 

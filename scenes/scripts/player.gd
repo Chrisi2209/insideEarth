@@ -16,14 +16,13 @@ var gravity_dir = Vector2(0, 1)
 var down_force: float
 var side_force: float
 var gravity_center: Vector2
-@export var current_room: Room
+@export var room: Room
 
 # nodes
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var point_light_2d = $PointLight2D
 @onready var camera = $Camera2D
 @onready var fade_rect = $Camera2D/FadeRect
-@onready var pickaxe = $Pickaxe
 @onready var jump_particle = $Jump_Particle
 @onready var attack_particle = $Pickaxe/Attack_Particle
 @onready var double_jump_particle = $Double_Jump_Particle
@@ -73,8 +72,6 @@ func change_state(new_state: state):
 		state.JUMP:
 			$AnimatedSprite2D.visible = true
 			animated_sprite_2d.play("Jumping")
-			jump_particle.emitting = true
-			jump_particle.one_shot = true
 		state.DEAD:
 			$AnimatedSprite2D.visible = false
 			animated_sprite_2d.play("Dead")
@@ -86,8 +83,8 @@ func change_state(new_state: state):
 		state.ATTACK:
 			animated_sprite_2d.play("Attacking")
 			animated_sprite_2d.animation_finished.connect(_on_attack_finished)
-			attack_particle.emitting = true
-			attack_particle.one_shot = true
+			#attack_particle.emitting = true
+			#attack_particle.one_shot = true
 			
 	current_state = new_state
 
@@ -109,7 +106,6 @@ func hurt(amount: int = 1):
 	$InvulnerabilityTimer.start()
 
 func _ready():
-	$Pickaxe.player = self
 	change_state(state.INIT)
 
 func reset():
@@ -117,7 +113,7 @@ func reset():
 	change_state(state.IDLE)
 
 func update_gravity():
-	gravity_dir = (position - gravity_center).normalized()
+	gravity_dir = (global_position - gravity_center).normalized()
 	up_direction = -gravity_dir
 		
 
@@ -144,7 +140,6 @@ func end_dash():
 func jump(source: Object, priority: int = 0):
 	# depending on the source what triggers the jump, the priority is used to determine who should perform the jump
 	# source has to implement function triggered_jump()
-	# also returns if the player is already jumping this frame
 	if state_guard([state.DEAD, state.INIT, state.ATTACK]):
 		return
 	if jumper.is_empty():
@@ -162,6 +157,8 @@ func execute_jump():
 	down_force = -JUMP_VELOCITY
 	jumper[0].triggered_jump()
 	jumper = []
+	jump_particle.emitting = true
+	jump_particle.one_shot = true
 
 func triggered_jump():
 	# jumping has no effect if triggered by the player
@@ -202,7 +199,9 @@ func handle_inputs(delta: float):
 	if direction:
 		# pressing in a direction
 		animated_sprite_2d.flip_h = direction == -1
-		pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
+		
+		if $Pickaxe != null:
+			$Pickaxe.set_hitbox_side(animated_sprite_2d.flip_h)
 		
 		if current_state != state.JUMP && current_state != state.ATTACK:
 			change_state(state.WALK)
@@ -224,15 +223,19 @@ func handle_inputs(delta: float):
 		if abs(side_force) < slow_down:
 			side_force = 0
 			
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack") && $Pickaxe != null:
 		change_state(state.ATTACK)
 	
 	if Input.is_action_just_pressed("interact"):
 		if inside_door != null:
 			inside_door.go_through(self)
-			reset_velocity()
-			change_state(state.CUT_SCENE)
 			inside_door.go_through_finished.connect(_on_door_entered)
+
+func has_key():
+	return $Key != null
+
+func use_key():
+	$Key.queue_free()
 
 func update_directional_velocities():
 	var alpha = gravity_dir.angle_to(velocity)
@@ -270,6 +273,8 @@ func _physics_process(delta):
 	
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
+		if down_force > 0.05 * gravity_scalar && current_state != state.DASH:
+			change_state(state.JUMP)
 	
 	adjust_position_for_attacking_sprite()
 
@@ -284,8 +289,8 @@ func _physics_process(delta):
 func _process(delta):
 	if is_on_floor() && last_state == state.JUMP:
 		change_state(state.IDLE)
-		
-	gravity_center = current_room.center
+	
+	gravity_center = room.center
 	rotation = gravity_dir.angle() - PI/2
 	last_state = current_state
 
@@ -298,7 +303,7 @@ func _on_attack_finished():
 		change_state(state.IDLE)
 	else:
 		change_state(state.JUMP)
-	pickaxe.attack()
+	$Pickaxe.attack()
 
 func _on_door_entered():
 	change_state(state.IDLE)

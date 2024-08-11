@@ -2,15 +2,15 @@ extends CharacterBody2D
 class_name BaseEnemy
 
 @export var speed: float = 300
-@export var max_health = 1
+@export var max_health: int = 1
 var health: int = max_health: set = set_health
 
 func set_health(value):
-	health = value
-	if health <= 0:
+	if value <= 0:
 		die()
-	else:
+	elif value < health:
 		hit_animation()
+	health = value
 
 func die():
 	queue_free()
@@ -44,6 +44,8 @@ func _physics_process(delta):
 	for player in players_inside:
 		player.hurt()
 
+func _ready():
+	health = max_health
 	
 func _process(delta):
 	pass

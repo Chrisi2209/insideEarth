@@ -1,14 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://b36r3qkl2p3fe"]
+[gd_scene load_steps=23 format=3 uid="uid://b36r3qkl2p3fe"]
 
 [ext_resource type="Script" path="res://scenes/scripts/player.gd" id="1_ngxdc"]
 [ext_resource type="Texture2D" uid="uid://bo5oruealidv6" path="res://assets/Player_walking.png" id="2_38t8y"]
 [ext_resource type="Texture2D" uid="uid://muwiwlyn4y2c" path="res://assets/Player_Idle.png" id="2_l3m3t"]
 [ext_resource type="Texture2D" uid="uid://lqb3d82rny3l" path="res://assets/Player_attacking.png" id="2_omi8j"]
 [ext_resource type="Texture2D" uid="uid://dxmjjvwonq2lm" path="res://assets/Player_Jumping.png" id="3_whboj"]
-[ext_resource type="Script" path="res://scenes/scripts/items/doublejump_item.gd" id="5_8nqel"]
-[ext_resource type="Script" path="res://scenes/scripts/items/dash_item.gd" id="5_sl4e0"]
 [ext_resource type="Script" path="res://scenes/scripts/player_camera.gd" id="6_vadgb"]
-[ext_resource type="PackedScene" uid="uid://dp4rs5od3hlx0" path="res://scenes/pickaxe.tscn" id="8_h4bxx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q4pvp"]
 atlas = ExtResource("2_omi8j")
@@ -127,10 +124,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yy3q5"]
 size = Vector2(56.1404, 112.281)
 
-[sub_resource type="Curve" id="Curve_luolf"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.422642, 0.772362), 0.0, 0.0, 0, 0, Vector2(0.615094, 0.532418), 0.0, 0.0, 0, 0, Vector2(0.822641, 0.224799), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 5
-
 [sub_resource type="Curve" id="Curve_62ny4"]
 _data = [Vector2(0.0150943, 1), 0.0, 0.0, 0, 0, Vector2(0.456604, 0.778514), 0.0, 0.0, 0, 0, Vector2(0.675472, 0.495504), 0.0, 0.0, 0, 0, Vector2(0.973585, 0.107903), 0.0, 0.0, 0, 0]
 point_count = 4
@@ -139,8 +132,6 @@ point_count = 4
 scale = Vector2(0.285, 0.285)
 collision_mask = 12
 script = ExtResource("1_ngxdc")
-SPEED = 200.0
-JUMP_VELOCITY = 60.715
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1.90735e-06, 0)
@@ -160,8 +151,8 @@ wait_time = 3.0
 one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 3
 ignore_rotation = false
-zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 script = ExtResource("6_vadgb")
@@ -172,33 +163,6 @@ offset_top = -1008.0
 offset_right = 2134.0
 offset_bottom = 1049.0
 color = Color(0, 0, 0, 0)
-
-[node name="DashItem" type="Node" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("5_sl4e0")
-player = NodePath("..")
-
-[node name="DoublejumpItem" type="Node" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("5_8nqel")
-player = NodePath("..")
-
-[node name="Pickaxe" parent="." instance=ExtResource("8_h4bxx")]
-position = Vector2(56.1404, 14.0351)
-
-[node name="Pickaxe" parent="." instance=ExtResource("8_h4bxx")]
-position = Vector2(56.1404, 14.0351)
-
-[node name="Attack_Particle" type="CPUParticles2D" parent="Pickaxe"]
-position = Vector2(-10.5264, 21.0526)
-emitting = false
-amount = 32
-lifetime = 0.3
-explosiveness = 1.0
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_min = 100.0
-initial_velocity_max = 150.0
-scale_amount_curve = SubResource("Curve_luolf")
-color = Color(0.811765, 0.341176, 0.235294, 1)
 
 [node name="Jump_Particle" type="CPUParticles2D" parent="."]
 position = Vector2(-3.50877, 49.1228)

@@ -1,19 +1,20 @@
-@tool
 extends Area2D
 class_name Door
 
 @export var linked_door: Door
 @export var state: states
+var room: Room
 @onready var dropoff = $DropoffMarker.global_position
 @onready var cpu_particles_2d = $CPUParticles2D
 @onready var timer = $CPUParticles2D/Timer
 
 @onready var stone_door_texture = preload("res://assets/Door_blocked.png")
 @onready var open_door_texture = preload("res://assets/Door.png")  
+@onready var locked_door_texture = preload("res://assets/Door_blocked.png")  
 
 signal go_through_finished
 
-enum states {STONE, OPEN}
+enum states {STONE, LOCKED,OPEN}
 
 func change_state(new_state):
 	state = new_state
@@ -22,6 +23,8 @@ func change_state(new_state):
 			$Sprite2D.texture = stone_door_texture
 		states.OPEN:
 			$Sprite2D.texture = open_door_texture
+		states.LOCKED:
+			$Sprite2D.texture = locked_door_texture
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,14 +41,25 @@ func break_stone():
 		cpu_particles_2d.emitting = true
 		cpu_particles_2d.one_shot = true
 
+func unlock():
+	change_state(states.OPEN)
+
 func go_through(player: Player):
+	if state == states.LOCKED:
+		if player.has_key():
+			player.use_key()
+			unlock()
+	
 	if state != states.OPEN:
 		return
+	player.reset_velocity()
+	player.change_state(Player.state.CUT_SCENE)
 	var tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(player.fade_rect, "color:a", 1, 0.5)
 	await tween.finished
 	player.camera.turn_off_position_smoothing_for_frames(2)
-	player.position = linked_door.dropoff
+	player.global_position = linked_door.dropoff
+	player.room = linked_door.room
 	linked_door.change_state(states.OPEN)
 	await get_tree().create_timer(0.1).timeout
 	go_through_finished.emit()

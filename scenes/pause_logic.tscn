@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpgtp4tu2mxo"]
+
+[ext_resource type="Script" path="res://PauseLogic.gd" id="1_ghuh6"]
+
+[node name="PauseLogic" type="Node"]
+process_mode = 3
+script = ExtResource("1_ghuh6")

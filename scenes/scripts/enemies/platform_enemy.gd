@@ -13,6 +13,13 @@ func update_going_right():
 	else:
 		if ($BottomLeft.global_position - platform.global_position).length() >= platform.diameter / 2:
 			going_right = true
+	
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+
+		if collision.get_collider() != platform:
+			going_right = not going_right
+			break
 
 func walk(delta):
 	var gravity_direction = Vector2.from_angle(platform.rotation + PI / 2)
