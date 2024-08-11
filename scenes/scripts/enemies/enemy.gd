@@ -30,6 +30,8 @@ func die():
 	queue_free()
 
 func hurt(amount: int = 1):
+	if invulnerable:
+		return
 	$DamageSound.play()
 	health -= amount
 
