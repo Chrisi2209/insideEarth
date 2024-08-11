@@ -20,7 +20,6 @@ func reset_player():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$EndRoom.visible = true
 	$HUD.update_items($Player/DoublejumpItem != null,
 		$Player/DashItem != null,
 		$Player/Pickaxe != null,
