@@ -25,6 +25,7 @@ var gravity_center: Vector2
 @onready var fade_rect = $Camera2D/FadeRect
 @onready var jump_particle = $Jump_Particle
 @onready var double_jump_particle = $Double_Jump_Particle
+@onready var map_marker = $MapMarker
 
 
 # double jump orb
@@ -59,8 +60,6 @@ var current_state: state = state.INIT
 var last_state: state = state.INIT
 
 func change_state(new_state: state):
-	if current_state == new_state:
-		return
 	if animated_sprite_2d.animation != "Attacking":
 		animated_sprite_2d.position.x = 0
 	match new_state:
@@ -139,7 +138,7 @@ func reset():
 func update_gravity():
 	gravity_dir = (global_position - gravity_center).normalized()
 	up_direction = -gravity_dir
-		
+	
 
 func jump_if_on_usable_doublejump_orb():
 	for orb in inside_doublejump_orb_list:
@@ -299,7 +298,7 @@ func _physics_process(delta):
 	
 	if not is_on_floor():
 		down_force += gravity_scalar * delta
-		if down_force > 0.05 * gravity_scalar && current_state != state.DASH:
+		if down_force > 0.05 * gravity_scalar && current_state != state.DASH && current_state != state.JUMP:
 			change_state(state.JUMP)
 	
 	adjust_position_for_attacking_sprite()

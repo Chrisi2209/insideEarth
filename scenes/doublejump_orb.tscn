@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://dn44acsf6eh46"]
 
 [ext_resource type="Script" path="res://scenes/scripts/doublejump_orb.gd" id="1_sfhbm"]
-[ext_resource type="Texture2D" uid="uid://cxexkrnvlqo0" path="res://assets/double_jump_orb.png" id="2_qkiv3"]
-[ext_resource type="Texture2D" uid="uid://cdl6sqtqrd1p0" path="res://assets/double_jump_orb_used2.png" id="3_rqyoj"]
+[ext_resource type="Texture2D" uid="uid://c3060fet1ib1h" path="res://assets/double_jump_orb.png" id="2_qkiv3"]
+[ext_resource type="Texture2D" uid="uid://cu0fj8s3dggve" path="res://assets/double_jump_orb_used2.png" id="3_rqyoj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x0b3g"]
 atlas = ExtResource("2_qkiv3")

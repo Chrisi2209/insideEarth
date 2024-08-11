@@ -54,7 +54,7 @@ func go_through(player: Player):
 			return
 	
 	
-	if state != states.OPEN:
+	if state != states.OPEN || player.current_state == Player.state.JUMP:
 		return
 		
 	$EnterSound.play()

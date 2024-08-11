@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/scripts/door.gd" id="1_aanen"]
 [ext_resource type="Script" path="res://scenes/CPUParticles2D.gd" id="2_fi680"]
-[ext_resource type="Texture2D" uid="uid://cl3cyrdx8mur3" path="res://assets/Door_blocked.png" id="2_op51d"]
+[ext_resource type="Texture2D" uid="uid://bdkrrc6gbyyb8" path="res://assets/Door_blocked.png" id="2_op51d"]
 [ext_resource type="AudioStream" uid="uid://dlowbrddfmep" path="res://assets/sound/door_enter.wav" id="4_iv8ut"]
 [ext_resource type="AudioStream" uid="uid://cobcqgnbwwaqo" path="res://assets/sound/door_stone_break.wav" id="5_t6xgo"]
 [ext_resource type="AudioStream" uid="uid://cehcks52bf8sw" path="res://assets/sound/door_unlock.wav" id="6_67yw6"]

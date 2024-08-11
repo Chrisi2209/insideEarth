@@ -73,3 +73,25 @@ func _on_respawn_button_pressed():
 	
 func _on_quit_button_pressed():
 	get_tree().quit()
+
+@onready var volume_slider = $Menu/MarginContainer/Menu/HBoxContainer/VolumeSlider
+var sliding_volume = false
+
+func _process(delta):
+	if sliding_volume:
+		update_volume()
+
+func update_volume():
+	var volume_db = volume_slider.value
+	if volume_slider.value == volume_slider.min_value:
+		volume_db = -10000
+
+	if volume_slider.value == volume_slider.max_value:
+		volume_db = 20
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), volume_db)
+
+func _on_volume_slider_drag_ended(value_changed):
+	sliding_volume = false
+
+func _on_volume_slider_drag_started():
+	sliding_volume = true

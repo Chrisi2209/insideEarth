@@ -1,12 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://hyxhkjedpfpg"]
+[gd_scene load_steps=12 format=3 uid="uid://hyxhkjedpfpg"]
 
 [ext_resource type="Script" path="res://scenes/hud.gd" id="1_s5kxg"]
 [ext_resource type="Texture2D" uid="uid://7d5spmkrrlhn" path="res://assets/Heart .png" id="2_4843w"]
 [ext_resource type="Texture2D" uid="uid://bu04q560ya26r" path="res://assets/double_jump_item.png" id="3_plnr3"]
-[ext_resource type="Texture2D" uid="uid://1ie5yohxywus" path="res://assets/Background.png" id="4_73gyv"]
+[ext_resource type="Texture2D" uid="uid://c3puj1pwdj275" path="res://assets/Background.png" id="4_73gyv"]
 [ext_resource type="Texture2D" uid="uid://bq85mv6c8wxlu" path="res://assets/dash_item.png" id="4_re4hg"]
 [ext_resource type="Texture2D" uid="uid://3niovah8888l" path="res://assets/Pickaxe.png" id="5_tfvlf"]
 [ext_resource type="Texture2D" uid="uid://bhbhdmrnxmnl" path="res://assets/key .png" id="6_qk7ii"]
+[ext_resource type="Texture2D" uid="uid://cdawx7pt3inj3" path="res://assets/sound-icon.png" id="7_mhy4f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_pb3f3"]
 font_size = 39
@@ -22,7 +23,6 @@ process_mode = 3
 script = ExtResource("1_s5kxg")
 
 [node name="Hud" type="MarginContainer" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -104,11 +104,19 @@ texture = ExtResource("6_qk7ii")
 layout_mode = 2
 text = "F"
 
-[node name="Label" type="Label" parent="Hud"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Hud"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Hud/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 text = "Interact - F"
+
+[node name="Label2" type="Label" parent="Hud/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Map - m"
 
 [node name="DimRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -119,7 +127,6 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0)
 
 [node name="Menu" type="VBoxContainer" parent="."]
-visible = false
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -141,7 +148,28 @@ layout_mode = 2
 theme_override_constants/margin_left = 300
 theme_override_constants/margin_right = 300
 
-[node name="Resume" type="Button" parent="Menu/MarginContainer"]
+[node name="Menu" type="VBoxContainer" parent="Menu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/MarginContainer/Menu"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="TextureRect" type="TextureRect" parent="Menu/MarginContainer/Menu/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_mhy4f")
+
+[node name="VolumeSlider" type="HSlider" parent="Menu/MarginContainer/Menu/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = -10.0
+max_value = 10.0
+
+[node name="Resume" type="Button" parent="Menu/MarginContainer/Menu"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 32
@@ -206,6 +234,7 @@ theme_override_font_sizes/font_size = 24
 text = "Start Game"
 
 [node name="DeathMenu" type="VBoxContainer" parent="."]
+visible = false
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -242,8 +271,10 @@ text = "Respawn"
 layout_mode = 2
 text = "Quit"
 
-[connection signal="button_down" from="Menu/MarginContainer/Resume" to="." method="_on_button_button_down"]
-[connection signal="pressed" from="Menu/MarginContainer/Resume" to="." method="_on_button_pressed"]
+[connection signal="drag_ended" from="Menu/MarginContainer/Menu/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_ended"]
+[connection signal="drag_started" from="Menu/MarginContainer/Menu/HBoxContainer/VolumeSlider" to="." method="_on_volume_slider_drag_started"]
+[connection signal="button_down" from="Menu/MarginContainer/Menu/Resume" to="." method="_on_button_button_down"]
+[connection signal="pressed" from="Menu/MarginContainer/Menu/Resume" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="StartMenu/StartMenu/VBoxContainer/MarginContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="DeathMenu/MarginContainer/VBoxContainer/RespawnButton" to="." method="_on_respawn_button_pressed"]
 [connection signal="pressed" from="DeathMenu/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

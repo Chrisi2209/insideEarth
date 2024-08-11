@@ -1,11 +1,11 @@
 [gd_scene load_steps=17 format=3 uid="uid://cp2yjoatmrqak"]
 
-[ext_resource type="Texture2D" uid="uid://b06dgduoosu6b" path="res://assets/Enemy_Walking.png" id="1_4vo0i"]
+[ext_resource type="Texture2D" uid="uid://bmf5i807dwuma" path="res://assets/Enemy_Walking.png" id="1_4vo0i"]
 [ext_resource type="Script" path="res://scenes/scripts/enemies/enemy.gd" id="1_fkt3e"]
 [ext_resource type="AudioStream" uid="uid://dq6vyjyfkmscg" path="res://assets/sound/enemy_damage.wav" id="3_xnrhe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d0453"]
-size = Vector2(18, 32)
+size = Vector2(32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l7r1m"]
 atlas = ExtResource("1_4vo0i")

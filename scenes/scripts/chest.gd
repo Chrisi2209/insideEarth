@@ -42,6 +42,7 @@ func change_state(new_state: states):
 func interact(player: Player):
 	if state == states.CLOSED:
 		var treasure_instance = treasure.instantiate()
+		$PickupSound.play()
 		player.add_child(treasure_instance)
 		player.change_state(player.current_state)
 		if treasure_instance is DoublejumpItem or treasure_instance is DashItem:

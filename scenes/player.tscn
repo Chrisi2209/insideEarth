@@ -1,10 +1,10 @@
 [gd_scene load_steps=43 format=3 uid="uid://b36r3qkl2p3fe"]
 
 [ext_resource type="Script" path="res://scenes/scripts/player.gd" id="1_ngxdc"]
-[ext_resource type="Texture2D" uid="uid://bo5oruealidv6" path="res://assets/Player_walking.png" id="2_38t8y"]
-[ext_resource type="Texture2D" uid="uid://muwiwlyn4y2c" path="res://assets/Player_Idle.png" id="2_l3m3t"]
-[ext_resource type="Texture2D" uid="uid://lqb3d82rny3l" path="res://assets/Player_attacking.png" id="2_omi8j"]
-[ext_resource type="Texture2D" uid="uid://dxmjjvwonq2lm" path="res://assets/Player_Jumping.png" id="3_whboj"]
+[ext_resource type="Texture2D" uid="uid://cpm4moi1fdji0" path="res://assets/Player_walking.png" id="2_38t8y"]
+[ext_resource type="Texture2D" uid="uid://dv6mfmf257bxm" path="res://assets/Player_Idle.png" id="2_l3m3t"]
+[ext_resource type="Texture2D" uid="uid://b3is1qtwy43jh" path="res://assets/Player_attacking.png" id="2_omi8j"]
+[ext_resource type="Texture2D" uid="uid://cm2xpi13ayhsn" path="res://assets/Player_Jumping.png" id="3_whboj"]
 [ext_resource type="Texture2D" uid="uid://bhmyq7js1i7ks" path="res://assets/Player_Idle_no_pickaxe.png" id="4_e6b6q"]
 [ext_resource type="Texture2D" uid="uid://bu2b5ynuc3k1y" path="res://assets/Player_Jumping_no_pickaxe.png" id="6_omu42"]
 [ext_resource type="Script" path="res://scenes/scripts/player_camera.gd" id="6_vadgb"]
@@ -257,7 +257,7 @@ libraries = {
 position = Vector2(-1.90735e-06, 0)
 scale = Vector2(4.02851, 4.02851)
 sprite_frames = SubResource("SpriteFrames_n4dkh")
-animation = &"Walking_NP"
+animation = &"Jumping"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -280,10 +280,10 @@ position_smoothing_speed = 10.0
 script = ExtResource("6_vadgb")
 
 [node name="FadeRect" type="ColorRect" parent="Camera2D"]
-offset_left = -3277.0
-offset_top = -2351.0
-offset_right = 3386.0
-offset_bottom = 2218.0
+offset_left = -3270.18
+offset_top = -2350.88
+offset_right = 3392.82
+offset_bottom = 2218.12
 color = Color(0, 0, 0, 0)
 
 [node name="Jump_Particle" type="CPUParticles2D" parent="."]
@@ -309,12 +309,21 @@ stream = ExtResource("8_qkokl")
 
 [node name="WalkSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_c6cqs")
+volume_db = -14.858
 
 [node name="DamageSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_n8dhd")
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("9_j3chc")
+
+[node name="MapMarker" type="ColorRect" parent="."]
+clip_contents = true
+offset_left = -165.0
+offset_top = -158.0
+offset_right = 165.0
+offset_bottom = 161.0
+color = Color(1, 0.317647, 0.333333, 0)
 
 [connection signal="timeout" from="PickaxeAttackTimer" to="." method="_on_pickaxe_attack_timer_timeout"]
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]

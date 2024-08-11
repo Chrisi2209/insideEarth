@@ -9,12 +9,18 @@ func _process(delta):
 		$LoopingMusic.play()
 	
 	if Input.is_action_just_pressed("map"):
-		if player.camera.zoomed_out:
-			player.camera.zoom_to_player()
-			get_tree().paused = false
-		else:
-			player.camera.zoom_out_to_map()
-			get_tree().paused = true
+		if not player.camera.switching_map_view:
+			if player.camera.zoomed_out:
+				player.camera.zoom_to_player()
+				var tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
+				tween.tween_property(player.map_marker, "color:a", 0, 0.5)
+				await tween.finished
+				get_tree().paused = false
+			else:
+				player.camera.zoom_out_to_map()
+				var tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
+				tween.tween_property(player.map_marker, "color:a", 1, 0.5)
+				get_tree().paused = true
 		
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused:

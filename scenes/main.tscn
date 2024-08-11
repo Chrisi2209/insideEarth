@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=19 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
-[ext_resource type="Texture2D" uid="uid://1ie5yohxywus" path="res://assets/Background.png" id="2_rkyyl"]
+[ext_resource type="Texture2D" uid="uid://c3puj1pwdj275" path="res://assets/Background.png" id="2_rkyyl"]
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
 [ext_resource type="Texture2D" uid="uid://76a8bymn2h3o" path="res://assets/Map_1300.png" id="4_a13ct"]
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://ctpjmd5y38yuv" path="res://scenes/doublejump_item.tscn" id="13_1l7qo"]
 [ext_resource type="PackedScene" uid="uid://cpdwfo5877arn" path="res://scenes/dash_item.tscn" id="14_v4sao"]
 [ext_resource type="PackedScene" uid="uid://d3lqnijvbejpn" path="res://scenes/key.tscn" id="14_wh02d"]
+[ext_resource type="Script" path="res://scenes/RotatingNode.gd" id="15_jqjc8"]
 [ext_resource type="PackedScene" uid="uid://hyxhkjedpfpg" path="res://scenes/hud.tscn" id="16_68ftw"]
 [ext_resource type="PackedScene" uid="uid://dpgtp4tu2mxo" path="res://scenes/pause_logic.tscn" id="17_illaq"]
 
@@ -22,13 +23,13 @@
 script = ExtResource("1_ty7id")
 
 [node name="StartLocation" type="Marker2D" parent="."]
-position = Vector2(538, 98)
+position = Vector2(5358, -2434)
 rotation = -0.0496406
 scale = Vector2(0.285, 0.285)
 
 [node name="Player" parent="." node_paths=PackedStringArray("room") instance=ExtResource("1_8yc61")]
 z_index = 5
-position = Vector2(552, 76)
+position = Vector2(5358, -2559)
 rotation = -0.0496406
 SPEED = 200.0
 room = NodePath("../StartRoom")
@@ -91,7 +92,7 @@ scale = Vector2(0.55, 0.55)
 room = NodePath("..")
 
 [node name="Platform7" parent="PickaxeGettingRoom/Platform3" instance=ExtResource("5_3mohp")]
-position = Vector2(-135, 0)
+position = Vector2(-110, 0)
 rotation = -0.000566036
 
 [node name="Platform4" parent="PickaxeGettingRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
@@ -107,7 +108,7 @@ scale = Vector2(0.55, 0.55)
 room = NodePath("..")
 
 [node name="Platform6" parent="PickaxeGettingRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
-position = Vector2(102, 67)
+position = Vector2(111, 72)
 rotation = -0.953795
 scale = Vector2(0.55, 0.55)
 room = NodePath("..")
@@ -293,6 +294,11 @@ position = Vector2(11, -198)
 rotation = 3.35775
 linked_door = NodePath("../../SecretRoom/DoorSecretToHub")
 
+[node name="DoublejumpOrb3" parent="HubRoom" instance=ExtResource("12_hvi2p")]
+position = Vector2(39, 328)
+rotation = 0.729952
+scale = Vector2(0.2, 0.2)
+
 [node name="Sprite2D" type="Sprite2D" parent="HubRoom"]
 position = Vector2(-0.999976, 2.40803e-05)
 scale = Vector2(0.539876, 0.539876)
@@ -365,8 +371,8 @@ rotation = -0.402869
 scale = Vector2(0.2, 0.2)
 
 [node name="Platform4" parent="DoubleJumpRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
-position = Vector2(244, 511)
-rotation = -2.00272
+position = Vector2(457, 337)
+rotation = -2.50369
 room = NodePath("..")
 
 [node name="Platform" parent="DoubleJumpRoom/Platform4" instance=ExtResource("5_3mohp")]
@@ -382,7 +388,8 @@ position = Vector2(130, 0)
 position = Vector2(130, 0)
 
 [node name="Platform" parent="DoubleJumpRoom/Platform4/Platform/Platform/Platform/Platform" instance=ExtResource("5_3mohp")]
-position = Vector2(130, 0)
+position = Vector2(143.215, 34.9137)
+rotation = 0.477359
 
 [node name="Platform" parent="DoubleJumpRoom/Platform4/Platform/Platform/Platform/Platform/Platform" instance=ExtResource("5_3mohp")]
 position = Vector2(130, 0)
@@ -549,8 +556,8 @@ rotation = 0.86259
 room = NodePath("..")
 
 [node name="DoorKeyToBeforeKey" parent="KeyRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
-position = Vector2(-457, 304)
-rotation = 0.97457
+position = Vector2(-183, 517)
+rotation = 0.340742
 linked_door = NodePath("../../BeforeKeyRoom/DoorBeforeKeyToKey")
 
 [node name="Platform7" parent="KeyRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
@@ -595,8 +602,8 @@ rotation = 2.88115
 room = NodePath("..")
 
 [node name="Chest" parent="KeyRoom" instance=ExtResource("7_8o3l3")]
-position = Vector2(366.999, 437)
-rotation = -0.643495
+position = Vector2(199, 527)
+rotation = -0.369185
 treasure = ExtResource("14_wh02d")
 
 [node name="Platform2" parent="KeyRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
@@ -717,12 +724,30 @@ metadata/_edit_group_ = true
 
 [node name="DoorEndToBoss" parent="EndRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(0, 140)
-linked_door = NodePath("../../BossRoom/DoorBossToEnd")
+linked_door = NodePath(".")
 
 [node name="Sprite2D" type="Sprite2D" parent="EndRoom"]
 position = Vector2(6.00006, 2.00006)
 scale = Vector2(0.133365, 0.133365)
 texture = ExtResource("4_a13ct")
+
+[node name="RotatingNode" type="Node2D" parent="EndRoom"]
+script = ExtResource("15_jqjc8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="EndRoom/RotatingNode"]
+offset_left = -127.0
+offset_top = -112.0
+offset_right = 132.0
+offset_bottom = -11.0
+
+[node name="Label" type="Label" parent="EndRoom/RotatingNode/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Thank you for playing!
+
+Programming: Christopher Rodax
+Art: Oliver Rodax"
+horizontal_alignment = 1
 
 [node name="HUD" parent="." instance=ExtResource("16_68ftw")]
 
@@ -738,10 +763,10 @@ player = NodePath("../Player")
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 z_index = -4
-offset_left = -1974.0
-offset_top = -4021.0
-offset_right = 6891.0
-offset_bottom = 4462.0
+offset_left = -6867.0
+offset_top = -5400.0
+offset_right = 11025.0
+offset_bottom = 6278.0
 texture = ExtResource("2_rkyyl")
 stretch_mode = 1
 
