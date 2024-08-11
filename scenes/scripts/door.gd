@@ -10,7 +10,7 @@ var room: Room
 
 @onready var stone_door_texture = preload("res://assets/Door_blocked.png")
 @onready var open_door_texture = preload("res://assets/Door.png")  
-@onready var locked_door_texture = preload("res://assets/Door_blocked.png")  
+@onready var locked_door_texture = preload("res://assets/Door_locked.png")  
 
 signal go_through_finished
 
