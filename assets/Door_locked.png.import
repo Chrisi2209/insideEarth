@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cm2xpi13ayhsn"
-path="res://.godot/imported/Player_Jumping.png-dcb70b11cff23c2a5600d1187d068e84.ctex"
+uid="uid://4i4fyrcuxy88"
+path="res://.godot/imported/Door_locked.png-b096a5da385a428a3aa7cdedd16ca4be.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Player_Jumping.png"
-dest_files=["res://.godot/imported/Player_Jumping.png-dcb70b11cff23c2a5600d1187d068e84.ctex"]
+source_file="res://assets/Door_locked.png"
+dest_files=["res://.godot/imported/Door_locked.png-b096a5da385a428a3aa7cdedd16ca4be.ctex"]
 
 [params]
 

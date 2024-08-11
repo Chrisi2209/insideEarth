@@ -4,10 +4,10 @@
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
 [ext_resource type="Texture2D" uid="uid://1ie5yohxywus" path="res://assets/Background.png" id="2_rkyyl"]
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
+[ext_resource type="Texture2D" uid="uid://76a8bymn2h3o" path="res://assets/Map_1300.png" id="4_a13ct"]
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
 [ext_resource type="PackedScene" uid="uid://c7xbyb31ll7sy" path="res://scenes/chest.tscn" id="7_8o3l3"]
 [ext_resource type="PackedScene" uid="uid://xcgiep448sa5" path="res://scenes/door.tscn" id="7_w4ntd"]
-[ext_resource type="Texture2D" uid="uid://dvvq7lvmbbtg2" path="res://assets/pickax_in_stone.png" id="8_nwx82"]
 [ext_resource type="PackedScene" uid="uid://dp4rs5od3hlx0" path="res://scenes/pickaxe.tscn" id="8_u4cag"]
 [ext_resource type="PackedScene" uid="uid://cmtwmbe2l4qip" path="res://scenes/platform_enemy.tscn" id="10_gvbb5"]
 [ext_resource type="PackedScene" uid="uid://y8rwlt5hdsfr" path="res://scenes/room_enemy.tscn" id="11_yidcd"]
@@ -37,7 +37,6 @@ room = NodePath("../StartRoom")
 position = Vector2(558, -246)
 scale = Vector2(0.285, 0.285)
 inner_radius = 1300.0
-metadata/_edit_group_ = true
 
 [node name="DoorStartToPickaxe" parent="StartRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(7.01754, -880.702)
@@ -58,14 +57,8 @@ rotation = 3.14159
 scale = Vector2(3.50877, 3.50877)
 room = NodePath("..")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-z_index = -1
-offset_left = -3725.0
-offset_top = 1913.0
-offset_right = -608.0
-offset_bottom = 3895.0
-texture = ExtResource("2_rkyyl")
-stretch_mode = 1
+[node name="Sprite2D" type="Sprite2D" parent="StartRoom"]
+texture = ExtResource("4_a13ct")
 
 [node name="PickaxeGettingRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(-222, -1198)
@@ -81,8 +74,6 @@ state = 1
 position = Vector2(-1, -273)
 rotation = 3.13369
 treasure = ExtResource("8_u4cag")
-sprite_closed = ExtResource("8_nwx82")
-sprite_open = ExtResource("8_nwx82")
 
 [node name="Platform2" parent="PickaxeGettingRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
 position = Vector2(-225, 81)
@@ -130,6 +121,11 @@ position = Vector2(209, 23)
 rotation = -1.34116
 scale = Vector2(0.55, 0.55)
 room = NodePath("..")
+
+[node name="Sprite2D" type="Sprite2D" parent="PickaxeGettingRoom"]
+position = Vector2(4.29153e-06, -4.31538e-05)
+scale = Vector2(0.214853, 0.215613)
+texture = ExtResource("4_a13ct")
 
 [node name="HubRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(1942, -1012)
@@ -193,7 +189,6 @@ room = NodePath("../../..")
 [node name="Platform7" parent="HubRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
 position = Vector2(321, 109)
 rotation = 1.88524
-scale = Vector2(1, 1)
 room = NodePath("..")
 
 [node name="DoorHubToDash" parent="HubRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
@@ -298,9 +293,10 @@ position = Vector2(11, -198)
 rotation = 3.35775
 linked_door = NodePath("../../SecretRoom/DoorSecretToHub")
 
-[node name="DoublejumpOrb4" parent="HubRoom" instance=ExtResource("12_hvi2p")]
-position = Vector2(29, 334)
-scale = Vector2(0.2, 0.2)
+[node name="Sprite2D" type="Sprite2D" parent="HubRoom"]
+position = Vector2(-0.999976, 2.40803e-05)
+scale = Vector2(0.539876, 0.539876)
+texture = ExtResource("4_a13ct")
 
 [node name="DoubleJumpRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(1068, -2638)
@@ -413,14 +409,17 @@ max_health = 3
 position = Vector2(-154, -581)
 rotation = 2.88732
 treasure = ExtResource("13_1l7qo")
-sprite_closed = ExtResource("8_nwx82")
-sprite_open = ExtResource("8_nwx82")
 
 [node name="RoomEnemy2" parent="DoubleJumpRoom" node_paths=PackedStringArray("room") instance=ExtResource("11_yidcd")]
 z_index = 0
 position = Vector2(396, 456)
 rotation = -0.67165
 room = NodePath("..")
+
+[node name="Sprite2D" type="Sprite2D" parent="DoubleJumpRoom"]
+position = Vector2(-1.00004, 0.999898)
+scale = Vector2(0.481464, 0.482411)
+texture = ExtResource("4_a13ct")
 
 [node name="BeforeKeyRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(2175, 691)
@@ -521,6 +520,11 @@ position = Vector2(2, -594)
 rotation = 3.14159
 linked_door = NodePath("../../HubRoom/DoorHubToBeforeKey")
 
+[node name="Sprite2D" type="Sprite2D" parent="BeforeKeyRoom"]
+position = Vector2(-2.30074e-05, -2.37226e-05)
+scale = Vector2(0.482129, 0.482129)
+texture = ExtResource("4_a13ct")
+
 [node name="KeyRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(3608, -288)
 inner_radius = 580.0
@@ -594,13 +598,16 @@ room = NodePath("..")
 position = Vector2(366.999, 437)
 rotation = -0.643495
 treasure = ExtResource("14_wh02d")
-sprite_closed = ExtResource("8_nwx82")
-sprite_open = ExtResource("8_nwx82")
 
 [node name="Platform2" parent="KeyRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
 position = Vector2(-396, 121)
 rotation = 1.3427
 room = NodePath("..")
+
+[node name="Sprite2D" type="Sprite2D" parent="KeyRoom"]
+position = Vector2(-6.52075e-05, -3.8147e-06)
+scale = Vector2(0.447338, 0.447338)
+texture = ExtResource("4_a13ct")
 
 [node name="SecretRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(332, 1690)
@@ -615,6 +622,11 @@ linked_door = NodePath("../../BeforeKeyRoom/DoorBeforeKeyToSecret")
 [node name="DoorSecretToHub" parent="SecretRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(0, 168)
 linked_door = NodePath("../../HubRoom/DoorHubToSecret")
+
+[node name="Sprite2D" type="Sprite2D" parent="SecretRoom"]
+position = Vector2(-6.19888e-06, 1.00001)
+scale = Vector2(0.155112, 0.155112)
+texture = ExtResource("4_a13ct")
 
 [node name="DashRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(2667, -2475)
@@ -643,7 +655,7 @@ rotation = -0.556698
 room = NodePath("..")
 
 [node name="Platform3" parent="DashRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
-position = Vector2(-362, -45)
+position = Vector2(-330, -40)
 rotation = -1.41624
 room = NodePath("..")
 
@@ -664,8 +676,6 @@ linked_door = NodePath("../../HubRoom/DoorHubToDash")
 position = Vector2(271, 351)
 rotation = -0.579899
 treasure = ExtResource("14_v4sao")
-sprite_closed = ExtResource("8_nwx82")
-sprite_open = ExtResource("8_nwx82")
 
 [node name="Platform" parent="DashRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
 position = Vector2(-227, 298)
@@ -674,6 +684,11 @@ room = NodePath("..")
 
 [node name="Platform" parent="DashRoom/Platform" instance=ExtResource("5_3mohp")]
 position = Vector2(150, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="DashRoom"]
+position = Vector2(-0.999969, 0.999911)
+scale = Vector2(0.34779, 0.34741)
+texture = ExtResource("4_a13ct")
 
 [node name="BossRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(4353, -1874)
@@ -690,6 +705,11 @@ position = Vector2(-181, 198)
 rotation = 0.737575
 linked_door = NodePath("../../HubRoom/DoorHubToBoss")
 
+[node name="Sprite2D" type="Sprite2D" parent="BossRoom"]
+position = Vector2(-0.999893, -1.00002)
+scale = Vector2(0.241065, 0.241065)
+texture = ExtResource("4_a13ct")
+
 [node name="EndRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(5358, -2548)
 inner_radius = 170.0
@@ -698,6 +718,11 @@ metadata/_edit_group_ = true
 [node name="DoorEndToBoss" parent="EndRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(0, 140)
 linked_door = NodePath("../../BossRoom/DoorBossToEnd")
+
+[node name="Sprite2D" type="Sprite2D" parent="EndRoom"]
+position = Vector2(6.00006, 2.00006)
+scale = Vector2(0.133365, 0.133365)
+texture = ExtResource("4_a13ct")
 
 [node name="HUD" parent="." instance=ExtResource("16_68ftw")]
 
@@ -710,6 +735,15 @@ position = Vector2(-2878, -4521)
 [node name="PauseLogic" parent="." node_paths=PackedStringArray("hud", "player") instance=ExtResource("17_illaq")]
 hud = NodePath("../HUD")
 player = NodePath("../Player")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+z_index = -4
+offset_left = -1974.0
+offset_top = -4021.0
+offset_right = 6891.0
+offset_bottom = 4462.0
+texture = ExtResource("2_rkyyl")
+stretch_mode = 1
 
 [connection signal="died" from="Player" to="HUD" method="_on_player_died"]
 [connection signal="health_changed" from="Player" to="HUD" method="_on_player_health_changed"]

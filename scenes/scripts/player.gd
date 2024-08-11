@@ -66,23 +66,40 @@ func change_state(new_state: state):
 	match new_state:
 		state.IDLE:
 			$AnimatedSprite2D.visible = true
-			animated_sprite_2d.play("Idle")
+			if $Pickaxe == null:
+				animated_sprite_2d.play("Idle_NP")
+			else:
+				animated_sprite_2d.play("Idle")
 		state.WALK:
 			$AnimatedSprite2D.visible = true
-			animated_sprite_2d.play("Walking")
+			if $Pickaxe == null:
+				animated_sprite_2d.play("Walking_NP")
+			else:
+				animated_sprite_2d.play("Walking")
 		state.JUMP:
 			$AnimatedSprite2D.visible = true
 			if current_state != state.ATTACK:
-				animated_sprite_2d.play("Jumping")
+				if $Pickaxe == null:
+					animated_sprite_2d.play("Jumping_NP")
+				else:
+					animated_sprite_2d.play("Jumping")
+					
 		state.DEAD:
 			$AnimatedSprite2D.visible = false
-			animated_sprite_2d.play("Dead")
+			if $Pickaxe == null:
+				animated_sprite_2d.play("Dead_NP")
+			else:
+				animated_sprite_2d.play("Dead")
 			died.emit()
+			
 		state.INIT:
 			$AnimatedSprite2D.visible = false
 		state.CUT_SCENE:
 			$AnimatedSprite2D.visible = true
-			animated_sprite_2d.play("Idle")
+			if $Pickaxe == null:
+				animated_sprite_2d.play("Idle_NP")
+			else:
+				animated_sprite_2d.play("Idle")
 		state.ATTACK:
 			if animated_sprite_2d.animation != "Attacking":
 				$PickaxeAttackSound.play()
