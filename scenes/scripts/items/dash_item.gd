@@ -41,6 +41,7 @@ func _physics_process(delta):
 		touched_ground = false
 		cooldown_timeout = false
 		duration_timer.start()
+		$DashSound.play()
 		
 		var dash_dir = -(int(player.animated_sprite_2d.flip_h) * 2 - 1) * player.gravity_dir.orthogonal()
 		

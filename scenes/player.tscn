@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b36r3qkl2p3fe"]
+[gd_scene load_steps=31 format=3 uid="uid://b36r3qkl2p3fe"]
 
 [ext_resource type="Script" path="res://scenes/scripts/player.gd" id="1_ngxdc"]
 [ext_resource type="Texture2D" uid="uid://bo5oruealidv6" path="res://assets/Player_walking.png" id="2_38t8y"]
@@ -6,6 +6,33 @@
 [ext_resource type="Texture2D" uid="uid://lqb3d82rny3l" path="res://assets/Player_attacking.png" id="2_omi8j"]
 [ext_resource type="Texture2D" uid="uid://dxmjjvwonq2lm" path="res://assets/Player_Jumping.png" id="3_whboj"]
 [ext_resource type="Script" path="res://scenes/scripts/player_camera.gd" id="6_vadgb"]
+[ext_resource type="PackedScene" uid="uid://dp4rs5od3hlx0" path="res://scenes/pickaxe.tscn" id="7_i5t23"]
+[ext_resource type="AudioStream" uid="uid://7splxmmuajwy" path="res://assets/sound/walking.wav" id="8_c6cqs"]
+[ext_resource type="AudioStream" uid="uid://b8knq8uuu3g5m" path="res://assets/sound/landing.wav" id="8_ln3v3"]
+[ext_resource type="AudioStream" uid="uid://dksg7fdktxkbe" path="res://assets/sound/pickaxe1.wav" id="8_qkokl"]
+[ext_resource type="AudioStream" uid="uid://dr8po6tyvy58j" path="res://assets/sound/jump.wav" id="9_j3chc"]
+[ext_resource type="AudioStream" uid="uid://dkyfoywu7ia3q" path="res://assets/sound/player_damage.wav" id="9_n8dhd"]
+
+[sub_resource type="Animation" id="Animation_bkctj"]
+resource_name = "invulnerable"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.486275, 0.486275, 0.443137), Color(1, 1, 1, 1), Color(1, 0.486275, 0.486275, 0.392157), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e6g68"]
+_data = {
+"invulnerable": SubResource("Animation_bkctj")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q4pvp"]
 atlas = ExtResource("2_omi8j")
@@ -133,6 +160,12 @@ scale = Vector2(0.285, 0.285)
 collision_mask = 12
 script = ExtResource("1_ngxdc")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimatedSprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_e6g68")
+}
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1.90735e-06, 0)
 scale = Vector2(4.02851, 4.02851)
@@ -146,8 +179,12 @@ frame_progress = 1.0
 position = Vector2(0, 7.01754)
 shape = SubResource("RectangleShape2D_yy3q5")
 
+[node name="PickaxeAttackTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [node name="InvulnerabilityTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 2.0
 one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -158,10 +195,10 @@ position_smoothing_speed = 10.0
 script = ExtResource("6_vadgb")
 
 [node name="FadeRect" type="ColorRect" parent="Camera2D"]
-offset_left = -2093.0
-offset_top = -1008.0
-offset_right = 2134.0
-offset_bottom = 1049.0
+offset_left = -3277.0
+offset_top = -2351.0
+offset_right = 3386.0
+offset_bottom = 2218.0
 color = Color(0, 0, 0, 0)
 
 [node name="Jump_Particle" type="CPUParticles2D" parent="."]
@@ -178,4 +215,23 @@ initial_velocity_max = 200.0
 scale_amount_max = 2.0
 scale_amount_curve = SubResource("Curve_62ny4")
 
+[node name="Pickaxe" parent="." instance=ExtResource("7_i5t23")]
+
+[node name="LandingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_ln3v3")
+volume_db = -9.905
+
+[node name="PickaxeAttackSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_qkokl")
+
+[node name="WalkSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_c6cqs")
+
+[node name="DamageSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_n8dhd")
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_j3chc")
+
+[connection signal="timeout" from="PickaxeAttackTimer" to="." method="_on_pickaxe_attack_timer_timeout"]
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]

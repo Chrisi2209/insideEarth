@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://cp2yjoatmrqak"]
+[gd_scene load_steps=17 format=3 uid="uid://cp2yjoatmrqak"]
 
 [ext_resource type="Texture2D" uid="uid://b06dgduoosu6b" path="res://assets/Enemy_Walking.png" id="1_4vo0i"]
 [ext_resource type="Script" path="res://scenes/scripts/enemies/enemy.gd" id="1_fkt3e"]
+[ext_resource type="AudioStream" uid="uid://dq6vyjyfkmscg" path="res://assets/sound/enemy_damage.wav" id="3_xnrhe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d0453"]
 size = Vector2(18, 32)
@@ -73,7 +74,30 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y1dl5"]
 size = Vector2(18, 32)
 
+[sub_resource type="Animation" id="Animation_iaati"]
+resource_name = "hurt"
+length = 0.5
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13, 0.25, 0.37, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p1xuu"]
+_data = {
+"hurt": SubResource("Animation_iaati")
+}
+
 [node name="Enemy" type="CharacterBody2D"]
+z_index = 1
 collision_layer = 2
 collision_mask = 6
 script = ExtResource("1_fkt3e")
@@ -91,5 +115,26 @@ autoplay = "default"
 [node name="PlayerDamageHitbox" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_y1dl5")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_p1xuu")
+}
+autoplay = "nothing"
+
+[node name="DeathParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, 16)
+emitting = false
+amount = 50
+one_shot = true
+direction = Vector2(0, -1)
+initial_velocity_min = 55.56
+initial_velocity_max = 180.56
+scale_amount_max = 1.5
+color = Color(1, 0, 0, 1)
+
+[node name="DamageSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_xnrhe")
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

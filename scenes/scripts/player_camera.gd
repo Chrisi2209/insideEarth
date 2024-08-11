@@ -39,9 +39,11 @@ func zoom_out_to_map():
 	position_smoothing_enabled = false
 
 func zoom_to_player():
-	zoom = Vector2.ONE
-	position = Vector2.ZERO
-	rotation = 0
+	var tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(self, "zoom", Vector2.ONE, 0.5)
+	tween.tween_property(self, "position", Vector2.ZERO, 0.5)
+	tween.tween_property(self, "rotation", 0, 0.5)
+	await tween.finished
 	position_smoothing_enabled = true
 	zoomed_out = false
 

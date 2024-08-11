@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://xcgiep448sa5"]
+[gd_scene load_steps=9 format=3 uid="uid://xcgiep448sa5"]
 
 [ext_resource type="Script" path="res://scenes/scripts/door.gd" id="1_aanen"]
 [ext_resource type="Script" path="res://scenes/CPUParticles2D.gd" id="2_fi680"]
 [ext_resource type="Texture2D" uid="uid://cl3cyrdx8mur3" path="res://assets/Door_blocked.png" id="2_op51d"]
+[ext_resource type="AudioStream" uid="uid://dlowbrddfmep" path="res://assets/sound/door_enter.wav" id="4_iv8ut"]
+[ext_resource type="AudioStream" uid="uid://cobcqgnbwwaqo" path="res://assets/sound/door_stone_break.wav" id="5_t6xgo"]
+[ext_resource type="AudioStream" uid="uid://cehcks52bf8sw" path="res://assets/sound/door_unlock.wav" id="6_67yw6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sb3jh"]
 size = Vector2(48, 44)
@@ -42,6 +45,15 @@ scale_amount_max = 4.0
 scale_amount_curve = SubResource("Curve_nk24h")
 color = Color(0.25098, 0.313726, 0.396078, 1)
 script = ExtResource("2_fi680")
+
+[node name="EnterSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_iv8ut")
+
+[node name="BreakStoneSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_t6xgo")
+
+[node name="UnlockSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_67yw6")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]

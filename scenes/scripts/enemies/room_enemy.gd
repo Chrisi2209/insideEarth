@@ -9,6 +9,7 @@ var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
 func walk(delta):
 	var gravity_direction = (global_position - room.center).normalized()
 	up_direction = -gravity_direction
+	$DeathParticles.gravity = gravity_direction * gravity_scalar
 	$AnimatedSprite2D.flip_h = going_right
 	var walking_direction = gravity_direction.orthogonal() * (int(not going_right) * 2 - 1)
 	rotation = gravity_direction.angle() - PI/2

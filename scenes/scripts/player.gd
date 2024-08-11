@@ -24,7 +24,6 @@ var gravity_center: Vector2
 @onready var camera = $Camera2D
 @onready var fade_rect = $Camera2D/FadeRect
 @onready var jump_particle = $Jump_Particle
-@onready var attack_particle = $Pickaxe/Attack_Particle
 @onready var double_jump_particle = $Double_Jump_Particle
 
 
@@ -41,8 +40,9 @@ var dash_velocity: Vector2 = Vector2.ZERO
 
 # health
 signal health_changed
-const max_health: int = 3
-var health: int: set = set_health
+signal died
+@export var max_health: int = 3
+var health: int = max_health: set = set_health
 
 func set_health(value: int):
 	if value <= 0:
@@ -61,9 +61,11 @@ var last_state: state = state.INIT
 func change_state(new_state: state):
 	if current_state == new_state:
 		return
-	animated_sprite_2d.position.x = 0
+	if animated_sprite_2d.animation != "Attacking":
+		animated_sprite_2d.position.x = 0
 	match new_state:
 		state.IDLE:
+			print("IDLING")
 			$AnimatedSprite2D.visible = true
 			animated_sprite_2d.play("Idle")
 		state.WALK:
@@ -71,20 +73,26 @@ func change_state(new_state: state):
 			animated_sprite_2d.play("Walking")
 		state.JUMP:
 			$AnimatedSprite2D.visible = true
-			animated_sprite_2d.play("Jumping")
+			if current_state != state.ATTACK:
+				animated_sprite_2d.play("Jumping")
 		state.DEAD:
 			$AnimatedSprite2D.visible = false
 			animated_sprite_2d.play("Dead")
+			died.emit()
 		state.INIT:
 			$AnimatedSprite2D.visible = false
 		state.CUT_SCENE:
 			$AnimatedSprite2D.visible = true
 			animated_sprite_2d.play("Idle")
 		state.ATTACK:
+			print(current_state)
+			print("attacking")
+			if animated_sprite_2d.animation != "Attacking":
+				print("paly")
+				$PickaxeAttackSound.play()
 			animated_sprite_2d.play("Attacking")
+			$PickaxeAttackTimer.start()
 			animated_sprite_2d.animation_finished.connect(_on_attack_finished)
-			#attack_particle.emitting = true
-			#attack_particle.one_shot = true
 			
 	current_state = new_state
 
@@ -98,11 +106,13 @@ func set_invulnerable(value: bool):
 func hurt(amount: int = 1):
 	if invulnerable:
 		return
+	
+	$DamageSound.play()
 	health -= amount
 	invulnerable = true
 	
 	$AnimatedSprite2D.visible = true
-	$AnimatedSprite2D.modulate.a = 0.5
+	$AnimationPlayer.play("invulnerable")
 	$InvulnerabilityTimer.start()
 
 func _ready():
@@ -110,6 +120,7 @@ func _ready():
 
 func reset():
 	health = max_health
+	reset_velocity()
 	change_state(state.IDLE)
 
 func update_gravity():
@@ -140,7 +151,7 @@ func end_dash():
 func jump(source: Object, priority: int = 0):
 	# depending on the source what triggers the jump, the priority is used to determine who should perform the jump
 	# source has to implement function triggered_jump()
-	if state_guard([state.DEAD, state.INIT, state.ATTACK]):
+	if state_guard([state.DEAD, state.INIT]):
 		return
 	if jumper.is_empty():
 		jumper = [source, priority]
@@ -154,6 +165,7 @@ func jump(source: Object, priority: int = 0):
 
 func execute_jump():
 	change_state(state.JUMP)
+	$JumpSound.play()
 	down_force = -JUMP_VELOCITY
 	jumper[0].triggered_jump()
 	jumper = []
@@ -224,6 +236,7 @@ func handle_inputs(delta: float):
 			side_force = 0
 			
 	if Input.is_action_just_pressed("attack") && $Pickaxe != null:
+		$PickaxeAttackSound.play()
 		change_state(state.ATTACK)
 	
 	if Input.is_action_just_pressed("interact"):
@@ -243,7 +256,7 @@ func update_directional_velocities():
 	side_force = -velocity.length() * sin(alpha)
 
 func adjust_position_for_attacking_sprite():
-	if current_state == state.ATTACK:
+	if animated_sprite_2d.animation == "Attacking":
 		if animated_sprite_2d.flip_h:
 			animated_sprite_2d.position.x = -25
 		else:
@@ -287,7 +300,14 @@ func _physics_process(delta):
 	update_directional_velocities()
 
 func _process(delta):
+	if current_state == state.WALK && not $WalkSound.playing:
+		$WalkSound.play()
+	elif current_state != state.WALK && $WalkSound.playing:
+		$WalkSound.stop()
+	
+	room.visible = true
 	if is_on_floor() && last_state == state.JUMP:
+		$LandingSound.play()
 		change_state(state.IDLE)
 	
 	gravity_center = room.center
@@ -295,15 +315,21 @@ func _process(delta):
 	last_state = current_state
 
 func _on_invulnerability_timer_timeout():
-	animated_sprite_2d.modulate.a = 1
+	$AnimationPlayer.stop()
 	invulnerable = false
 
 func _on_attack_finished():
-	if is_on_floor():
+	animated_sprite_2d.animation_finished.disconnect(_on_attack_finished)
+	if current_state == state.JUMP:
+		change_state(state.JUMP)
+		animated_sprite_2d.play("Jumping")
+	elif is_on_floor():
 		change_state(state.IDLE)
 	else:
 		change_state(state.JUMP)
-	$Pickaxe.attack()
 
 func _on_door_entered():
 	change_state(state.IDLE)
+
+func _on_pickaxe_attack_timer_timeout():
+	$Pickaxe.attack()

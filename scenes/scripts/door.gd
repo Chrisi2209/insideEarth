@@ -37,11 +37,13 @@ func _process(delta):
 	
 func break_stone():
 	if state == states.STONE:
+		$BreakStoneSound.play()
 		change_state(states.OPEN)
 		cpu_particles_2d.emitting = true
 		cpu_particles_2d.one_shot = true
 
 func unlock():
+	$UnlockSound.play()
 	change_state(states.OPEN)
 
 func go_through(player: Player):
@@ -49,9 +51,13 @@ func go_through(player: Player):
 		if player.has_key():
 			player.use_key()
 			unlock()
+			return
+	
 	
 	if state != states.OPEN:
 		return
+		
+	$EnterSound.play()
 	player.reset_velocity()
 	player.change_state(Player.state.CUT_SCENE)
 	var tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)

@@ -24,6 +24,7 @@ func update_going_right():
 func walk(delta):
 	var gravity_direction = Vector2.from_angle(platform.rotation + PI / 2)
 	up_direction = -gravity_direction
+	$DeathParticles.gravity = gravity_direction * gravity_scalar
 	
 	
 	update_going_right()
@@ -36,7 +37,7 @@ func walk(delta):
 	velocity = walking_direction * speed
 	
 	if not is_on_floor():
-		velocity += gravity_scalar * gravity_direction * delta
+		velocity += gravity_scalar * gravity_direction
 	move_and_slide()
 
 	

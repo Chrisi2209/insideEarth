@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=19 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
+[ext_resource type="AudioStream" uid="uid://crkeh0qnw0mib" path="res://assets/sound/music_loop.wav" id="2_a6a4c"]
 [ext_resource type="Texture2D" uid="uid://1ie5yohxywus" path="res://assets/Background.png" id="2_rkyyl"]
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
@@ -21,9 +22,20 @@
 [node name="Main" type="Node"]
 script = ExtResource("1_ty7id")
 
+[node name="LoopingMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_a6a4c")
+volume_db = -4.953
+autoplay = true
+stream_paused = true
+
+[node name="StartLocation" type="Marker2D" parent="."]
+position = Vector2(538, 98)
+rotation = -0.0496406
+scale = Vector2(0.285, 0.285)
+
 [node name="Player" parent="." node_paths=PackedStringArray("room") instance=ExtResource("1_8yc61")]
 z_index = 5
-position = Vector2(526, -27.9999)
+position = Vector2(552, 76)
 rotation = -0.0496406
 SPEED = 200.0
 room = NodePath("../StartRoom")
@@ -143,13 +155,13 @@ room = NodePath("..")
 
 [node name="Platform2" parent="HubRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
 position = Vector2(-223, 521)
-rotation = 0.379781
+rotation = 0.396068
 scale = Vector2(0.8, 0.8)
 room = NodePath("..")
 
 [node name="Platform4" parent="HubRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
 position = Vector2(612, 122)
-rotation = 1.86651
+rotation = 4.92246
 room = NodePath("..")
 
 [node name="Platform8" parent="HubRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
@@ -212,11 +224,13 @@ scale = Vector2(0.8, 0.8)
 room = NodePath("..")
 
 [node name="RoomEnemy2" parent="HubRoom" node_paths=PackedStringArray("room") instance=ExtResource("11_yidcd")]
+z_index = 0
 position = Vector2(563, 383)
 rotation = -1.01595
 room = NodePath("..")
 
 [node name="RoomEnemy" parent="HubRoom" node_paths=PackedStringArray("room") instance=ExtResource("11_yidcd")]
+z_index = 0
 position = Vector2(-283, 622)
 rotation = 0.450186
 room = NodePath("..")
@@ -260,11 +274,13 @@ rotation = 1.60893
 linked_door = NodePath("../../DoubleJumpRoom/DoorDoublejumpToHub")
 
 [node name="PlatformEnemy2" parent="HubRoom" node_paths=PackedStringArray("platform") instance=ExtResource("10_gvbb5")]
+z_index = 0
 position = Vector2(586, 119)
 rotation = -1.36236
 platform = NodePath("../Platform4")
 
 [node name="PlatformEnemy" parent="HubRoom" node_paths=PackedStringArray("platform") instance=ExtResource("10_gvbb5")]
+z_index = 0
 position = Vector2(-231, 491)
 rotation = 0.385865
 platform = NodePath("../Platform2")
@@ -317,6 +333,7 @@ rotation = 1.47008
 scale = Vector2(0.2, 0.2)
 
 [node name="PlatformEnemy" parent="DoubleJumpRoom" node_paths=PackedStringArray("platform") instance=ExtResource("10_gvbb5")]
+z_index = 0
 position = Vector2(404, -222)
 rotation = -1.95593
 platform = NodePath("../Platform2")
@@ -347,6 +364,7 @@ rotation = -1.32994
 room = NodePath("..")
 
 [node name="PlatformEnemy2" parent="DoubleJumpRoom" node_paths=PackedStringArray("platform") instance=ExtResource("10_gvbb5")]
+z_index = 0
 position = Vector2(317, 70)
 rotation = 5.02448
 platform = NodePath("../Platform3")
@@ -389,6 +407,7 @@ position = Vector2(130, 0)
 position = Vector2(130, 0)
 
 [node name="RoomEnemy" parent="DoubleJumpRoom" node_paths=PackedStringArray("room") instance=ExtResource("11_yidcd")]
+z_index = 0
 position = Vector2(-42, -582)
 rotation = -3.21438
 scale = Vector2(2.555, 2.555)
@@ -404,6 +423,7 @@ sprite_closed = ExtResource("8_nwx82")
 sprite_open = ExtResource("8_nwx82")
 
 [node name="RoomEnemy2" parent="DoubleJumpRoom" node_paths=PackedStringArray("room") instance=ExtResource("11_yidcd")]
+z_index = 0
 position = Vector2(396, 456)
 rotation = -0.67165
 room = NodePath("..")
@@ -414,6 +434,7 @@ inner_radius = 625.0
 metadata/_edit_group_ = true
 
 [node name="RoomEnemy" parent="BeforeKeyRoom" node_paths=PackedStringArray("room") instance=ExtResource("11_yidcd")]
+z_index = 0
 position = Vector2(-582, 41)
 rotation = 1.4626
 scale = Vector2(2.55, 2.55)
@@ -496,6 +517,7 @@ position = Vector2(270, 296)
 scale = Vector2(0.2, 0.2)
 
 [node name="PlatformEnemy" parent="BeforeKeyRoom" node_paths=PackedStringArray("platform") instance=ExtResource("10_gvbb5")]
+z_index = 0
 position = Vector2(198, 432)
 rotation = -0.508147
 platform = NodePath("../Platform8")
@@ -702,4 +724,7 @@ position = Vector2(-2878, -4521)
 hud = NodePath("../HUD")
 player = NodePath("../Player")
 
+[connection signal="died" from="Player" to="HUD" method="_on_player_died"]
+[connection signal="health_changed" from="Player" to="HUD" method="_on_player_health_changed"]
+[connection signal="respawn" from="HUD" to="." method="_on_hud_respawn"]
 [connection signal="start_game_pressed" from="HUD" to="." method="_on_hud_start_game_pressed"]

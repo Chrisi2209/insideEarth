@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cpdwfo5877arn"]
+[gd_scene load_steps=3 format=3 uid="uid://cpdwfo5877arn"]
 
 [ext_resource type="Script" path="res://scenes/scripts/items/dash_item.gd" id="1_f6jwo"]
+[ext_resource type="AudioStream" uid="uid://460bl05tte73" path="res://assets/sound/dash.wav" id="2_0a2o6"]
 
 [node name="DashItem" type="Node"]
 script = ExtResource("1_f6jwo")
+
+[node name="DashSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_0a2o6")
