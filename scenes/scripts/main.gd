@@ -24,6 +24,7 @@ func _process(delta):
 		$Player/DashItem != null,
 		$Player/Pickaxe != null,
 		$Player/Key != null)
+	
 
 func _on_hud_start_game_pressed():
 	pass

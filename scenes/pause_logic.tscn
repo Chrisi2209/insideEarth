@@ -1,7 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpgtp4tu2mxo"]
+[gd_scene load_steps=3 format=3 uid="uid://dpgtp4tu2mxo"]
 
 [ext_resource type="Script" path="res://PauseLogic.gd" id="1_ghuh6"]
+[ext_resource type="AudioStream" uid="uid://crkeh0qnw0mib" path="res://assets/sound/music_loop.wav" id="2_5bi2t"]
 
 [node name="PauseLogic" type="Node"]
 process_mode = 3
 script = ExtResource("1_ghuh6")
+
+[node name="LoopingMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_5bi2t")

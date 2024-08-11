@@ -1,8 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=18 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
-[ext_resource type="AudioStream" uid="uid://crkeh0qnw0mib" path="res://assets/sound/music_loop.wav" id="2_a6a4c"]
 [ext_resource type="Texture2D" uid="uid://1ie5yohxywus" path="res://assets/Background.png" id="2_rkyyl"]
 [ext_resource type="PackedScene" uid="uid://brunvbvb7clk3" path="res://scenes/room.tscn" id="3_o21o8"]
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
@@ -21,12 +20,6 @@
 
 [node name="Main" type="Node"]
 script = ExtResource("1_ty7id")
-
-[node name="LoopingMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_a6a4c")
-volume_db = -4.953
-autoplay = true
-stream_paused = true
 
 [node name="StartLocation" type="Marker2D" parent="."]
 position = Vector2(538, 98)
@@ -139,7 +132,7 @@ scale = Vector2(0.55, 0.55)
 room = NodePath("..")
 
 [node name="HubRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(1955, -1001)
+position = Vector2(1942, -1012)
 inner_radius = 700.0
 metadata/_edit_group_ = true
 
@@ -183,12 +176,12 @@ rotation = 1.26131
 room = NodePath("..")
 
 [node name="Platform4" parent="HubRoom/Platform3" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
-position = Vector2(-141.805, -35.8945)
+position = Vector2(-143.023, -32.0847)
 rotation = 0.45986
 room = NodePath("../..")
 
 [node name="Platform5" parent="HubRoom/Platform3/Platform4" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
-position = Vector2(-140.817, 38.5299)
+position = Vector2(-129.701, 31.7889)
 rotation = 2.55096
 room = NodePath("../../..")
 
@@ -197,10 +190,11 @@ position = Vector2(-125.776, -55.7875)
 rotation = 0.841415
 room = NodePath("../../..")
 
-[node name="Platform4" parent="HubRoom/Platform3/Platform4/Platform4" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
-position = Vector2(-181.968, 121.18)
-rotation = -0.369596
-room = NodePath("../../../..")
+[node name="Platform7" parent="HubRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
+position = Vector2(321, 109)
+rotation = 1.88524
+scale = Vector2(1, 1)
+room = NodePath("..")
 
 [node name="DoorHubToDash" parent="HubRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(656, -130)
@@ -285,10 +279,6 @@ position = Vector2(-231, 491)
 rotation = 0.385865
 platform = NodePath("../Platform2")
 
-[node name="DoublejumpOrb3" parent="HubRoom" instance=ExtResource("12_hvi2p")]
-position = Vector2(314, -56)
-scale = Vector2(0.2, 0.2)
-
 [node name="DoublejumpOrb2" parent="HubRoom" instance=ExtResource("12_hvi2p")]
 position = Vector2(436, 221)
 scale = Vector2(0.2, 0.2)
@@ -298,8 +288,8 @@ position = Vector2(517, 205)
 scale = Vector2(0.2, 0.2)
 
 [node name="DoorHubToBoss" parent="HubRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
-position = Vector2(294, 120)
-rotation = -0.946178
+position = Vector2(287, 90)
+rotation = -1.26357
 linked_door = NodePath("../../BossRoom/DoorBossToHub")
 state = 1
 
@@ -307,6 +297,10 @@ state = 1
 position = Vector2(11, -198)
 rotation = 3.35775
 linked_door = NodePath("../../SecretRoom/DoorSecretToHub")
+
+[node name="DoublejumpOrb4" parent="HubRoom" instance=ExtResource("12_hvi2p")]
+position = Vector2(29, 334)
+scale = Vector2(0.2, 0.2)
 
 [node name="DoubleJumpRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(1068, -2638)
@@ -528,24 +522,16 @@ rotation = 3.14159
 linked_door = NodePath("../../HubRoom/DoorHubToBeforeKey")
 
 [node name="KeyRoom" parent="." instance=ExtResource("3_o21o8")]
-position = Vector2(3578, -274)
+position = Vector2(3608, -288)
 inner_radius = 580.0
 metadata/_edit_group_ = true
 
-[node name="DoublejumpOrb4" parent="KeyRoom" instance=ExtResource("12_hvi2p")]
-position = Vector2(18, 121)
-scale = Vector2(0.2, 0.2)
-
-[node name="DoublejumpOrb3" parent="KeyRoom" instance=ExtResource("12_hvi2p")]
-position = Vector2(25, 200)
-scale = Vector2(0.2, 0.2)
-
 [node name="DoublejumpOrb2" parent="KeyRoom" instance=ExtResource("12_hvi2p")]
-position = Vector2(233, 332)
+position = Vector2(368, 192)
 scale = Vector2(0.2, 0.2)
 
 [node name="DoublejumpOrb" parent="KeyRoom" instance=ExtResource("12_hvi2p")]
-position = Vector2(317, 378)
+position = Vector2(475, 151)
 scale = Vector2(0.2, 0.2)
 
 [node name="DoorKeyToHub" parent="KeyRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
@@ -586,6 +572,7 @@ position = Vector2(-130, 0)
 
 [node name="Platform6" parent="KeyRoom/Platform6/Platform6/Platform6" instance=ExtResource("5_3mohp")]
 position = Vector2(-130, 0)
+rotation = -0.0117488
 
 [node name="Platform5" parent="KeyRoom" node_paths=PackedStringArray("room") instance=ExtResource("5_3mohp")]
 position = Vector2(521, 63.0001)

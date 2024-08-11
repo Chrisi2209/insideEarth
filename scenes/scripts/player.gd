@@ -65,7 +65,6 @@ func change_state(new_state: state):
 		animated_sprite_2d.position.x = 0
 	match new_state:
 		state.IDLE:
-			print("IDLING")
 			$AnimatedSprite2D.visible = true
 			animated_sprite_2d.play("Idle")
 		state.WALK:
@@ -85,10 +84,7 @@ func change_state(new_state: state):
 			$AnimatedSprite2D.visible = true
 			animated_sprite_2d.play("Idle")
 		state.ATTACK:
-			print(current_state)
-			print("attacking")
 			if animated_sprite_2d.animation != "Attacking":
-				print("paly")
 				$PickaxeAttackSound.play()
 			animated_sprite_2d.play("Attacking")
 			$PickaxeAttackTimer.start()
@@ -195,7 +191,7 @@ func handle_inputs(delta: float):
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
-		if current_state != state.JUMP:
+		if current_state != state.JUMP && current_state != state.DASH || current_state == state.DASH && is_on_floor():
 			# highest priority (cheapest)
 			jump(self, 100000)
 		else:

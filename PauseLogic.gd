@@ -5,6 +5,9 @@ class_name PauseLogic
 @export var player: Player
 
 func _process(delta):
+	if not $LoopingMusic.playing:
+		$LoopingMusic.play()
+	
 	if Input.is_action_just_pressed("map"):
 		if player.camera.zoomed_out:
 			player.camera.zoom_to_player()

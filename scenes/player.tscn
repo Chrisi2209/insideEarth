@@ -219,7 +219,7 @@ scale_amount_curve = SubResource("Curve_62ny4")
 
 [node name="LandingSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_ln3v3")
-volume_db = -9.905
+volume_db = -3.715
 
 [node name="PickaxeAttackSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_qkokl")
