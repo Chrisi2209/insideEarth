@@ -4,6 +4,7 @@ class_name Hud
 @onready var live_symbols = [$Hud/Lives/L1, $Hud/Lives/L2, $Hud/Lives/L3]
 signal start_game_pressed
 signal respawn
+@onready var interact_f = $Hud/VBoxContainer2/interactF
 
 func _ready():
 	$Menu.visible = false
@@ -17,6 +18,9 @@ func update_items(double_jump: bool, dash: bool, pickaxe: bool, key: bool):
 	$Hud/VBoxContainer/Dash.visible = dash
 	$Hud/VBoxContainer/Pickaxe.visible = pickaxe
 	$Hud/VBoxContainer/Key.visible = key
+
+func change_interaction_label(text: String):
+	$Hud/VBoxContainer2/interactF.text = text
 
 func show_menu():
 	$DimRect.color.a = 0.3

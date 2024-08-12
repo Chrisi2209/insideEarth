@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqpkdqjhq10me"]
+
+[ext_resource type="Texture2D" uid="uid://ce042mscqioqe" path="res://assets/old_player_npc.png" id="2_k2kfc"]
+
+[node name="oldPlayer" type="Sprite2D"]
+position = Vector2(-26.5, -25.5)
+scale = Vector2(7.3125, 7.3125)
+texture = ExtResource("2_k2kfc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.888889, 11.5556)
+scale = Vector2(10.625, 10.625)
+texture = ExtResource("2_k2kfc")
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = -142.0
+offset_top = -208.0
+offset_right = 167.0
+offset_bottom = -89.0
+text = "I have heard of a monster lurking in the deepest depth of this cave, if you believe the rumors you are even able to pass through its blue body parts with enough momentum"
