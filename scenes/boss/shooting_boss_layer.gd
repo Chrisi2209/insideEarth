@@ -9,6 +9,7 @@ class_name ShootingBossLayer
 var missle_scene = preload("res://scenes/boss/missle.tscn")
 var spike_scene = preload("res://scenes/boss/spike.tscn")
 var not_spawned = true
+var shooting = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,14 +25,16 @@ func _ready():
 	start_shoot_process()
 
 func start_shoot_process():
-	$ShootTimer.start(randf_range(min_shoot_delay, max_shoot_delay))
+	if not shooting:
+		shooting = true
+		$ShootTimer.start(randf_range(min_shoot_delay, max_shoot_delay))
 
 func _process(delta):
 	super._process(delta)
 	if dead:
 		$Sprite2D.frame = 9
 	not_spawned = not room.visible
-	if not_spawned:
+	if not_spawned || shooting == false:
 		start_shoot_process()
 
 func _on_shoot_timer_timeout():
@@ -47,6 +50,7 @@ func shoot_left():
 		$ShootAnimationPlayer.play("shoot_left")
 		$ShootDelay.start()
 		await $ShootDelay.timeout
+		shooting = false
 		spawn_missle()
 
 func spawn_missle():
@@ -70,6 +74,8 @@ func spawn_spike():
 		spike.position = $SpikeSpawnPoint.position
 		spike.rotation = rotation
 		add_child(spike)
+		await spike.died
+		shooting = false
 
 func _on_died():
 	$ShootAnimationPlayer.stop()

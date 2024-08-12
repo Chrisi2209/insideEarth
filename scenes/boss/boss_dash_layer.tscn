@@ -50,6 +50,7 @@ size = Vector2(20, 32)
 
 [node name="BossDashLayer" instance=ExtResource("1_fhxqm")]
 script = ExtResource("2_tta72")
+max_health = 2
 
 [node name="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_j06ke")

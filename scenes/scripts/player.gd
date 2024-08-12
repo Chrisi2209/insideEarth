@@ -211,7 +211,7 @@ func handle_inputs(delta: float):
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
-		if current_state == state.WALK  || current_state == state.IDLE || current_state == state.DASH && is_on_floor():
+		if current_state == state.WALK  || current_state == state.IDLE || current_state == state.DASH && is_on_floor() || current_state == state.ATTACK && is_on_floor():
 			# highest priority (cheapest)
 			jump(self, 100000)
 		else:

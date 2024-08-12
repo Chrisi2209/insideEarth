@@ -2,6 +2,7 @@ extends Area2D
 class_name Spike
 
 var dead = false
+signal died
 
 func _process(delta):
 	if not dead:
@@ -21,5 +22,6 @@ func destroy():
 	tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property($Sprite2D, "modulate:a", 0, 0.5)
 	await tween.finished
+	died.emit()
 	queue_free()
 	

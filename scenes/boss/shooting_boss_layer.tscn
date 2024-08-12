@@ -61,10 +61,10 @@ _data = {
 
 [node name="ShootingBossLayer" instance=ExtResource("1_foqt6")]
 script = ExtResource("2_xjfsw")
-min_shoot_delay = 5.0
-max_shoot_delay = 8.0
-missle_speed = 100.0
-missle_torque = 1.5
+min_shoot_delay = 0.1
+max_shoot_delay = 0.2
+missle_speed = 150.0
+missle_torque = 1.6
 
 [node name="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_g7xe0")

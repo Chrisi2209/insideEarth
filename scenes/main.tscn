@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bs5fsmgkasrc2" path="res://scenes/platform.tscn" id="5_3mohp"]
 [ext_resource type="PackedScene" uid="uid://c7xbyb31ll7sy" path="res://scenes/chest.tscn" id="7_8o3l3"]
 [ext_resource type="PackedScene" uid="uid://xcgiep448sa5" path="res://scenes/door.tscn" id="7_w4ntd"]
-[ext_resource type="PackedScene" path="res://scenes/old_player_NPC.tscn" id="8_pd1tt"]
+[ext_resource type="PackedScene" uid="uid://d2ps6mh215jb5" path="res://scenes/old_player_NPC.tscn" id="8_pd1tt"]
 [ext_resource type="PackedScene" uid="uid://dp4rs5od3hlx0" path="res://scenes/pickaxe.tscn" id="8_u4cag"]
 [ext_resource type="PackedScene" uid="uid://cmtwmbe2l4qip" path="res://scenes/platform_enemy.tscn" id="10_gvbb5"]
 [ext_resource type="PackedScene" uid="uid://y8rwlt5hdsfr" path="res://scenes/room_enemy.tscn" id="11_yidcd"]

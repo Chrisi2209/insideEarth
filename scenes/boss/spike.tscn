@@ -10,7 +10,6 @@ size = Vector2(102, 34)
 script = ExtResource("1_vnxp7")
 
 [node name="LifeTime" type="Timer" parent="."]
-wait_time = 2.0
 autostart = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
