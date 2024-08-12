@@ -85,10 +85,7 @@ func change_state(new_state: state):
 					
 		state.DEAD:
 			$AnimatedSprite2D.visible = false
-			if $Pickaxe == null:
-				animated_sprite_2d.play("Dead_NP")
-			else:
-				animated_sprite_2d.play("Dead")
+			animated_sprite_2d.play("Dead")
 			died.emit()
 			
 		state.INIT:
