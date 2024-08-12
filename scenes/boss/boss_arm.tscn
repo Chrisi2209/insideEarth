@@ -9,18 +9,23 @@
 script = ExtResource("1_6tc8m")
 
 [node name="FleshBossLayer" parent="." instance=ExtResource("1_qcuu4")]
+dead = true
 
 [node name="FleshBossLayer2" parent="." instance=ExtResource("1_qcuu4")]
 position = Vector2(0, 32)
+dead = true
 
 [node name="FleshBossLayer3" parent="." instance=ExtResource("1_qcuu4")]
 position = Vector2(0, 64)
+dead = true
 
 [node name="FleshBossLayer4" parent="." instance=ExtResource("1_qcuu4")]
 position = Vector2(0, 96)
+dead = true
 
 [node name="ShootingBossLayer2" parent="." instance=ExtResource("3_yovch")]
 position = Vector2(0, 128)
+flip = true
 
 [node name="FleshBossLayer10" parent="." instance=ExtResource("1_qcuu4")]
 position = Vector2(0, 160)

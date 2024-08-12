@@ -40,6 +40,8 @@ rotation = -0.0496406
 SPEED = 200.0
 room = NodePath("../StartRoom")
 
+[node name="Pickaxe" parent="Player" instance=ExtResource("8_u4cag")]
+
 [node name="StartRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(558, -246)
 scale = Vector2(0.285, 0.285)

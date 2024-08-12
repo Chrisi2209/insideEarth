@@ -61,8 +61,8 @@ _data = {
 
 [node name="ShootingBossLayer" instance=ExtResource("1_foqt6")]
 script = ExtResource("2_xjfsw")
-min_shoot_delay = 10.0
-max_shoot_delay = 15.0
+min_shoot_delay = 5.0
+max_shoot_delay = 8.0
 missle_speed = 100.0
 missle_torque = 1.5
 

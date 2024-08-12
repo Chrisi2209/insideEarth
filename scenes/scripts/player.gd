@@ -110,6 +110,7 @@ func change_state(new_state: state):
 
 var invulnerable = false: set = set_invulnerable
 
+
 func set_invulnerable(value: bool):
 	invulnerable = value
 	if value:
@@ -123,9 +124,14 @@ func hurt(amount: int = 1):
 	health -= amount
 	invulnerable = true
 	
-	$AnimatedSprite2D.visible = true
 	$AnimationPlayer.play("invulnerable")
 	$InvulnerabilityTimer.start()
+
+func heal(amount: int = 1):
+	$HealSound.play()
+	health += amount
+	$AnimationPlayer.play("healed")
+	
 
 func _ready():
 	change_state(state.INIT)
@@ -317,7 +323,7 @@ func _physics_process(delta):
 	move_and_slide()
 	update_directional_velocities()
 
-func _process(delta):
+func _process(delta):	
 	if current_state == state.WALK && not $WalkSound.playing:
 		$WalkSound.play()
 	elif current_state != state.WALK && $WalkSound.playing:

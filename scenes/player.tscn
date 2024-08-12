@@ -325,5 +325,7 @@ offset_right = 165.0
 offset_bottom = 161.0
 color = Color(1, 0.317647, 0.333333, 0)
 
+[node name="HealSound" type="AudioStreamPlayer" parent="."]
+
 [connection signal="timeout" from="PickaxeAttackTimer" to="." method="_on_pickaxe_attack_timer_timeout"]
 [connection signal="timeout" from="InvulnerabilityTimer" to="." method="_on_invulnerability_timer_timeout"]

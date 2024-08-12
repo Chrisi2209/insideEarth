@@ -8,10 +8,17 @@ class_name ShootingBossLayer
 @export var missle_torque: float = 1.5
 var missle_scene = preload("res://scenes/boss/missle.tscn")
 var spike_scene = preload("res://scenes/boss/spike.tscn")
+var not_spawned = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	super._ready()
+	
+	if flip:
+		$MissleSpawnPoint.position.x *= -1
+		$SpikeSpawnPoint.position.x *= -1
+		
+	
 	if min_shoot_delay > max_shoot_delay:
 		assert(false)
 	start_shoot_process()
@@ -21,9 +28,10 @@ func start_shoot_process():
 
 func _process(delta):
 	super._process(delta)
+	not_spawned = not room.visible
 
 func _on_shoot_timer_timeout():
-	if not dead:
+	if not dead && not not_spawned:
 		start_shoot_process()
 		if randf() > 0.5:
 			shoot_left()
@@ -31,29 +39,32 @@ func _on_shoot_timer_timeout():
 			shoot_right()
 	
 func shoot_left():
-	if not dead:
+	if not dead && not not_spawned:
 		$ShootAnimationPlayer.play("shoot_left")
 		$ShootDelay.start()
 		await $ShootDelay.timeout
 		spawn_missle()
 
 func spawn_missle():
-	if not dead:
+	if not dead && not not_spawned:
 		var missle = missle_scene.instantiate() as Missle
-		missle.start(player, missle_speed, Vector2.from_angle(global_rotation + PI), missle_torque, $MissleSpawnPoint.global_position, room)
+		var rotation = global_rotation + PI if not flip else global_rotation
+		missle.start(player, missle_speed, Vector2.from_angle(rotation), missle_torque, $MissleSpawnPoint.global_position, room)
 		get_tree().root.add_child(missle)
 
 func shoot_right():
-	if not dead:
+	if not dead && not not_spawned:
 		$ShootAnimationPlayer.play("shoot_right")
 		$ShootDelay.start()
 		await $ShootDelay.timeout
 		spawn_spike()
 
 func spawn_spike():
-	if not dead:
+	if not dead && not not_spawned:
 		var spike = spike_scene.instantiate()
+		var rotation = 0 if not flip else PI
 		spike.position = $SpikeSpawnPoint.position
+		spike.rotation = rotation
 		add_child(spike)
 
 func _on_died():

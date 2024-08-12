@@ -9,12 +9,15 @@
 script = ExtResource("1_xuhhg")
 
 [node name="FleshBossLayer" parent="." instance=ExtResource("1_5b4ay")]
+dead = true
 
 [node name="FleshBossLayer2" parent="." instance=ExtResource("1_5b4ay")]
 position = Vector2(0, 32)
+dead = true
 
 [node name="FleshBossLayer3" parent="." instance=ExtResource("1_5b4ay")]
 position = Vector2(0, 64)
+dead = true
 
 [node name="FleshBossLayer4" parent="." instance=ExtResource("1_5b4ay")]
 position = Vector2(0, 96)
@@ -28,8 +31,9 @@ position = Vector2(0, 160)
 [node name="BossDashLayer" parent="." instance=ExtResource("3_dpjlv")]
 position = Vector2(0, 128)
 
-[node name="FleshBossLayer7" parent="." instance=ExtResource("1_5b4ay")]
-position = Vector2(0, 224)
-
 [node name="ShootingBossLayer" parent="." instance=ExtResource("2_o81jg")]
-position = Vector2(0, 256)
+position = Vector2(0, 225)
+flip = true
+
+[node name="FleshBossLayer7" parent="." instance=ExtResource("1_5b4ay")]
+position = Vector2(0, 258)

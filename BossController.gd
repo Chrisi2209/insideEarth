@@ -5,6 +5,10 @@ class_name BossController
 @export var room: Room
 @export var player: Player
 @onready var arms: Array[BossArm] = [$BossArmBottom, $BossArmLeft, $BossArmTop, $BossArmRight]
+var bottom_dead = false
+var left_dead = false
+var top_dead = false
+var right = false
 var key = preload("res://scenes/key.tscn")
 
 # Called when the node enters the scene tree for the first time.
@@ -15,6 +19,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if $BossArmBottom.fully_destroyed():
+		player.heal(1)
+	
 	# rotation += torque * delta
 	if is_destroyed():
 		destroy()

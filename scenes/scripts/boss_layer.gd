@@ -8,6 +8,7 @@ var health: int: set = set_health
 var gravity_scalar = ProjectSettings.get_setting("physics/2d/default_gravity")
 var gravity_dir: Vector2
 var invulnerable = false
+@export var flip = false
 
 signal died
 
@@ -35,6 +36,8 @@ func set_health(value: int):
 
 
 func _ready():
+	if flip:
+		$Sprite2D.flip_h = true
 	if dead:
 		died.emit()
 		health = 0
