@@ -1,0 +1,130 @@
+[gd_scene load_steps=12 format=3 uid="uid://cn76gf331jj6q"]
+
+[ext_resource type="Texture2D" uid="uid://bu5fohhyavgyk" path="res://assets/boss/missile attack boss1.png" id="1_ggg0k"]
+[ext_resource type="Script" path="res://scenes/boss/missle.gd" id="1_sh4n7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slbyc"]
+size = Vector2(22, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f773w"]
+atlas = ExtResource("1_ggg0k")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_esaxb"]
+atlas = ExtResource("1_ggg0k")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i23lb"]
+atlas = ExtResource("1_ggg0k")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ke2wi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f773w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_esaxb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i23lb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_8gdgk"]
+offsets = PackedFloat32Array(0, 0.510417, 1)
+colors = PackedColorArray(1, 0, 0, 1, 1, 0.470588, 0, 1, 0.4, 0.203922, 0, 1)
+
+[sub_resource type="Animation" id="Animation_qknpn"]
+resource_name = "dying"
+length = 2.125
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.25, 1.5, 1.75, 2, 2.125),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pqgtl"]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p0h0m"]
+_data = {
+"RESET": SubResource("Animation_pqgtl"),
+"dying": SubResource("Animation_qknpn")
+}
+
+[node name="Missle" type="Area2D" groups=["destroys_missle"]]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_sh4n7")
+
+[node name="MarkerLeft" type="Marker2D" parent="."]
+position = Vector2(10, -6)
+
+[node name="MarkerRight" type="Marker2D" parent="."]
+position = Vector2(10, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 0)
+shape = SubResource("RectangleShape2D_slbyc")
+disabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -2)
+rotation = -2.69744
+sprite_frames = SubResource("SpriteFrames_ke2wi")
+frame_progress = 0.351259
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 64
+emission_shape = 3
+emission_rect_extents = Vector2(10, 5)
+direction = Vector2(0, -1)
+initial_velocity_min = 100.0
+initial_velocity_max = 120.0
+color_ramp = SubResource("Gradient_8gdgk")
+
+[node name="ParticleBurstTimer" type="Timer" parent="CPUParticles2D"]
+
+[node name="LifeTimerMinus2" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_p0h0m")
+}
+
+[node name="SpawnProtection" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="CPUParticles2D/ParticleBurstTimer" to="." method="stop_particle_wave"]
+[connection signal="timeout" from="LifeTimerMinus2" to="." method="_on_life_timer_timeout"]
+[connection signal="timeout" from="SpawnProtection" to="." method="_on_spawn_protection_timeout"]

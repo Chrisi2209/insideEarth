@@ -21,6 +21,9 @@ func attack():
 	for body in get_overlapping_bodies():
 		if body is BaseEnemy:
 			body.hurt(damage)
+		if body is BossLayer:
+			if body.hurt(damage):
+				break
 	
 	for area in get_overlapping_areas():
 		if area is Door:

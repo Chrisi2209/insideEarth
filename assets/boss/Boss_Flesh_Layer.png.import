@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgf2idvo81qyk"
-path="res://.godot/imported/boss_dash_layer1.png-30a23d4a8b57b42168d87d50ae4d6893.ctex"
+uid="uid://bnrjj0nonl50o"
+path="res://.godot/imported/Boss_Flesh_Layer.png-b885648eb22e9c3b34c5b1e51e742229.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/boss_dash_layer1.png"
-dest_files=["res://.godot/imported/boss_dash_layer1.png-30a23d4a8b57b42168d87d50ae4d6893.ctex"]
+source_file="res://assets/boss/Boss_Flesh_Layer.png"
+dest_files=["res://.godot/imported/Boss_Flesh_Layer.png-b885648eb22e9c3b34c5b1e51e742229.ctex"]
 
 [params]
 

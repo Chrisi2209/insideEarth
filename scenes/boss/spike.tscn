@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://eie8wtp08klh"]
+
+[ext_resource type="Texture2D" uid="uid://c3snoas6c32en" path="res://assets/boss/spike attack boss.png" id="1_uikph"]
+[ext_resource type="Script" path="res://scenes/boss/spike.gd" id="1_vnxp7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t5i22"]
+size = Vector2(102, 34)
+
+[node name="Spike" type="Area2D" groups=["destroys_missles"]]
+script = ExtResource("1_vnxp7")
+
+[node name="LifeTime" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(52, 0)
+shape = SubResource("RectangleShape2D_t5i22")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(65, 0)
+texture = ExtResource("1_uikph")
+
+[connection signal="timeout" from="LifeTime" to="." method="_on_life_time_timeout"]

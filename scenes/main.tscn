@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c5bwpfeirgctc"]
+[gd_scene load_steps=23 format=3 uid="uid://c5bwpfeirgctc"]
 
 [ext_resource type="PackedScene" uid="uid://b36r3qkl2p3fe" path="res://scenes/player.tscn" id="1_8yc61"]
 [ext_resource type="Script" path="res://scenes/scripts/main.gd" id="1_ty7id"]
@@ -13,13 +13,14 @@
 [ext_resource type="PackedScene" uid="uid://y8rwlt5hdsfr" path="res://scenes/room_enemy.tscn" id="11_yidcd"]
 [ext_resource type="PackedScene" uid="uid://dn44acsf6eh46" path="res://scenes/doublejump_orb.tscn" id="12_hvi2p"]
 [ext_resource type="PackedScene" uid="uid://ctpjmd5y38yuv" path="res://scenes/doublejump_item.tscn" id="13_1l7qo"]
-[ext_resource type="Script" path="res://scenes/NPC_Old_Player.gd" id="14_v1nds"]
+[ext_resource type="Script" path="res://scenes/scripts/NPC_Old_Player.gd" id="14_v1nds"]
 [ext_resource type="PackedScene" uid="uid://cpdwfo5877arn" path="res://scenes/dash_item.tscn" id="14_v4sao"]
 [ext_resource type="PackedScene" uid="uid://d3lqnijvbejpn" path="res://scenes/key.tscn" id="14_wh02d"]
-[ext_resource type="Script" path="res://scenes/RotatingNode.gd" id="15_jqjc8"]
+[ext_resource type="Script" path="res://scenes/scripts/RotatingNode.gd" id="15_jqjc8"]
 [ext_resource type="Texture2D" uid="uid://ce042mscqioqe" path="res://assets/old_player_npc.png" id="15_l7r4y"]
 [ext_resource type="PackedScene" uid="uid://hyxhkjedpfpg" path="res://scenes/hud.tscn" id="16_68ftw"]
 [ext_resource type="PackedScene" uid="uid://dpgtp4tu2mxo" path="res://scenes/pause_logic.tscn" id="17_illaq"]
+[ext_resource type="PackedScene" uid="uid://dk6nhj7wuyibr" path="res://scenes/boss/boss_controller.tscn" id="17_ve6t4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1mob5"]
 size = Vector2(58.9824, 53.3098)
@@ -28,13 +29,13 @@ size = Vector2(58.9824, 53.3098)
 script = ExtResource("1_ty7id")
 
 [node name="StartLocation" type="Marker2D" parent="."]
-position = Vector2(852, -153)
+position = Vector2(558, 57)
 rotation = -0.0496406
 scale = Vector2(0.285, 0.285)
 
 [node name="Player" parent="." node_paths=PackedStringArray("room") instance=ExtResource("1_8yc61")]
 z_index = 5
-position = Vector2(558, -389)
+position = Vector2(558, 57)
 rotation = -0.0496406
 SPEED = 200.0
 room = NodePath("../StartRoom")
@@ -715,16 +716,22 @@ metadata/_edit_group_ = true
 position = Vector2(260, -183)
 rotation = 4.06194
 linked_door = NodePath("../../EndRoom/DoorEndToBoss")
+state = 1
 
 [node name="DoorBossToHub" parent="BossRoom" node_paths=PackedStringArray("linked_door") instance=ExtResource("7_w4ntd")]
 position = Vector2(-227, 220)
 rotation = 0.737575
 linked_door = NodePath("../../HubRoom/DoorHubToBoss")
+state = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="BossRoom"]
 position = Vector2(0.000106812, -1.52588e-05)
 scale = Vector2(0.269011, 0.269011)
 texture = ExtResource("4_a13ct")
+
+[node name="BossController" parent="BossRoom" node_paths=PackedStringArray("room", "player") instance=ExtResource("17_ve6t4")]
+room = NodePath("..")
+player = NodePath("../../Player")
 
 [node name="EndRoom" parent="." instance=ExtResource("3_o21o8")]
 position = Vector2(5358, -2548)
@@ -773,10 +780,10 @@ player = NodePath("../Player")
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 z_index = -4
-offset_left = -6867.0
-offset_top = -5400.0
-offset_right = 11025.0
-offset_bottom = 6278.0
+offset_left = -7002.0
+offset_top = -5286.0
+offset_right = 10890.0
+offset_bottom = 6392.0
 texture = ExtResource("2_rkyyl")
 stretch_mode = 1
 

@@ -1,0 +1,2 @@
+extends BossLayer
+class_name FleshBossLayer

@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dk6nhj7wuyibr"]
+
+[ext_resource type="Script" path="res://BossController.gd" id="1_c6tgs"]
+[ext_resource type="PackedScene" uid="uid://bgb25pmg8yo0g" path="res://scenes/boss/main_boss.tscn" id="2_e5eiq"]
+[ext_resource type="PackedScene" uid="uid://48oawhtmmqhf" path="res://scenes/boss/boss_arm.tscn" id="3_8ymao"]
+[ext_resource type="PackedScene" uid="uid://ci0t83278mwvl" path="res://scenes/boss/boss_arm_short.tscn" id="4_40nab"]
+
+[node name="BossController" type="Node2D"]
+script = ExtResource("1_c6tgs")
+
+[node name="MainBoss" parent="." instance=ExtResource("2_e5eiq")]
+
+[node name="BossArmBottom" parent="." instance=ExtResource("3_8ymao")]
+position = Vector2(0, 52)
+
+[node name="BossArmLeft" parent="." instance=ExtResource("4_40nab")]
+position = Vector2(-79, 0)
+rotation = 1.5708
+
+[node name="BossArmTop" parent="." instance=ExtResource("3_8ymao")]
+position = Vector2(0, -52)
+rotation = 3.14159
+
+[node name="BossArmRight" parent="." instance=ExtResource("4_40nab")]
+position = Vector2(79, 0)
+rotation = -1.5708

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bu23ar6sdjp5k"
-path="res://.godot/imported/missile attack boss3.png-e2c0b7873bf3a2ac156d26b24c4ddce5.ctex"
+uid="uid://bu5fohhyavgyk"
+path="res://.godot/imported/missile attack boss1.png-cd9eec14e5caf17946f04ab2738e29e7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/missile attack boss3.png"
-dest_files=["res://.godot/imported/missile attack boss3.png-e2c0b7873bf3a2ac156d26b24c4ddce5.ctex"]
+source_file="res://assets/boss/missile attack boss1.png"
+dest_files=["res://.godot/imported/missile attack boss1.png-cd9eec14e5caf17946f04ab2738e29e7.ctex"]
 
 [params]
 

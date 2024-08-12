@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnrjj0nonl50o"
-path="res://.godot/imported/Boss_Flesh_Layer.png-0ce1136d6cdb02314307834155d72024.ctex"
+uid="uid://cwafmbmw0tkgx"
+path="res://.godot/imported/Boss attack-Sheet.png-6f1dd55cd197735acc07fd372e65e5cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Boss_Flesh_Layer.png"
-dest_files=["res://.godot/imported/Boss_Flesh_Layer.png-0ce1136d6cdb02314307834155d72024.ctex"]
+source_file="res://assets/boss/Boss attack-Sheet.png"
+dest_files=["res://.godot/imported/Boss attack-Sheet.png-6f1dd55cd197735acc07fd372e65e5cf.ctex"]
 
 [params]
 

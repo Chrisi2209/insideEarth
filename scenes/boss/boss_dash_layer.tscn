@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://cds8nxfwfigev"]
+
+[ext_resource type="PackedScene" uid="uid://diienw4pvewmy" path="res://scenes/boss/boss_layer.tscn" id="1_fhxqm"]
+[ext_resource type="Texture2D" uid="uid://bgf2idvo81qyk" path="res://assets/boss/boss_dash_layer1.png" id="2_j06ke"]
+[ext_resource type="Script" path="res://scenes/boss/boss_dash_layer.gd" id="2_tta72"]
+
+[sub_resource type="Animation" id="Animation_e7bf5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_45w85"]
+resource_name = "dash_through"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 9]
+}
+
+[sub_resource type="Animation" id="Animation_t847q"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3fblq"]
+_data = {
+"RESET": SubResource("Animation_e7bf5"),
+"dash_through": SubResource("Animation_45w85"),
+"idle": SubResource("Animation_t847q")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dnvv1"]
+size = Vector2(20, 32)
+
+[node name="BossDashLayer" instance=ExtResource("1_fhxqm")]
+script = ExtResource("2_tta72")
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_j06ke")
+hframes = 10
+
+[node name="DashAnimationPlayer" type="AnimationPlayer" parent="." index="2" groups=["destroys_missle"]]
+libraries = {
+"": SubResource("AnimationLibrary_3fblq")
+}
+
+[node name="DropoffLeft" type="Marker2D" parent="." index="3"]
+position = Vector2(-90, 0)
+
+[node name="DropoffRight" type="Marker2D" parent="." index="4"]
+position = Vector2(90, 0)
+
+[node name="DashHitboxLeft" type="Area2D" parent="." index="5"]
+position = Vector2(-65, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DashHitboxLeft" index="0"]
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_dnvv1")
+
+[node name="DashHitboxRight" type="Area2D" parent="." index="6"]
+position = Vector2(69, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DashHitboxRight" index="0"]
+shape = SubResource("RectangleShape2D_dnvv1")

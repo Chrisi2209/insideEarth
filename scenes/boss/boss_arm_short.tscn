@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://ci0t83278mwvl"]
+
+[ext_resource type="PackedScene" uid="uid://dbdreompj8m1v" path="res://scenes/boss/flesh_boss_layer.tscn" id="1_5b4ay"]
+[ext_resource type="Script" path="res://scenes/boss/boss_arm.gd" id="1_xuhhg"]
+[ext_resource type="PackedScene" uid="uid://1ilbs0t6e3ac" path="res://scenes/boss/shooting_boss_layer.tscn" id="2_o81jg"]
+[ext_resource type="PackedScene" uid="uid://cds8nxfwfigev" path="res://scenes/boss/boss_dash_layer.tscn" id="3_dpjlv"]
+
+[node name="BossArmShort" type="Node2D"]
+script = ExtResource("1_xuhhg")
+
+[node name="FleshBossLayer" parent="." instance=ExtResource("1_5b4ay")]
+
+[node name="FleshBossLayer2" parent="." instance=ExtResource("1_5b4ay")]
+position = Vector2(0, 32)
+
+[node name="FleshBossLayer3" parent="." instance=ExtResource("1_5b4ay")]
+position = Vector2(0, 64)
+
+[node name="FleshBossLayer4" parent="." instance=ExtResource("1_5b4ay")]
+position = Vector2(0, 96)
+
+[node name="ShootingBossLayer2" parent="." instance=ExtResource("2_o81jg")]
+position = Vector2(0, 192)
+
+[node name="FleshBossLayer10" parent="." instance=ExtResource("1_5b4ay")]
+position = Vector2(0, 160)
+
+[node name="BossDashLayer" parent="." instance=ExtResource("3_dpjlv")]
+position = Vector2(0, 128)
+
+[node name="FleshBossLayer7" parent="." instance=ExtResource("1_5b4ay")]
+position = Vector2(0, 224)
+
+[node name="ShootingBossLayer" parent="." instance=ExtResource("2_o81jg")]
+position = Vector2(0, 256)

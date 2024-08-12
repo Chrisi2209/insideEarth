@@ -1,0 +1,76 @@
+[gd_scene load_steps=6 format=3 uid="uid://diienw4pvewmy"]
+
+[ext_resource type="Script" path="res://scenes/scripts/boss_layer.gd" id="1_1iv8s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sc8ad"]
+size = Vector2(118, 32)
+
+[sub_resource type="Animation" id="Animation_jq7r0"]
+resource_name = "hit"
+length = 0.5
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.25, 0.375, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bkj3d"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_scckv"]
+_data = {
+"RESET": SubResource("Animation_bkj3d"),
+"hit": SubResource("Animation_jq7r0")
+}
+
+[node name="BossLayer" type="AnimatableBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_1iv8s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_sc8ad")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="StateAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_scckv")
+}
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 500
+emission_shape = 3
+emission_rect_extents = Vector2(59.725, 15.45)
+direction = Vector2(0, -1)
+spread = 90.0
+initial_velocity_min = 27.78
+initial_velocity_max = 194.45
+color = Color(1, 0, 0, 1)
+
+[node name="ParticleBurstTimer" type="Timer" parent="CPUParticles2D" groups=["destroys_missle"]]
+one_shot = true
+
+[connection signal="animation_finished" from="StateAnimationPlayer" to="." method="_on_state_animation_player_animation_finished"]
+[connection signal="timeout" from="CPUParticles2D/ParticleBurstTimer" to="." method="stop_particle_wave"]

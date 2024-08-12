@@ -207,7 +207,7 @@ func handle_inputs(delta: float):
 	
 	# Handle jump.
 	if Input.is_action_just_pressed("jump"):
-		if current_state != state.JUMP && current_state != state.DASH || current_state == state.DASH && is_on_floor():
+		if current_state == state.WALK  || current_state == state.IDLE || current_state == state.DASH && is_on_floor():
 			# highest priority (cheapest)
 			jump(self, 100000)
 		else:
@@ -280,6 +280,12 @@ func reset_velocity():
 	velocity = Vector2.ZERO
 	side_force = 0
 	down_force = 0
+
+func deactivate_collision():
+	$CollisionShape2D.disabled = true
+
+func activate_collision():
+	$CollisionShape2D.disabled = false
 
 func _physics_process(delta):
 	update_gravity()

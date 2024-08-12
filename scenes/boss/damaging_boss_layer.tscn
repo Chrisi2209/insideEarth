@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://baifjlw8b376k"]
+
+[ext_resource type="PackedScene" uid="uid://diienw4pvewmy" path="res://scenes/boss/boss_layer.tscn" id="1_og8l0"]
+[ext_resource type="Script" path="res://scenes/boss/damaging_boss_layer.gd" id="2_cpqv0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6uxii"]
+size = Vector2(124, 36)
+
+[node name="DamagingBossLayer" groups=["destroys_missle"] instance=ExtResource("1_og8l0")]
+script = ExtResource("2_cpqv0")
+
+[node name="Hitbox" type="Area2D" parent="." index="2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("RectangleShape2D_6uxii")
