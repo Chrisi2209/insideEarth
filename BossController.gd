@@ -8,8 +8,9 @@ class_name BossController
 var bottom_dead = false
 var left_dead = false
 var top_dead = false
-var right = false
+var right_dead = false
 var key = preload("res://scenes/key.tscn")
+var destroyed = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,11 +20,27 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if $BossArmBottom.fully_destroyed():
+	if not destroyed:
+		$BossMusic.play()
+	else:
+		$BossMusic.stop()
+	
+	if $BossArmBottom.fully_destroyed() && not bottom_dead:
 		player.heal(1)
+		bottom_dead = true
+	if $BossArmRight.fully_destroyed() && not right_dead:
+		player.heal(1)
+		right_dead = true
+	if $BossArmLeft.fully_destroyed() && not left_dead:
+		player.heal(1)
+		left_dead = true
+	if $BossArmTop.fully_destroyed() && not top_dead:
+		player.heal(1)
+		top_dead = true
 	
 	# rotation += torque * delta
 	if is_destroyed():
+		var destroyed = false
 		destroy()
 		
 func destroy():
@@ -31,6 +48,7 @@ func destroy():
 	
 
 func is_destroyed() -> bool:
+	return true
 	for arm in arms:
 		if not arm.fully_destroyed():
 			return false
@@ -39,6 +57,8 @@ func is_destroyed() -> bool:
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "destroy":
+		await get_tree().create_timer(3).timeout
 		player.add_child(key.instantiate())
 		$GetKey.play()
+		await $GetKey.finished
 		queue_free()

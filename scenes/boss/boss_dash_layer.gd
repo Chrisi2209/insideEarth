@@ -14,6 +14,9 @@ func _ready():
 	
 func _process(delta):
 	super._process(delta)
+	if dead:
+		$Sprite2D.frame = 10
+		
 	for body in $DashHitboxLeft.get_overlapping_bodies():
 		if body is Player:
 			if body.current_state == Player.state.DASH:
@@ -24,7 +27,8 @@ func _process(delta):
 			if body.current_state == Player.state.DASH:
 				dash_through(body, false)
 				
-	
+
+
 func dash_through(player: Player, from_left_: bool):
 	dashing.emit()
 	
@@ -50,3 +54,7 @@ func get_dropoff_for_direction(from_left):
 	else:
 		return dropoff_left
 		
+
+
+func _on_died():
+	$Sprite2D.frame = 10

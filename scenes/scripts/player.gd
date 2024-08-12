@@ -128,6 +128,7 @@ func hurt(amount: int = 1):
 	$InvulnerabilityTimer.start()
 
 func heal(amount: int = 1):
+	print("heal")
 	$HealSound.play()
 	health += amount
 	$AnimationPlayer.play("healed")

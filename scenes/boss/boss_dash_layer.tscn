@@ -53,7 +53,7 @@ script = ExtResource("2_tta72")
 
 [node name="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_j06ke")
-hframes = 10
+hframes = 11
 
 [node name="DashAnimationPlayer" type="AnimationPlayer" parent="." index="2" groups=["destroys_missle"]]
 libraries = {
@@ -78,3 +78,5 @@ position = Vector2(69, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DashHitboxRight" index="0"]
 shape = SubResource("RectangleShape2D_dnvv1")
+
+[connection signal="died" from="." to="." method="_on_died"]

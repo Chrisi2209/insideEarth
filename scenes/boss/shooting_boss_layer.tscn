@@ -68,7 +68,7 @@ missle_torque = 1.5
 
 [node name="Sprite2D" parent="." index="1"]
 texture = ExtResource("2_g7xe0")
-hframes = 9
+hframes = 10
 
 [node name="ShootTimer" type="Timer" parent="." index="5"]
 one_shot = true

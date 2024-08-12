@@ -28,6 +28,8 @@ func start_shoot_process():
 
 func _process(delta):
 	super._process(delta)
+	if dead:
+		$Sprite2D.frame = 9
 	not_spawned = not room.visible
 
 func _on_shoot_timer_timeout():
@@ -68,4 +70,5 @@ func spawn_spike():
 		add_child(spike)
 
 func _on_died():
-	pass
+	$ShootAnimationPlayer.stop()
+	$Sprite2D.frame = 9

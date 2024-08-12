@@ -7,6 +7,5 @@ func _process(delta):
 			if body is Player:
 				body.hurt()
 
-
 func _on_died():
-	pass # Replace with function body.
+		$Sprite2D.frame = 1

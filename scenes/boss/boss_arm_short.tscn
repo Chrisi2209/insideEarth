@@ -9,14 +9,17 @@
 script = ExtResource("1_xuhhg")
 
 [node name="FleshBossLayer" parent="." instance=ExtResource("1_5b4ay")]
+max_health = 0
 dead = true
 
 [node name="FleshBossLayer2" parent="." instance=ExtResource("1_5b4ay")]
 position = Vector2(0, 32)
+max_health = 0
 dead = true
 
 [node name="FleshBossLayer3" parent="." instance=ExtResource("1_5b4ay")]
 position = Vector2(0, 64)
+max_health = 0
 dead = true
 
 [node name="FleshBossLayer4" parent="." instance=ExtResource("1_5b4ay")]
