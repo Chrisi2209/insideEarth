@@ -72,5 +72,7 @@ color = Color(1, 0, 0, 1)
 [node name="ParticleBurstTimer" type="Timer" parent="CPUParticles2D" groups=["destroys_missle"]]
 one_shot = true
 
+[node name="DamageSound" type="AudioStreamPlayer" parent="."]
+
 [connection signal="animation_finished" from="StateAnimationPlayer" to="." method="_on_state_animation_player_animation_finished"]
 [connection signal="timeout" from="CPUParticles2D/ParticleBurstTimer" to="." method="stop_particle_wave"]

@@ -11,6 +11,7 @@ var top_dead = false
 var right_dead = false
 var key = preload("res://scenes/key.tscn")
 var destroyed = false
+var do_nothing = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -20,10 +21,13 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if not destroyed:
+	if do_nothing:
+		return
+	if not destroyed and not $BossMusic.playing and player.room == room:
 		$BossMusic.play()
-	else:
+	elif destroyed || player.room != room:
 		$BossMusic.stop()
+		
 	
 	if $BossArmBottom.fully_destroyed() && not bottom_dead:
 		player.heal(1)
@@ -44,11 +48,12 @@ func _process(delta):
 		destroy()
 		
 func destroy():
+	if do_nothing:
+		return
 	$AnimationPlayer.play("destroy")
 	
 
 func is_destroyed() -> bool:
-	return true
 	for arm in arms:
 		if not arm.fully_destroyed():
 			return false
@@ -57,6 +62,7 @@ func is_destroyed() -> bool:
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "destroy":
+		do_nothing = true
 		await get_tree().create_timer(3).timeout
 		player.add_child(key.instantiate())
 		$GetKey.play()

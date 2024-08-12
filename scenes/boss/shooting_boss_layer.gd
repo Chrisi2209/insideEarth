@@ -31,6 +31,8 @@ func _process(delta):
 	if dead:
 		$Sprite2D.frame = 9
 	not_spawned = not room.visible
+	if not_spawned:
+		start_shoot_process()
 
 func _on_shoot_timer_timeout():
 	if not dead && not not_spawned:

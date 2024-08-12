@@ -5,10 +5,13 @@ class_name PauseLogic
 const DOOR_LINE_CONNECTOR = preload("res://scenes/door_line_connector.tscn")
 var showing_lines = false
 var DoorLineContainer
+var stop_music = false
 
 func _process(delta):
-	if not $LoopingMusic.playing:
+	if not $LoopingMusic.playing && not stop_music:
 		$LoopingMusic.play()
+	elif stop_music:
+		$LoopingMusic.stop()
 	
 
 	if Input.is_action_just_pressed("map"):

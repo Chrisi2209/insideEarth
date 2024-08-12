@@ -30,6 +30,7 @@ func set_health(value: int):
 			die()
 	elif value < health:
 		# lost health
+		$DamageSound.play()
 		hit_animation()
 		
 	health = new_value

@@ -22,12 +22,12 @@ var enlargenedPickaxe = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	$PauseLogic.stop_music = $Player.room == $BossRoom
+	
 	if $Player.room == $BossRoom and not enlargenedPickaxe and $Player/Pickaxe/CollisionShape2D != null:
 		$Player/Pickaxe/CollisionShape2D.shape.extents.x += 30
 		enlargenedPickaxe = true
 		
-		
-	$BossRoom.visible = true
 	$HUD.update_items($Player/DoublejumpItem != null,
 		$Player/DashItem != null,
 		$Player/Pickaxe != null,
