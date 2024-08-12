@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://exgr36x151g3"]
+
+[node name="Line2D" type="Line2D"]
+closed = true
+width = 8.0

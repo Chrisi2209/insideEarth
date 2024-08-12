@@ -25,11 +25,11 @@ func die():
 	tween.tween_property($AnimatedSprite2D, "modulate:a", 0, 0.5)
 	dead = true
 	await get_tree().create_timer(0.1).timeout
-	$DeathParticles.emitting = false
-	await get_tree().create_timer(1).timeout
-	queue_free()
+	$DeathParticles.emitting = false                                     
+	await get_tree().create_timer(1).timeout                   
+	queue_free()               
 
-func hurt(amount: int = 1):
+func hurt(amount: int = 1):                   
 	$DamageSound.play()
 	health -= amount
 

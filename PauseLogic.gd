@@ -1,13 +1,16 @@
 extends Node
 class_name PauseLogic
-
 @export var hud: Hud
 @export var player: Player
+const DOOR_LINE_CONNECTOR = preload("res://scenes/door_line_connector.tscn")
+var showing_lines = false
+var DoorLineContainer
 
 func _process(delta):
 	if not $LoopingMusic.playing:
 		$LoopingMusic.play()
 	
+
 	if Input.is_action_just_pressed("map"):
 		if not player.camera.switching_map_view:
 			if player.camera.zoomed_out:
@@ -28,3 +31,23 @@ func _process(delta):
 		else:
 			hud.show_menu()
 		get_tree().paused = not get_tree().paused
+	if player.camera.zoomed_out:
+		hud.change_interaction_label("F to show door connections")
+		if Input.is_action_just_pressed("interact"):
+			if showing_lines == false:
+				DoorLineContainer = Node.new()
+				add_child(DoorLineContainer)
+				for door_pair in Global.door_pairs:
+					var DoorLineConnector = DOOR_LINE_CONNECTOR.instantiate()
+					DoorLineConnector.add_point(door_pair[0].global_position)
+					DoorLineConnector.add_point(door_pair[1].global_position)
+					DoorLineContainer.add_child(DoorLineConnector)
+					showing_lines = true
+			elif DoorLineContainer != null:
+				DoorLineContainer.queue_free()
+				showing_lines = false
+	if not player.camera.zoomed_out:
+		hud.change_interaction_label("Interact - F") 
+		if DoorLineContainer != null:
+			DoorLineContainer.queue_free()
+			showing_lines = false

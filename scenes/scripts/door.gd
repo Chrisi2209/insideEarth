@@ -62,6 +62,8 @@ func go_through(player: Player):
 	player.change_state(Player.state.CUT_SCENE)
 	var tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(player.fade_rect, "color:a", 1, 0.5)
+	if [self, linked_door] not in Global.door_pairs and [linked_door, self] not in Global.door_pairs:
+		Global.door_pairs.append([self, linked_door])
 	await tween.finished
 	player.camera.turn_off_position_smoothing_for_frames(2)
 	player.global_position = linked_door.dropoff
@@ -72,6 +74,7 @@ func go_through(player: Player):
 	tween = create_tween().set_parallel().set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(player.fade_rect, "color:a", 0, 0.5)
 	await tween.finished
+	
 
 func _on_body_entered(body):
 	if body is Player:

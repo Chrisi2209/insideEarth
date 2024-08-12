@@ -14,5 +14,5 @@ func _physics_process(delta):
 			player.jump(self, 1)
 	elif player.is_on_floor():
 		usable = true
-	
-	last_player_state = player.current_state
+	if player != null:
+		last_player_state = player.current_state
